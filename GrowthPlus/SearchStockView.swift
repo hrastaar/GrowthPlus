@@ -1,0 +1,46 @@
+//
+//  NewPositionView.swift
+//  GrowthPlus
+//
+//  Created by Rastaar Haghi on 12/13/20.
+//
+
+import SwiftUI
+
+struct SearchStockView: View {
+    @State var ticker = ""
+    @ObservedObject var wallet = Portfolio.shared
+    @ObservedObject var StockSearch = SearchQuery.shared
+    @State var searchQuery = ""
+    var body: some View {
+        ScrollView {
+            VStack {
+                HStack {
+                    Text("Search for a Stock")
+                        .font(Font.custom("DIN-D", size: 30.0))
+                        .fontWeight(.bold)
+                    Spacer()
+                }
+                TextField("Search by ticker...",
+                          text: $searchQuery)
+                    .font(Font.custom("DIN-D", size: 20.0))
+                    .onChange(of: searchQuery, perform: { value in
+                        StockSearch.searchTicker(ticker: value)
+                    })
+                ForEach(self.StockSearch.searchResults.indices, id: \.self) { index in
+                    SearchResultView(searchResult: self.StockSearch.searchResults[index])
+                    Divider()
+                        .foregroundColor(.white)
+                }
+            }.padding(25)
+        }
+    }
+}
+
+struct NewPositionView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            SearchStockView()
+        }
+    }
+}
