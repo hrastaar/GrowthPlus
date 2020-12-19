@@ -42,7 +42,7 @@ struct Stock: Hashable {
     let imageName: String
     var isSelected = false
     var backgroundColor: Color {
-        isSelected ? .primaryColor : .secondaryColor
+        isSelected ? CustomColors.shared.primaryColor : CustomColors.shared.secondaryColor
     }
     var textColor: Color {
         .white

@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		744FCAA9258DE1CD00BCD3E6 /* DIN-D.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 744FCAA8258DE1CD00BCD3E6 /* DIN-D.ttf */; };
+		7489C8D5258E102D0085BC69 /* ColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7489C8D4258E102D0085BC69 /* ColorSelectionView.swift */; };
+		7489C8D8258E13BE0085BC69 /* painter.json in Resources */ = {isa = PBXBuildFile; fileRef = 7489C8D7258E13BE0085BC69 /* painter.json */; };
 		748E7CE5258A1FAC00477F53 /* GrowthPlusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7CE4258A1FAC00477F53 /* GrowthPlusApp.swift */; };
 		748E7CE9258A1FAC00477F53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 748E7CE8258A1FAC00477F53 /* Assets.xcassets */; };
 		748E7CEC258A1FAC00477F53 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 748E7CEB258A1FAC00477F53 /* Preview Assets.xcassets */; };
@@ -27,11 +28,16 @@
 		748E7D19258A1FFD00477F53 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D13258A1FFD00477F53 /* SearchResultView.swift */; };
 		748E7D1A258A1FFD00477F53 /* SellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D14258A1FFD00477F53 /* SellView.swift */; };
 		748E7D2A258A212100477F53 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D29258A212100477F53 /* ContentView.swift */; };
+		74938F61258DF8AE004385ED /* ConfettiView in Frameworks */ = {isa = PBXBuildFile; productRef = 74938F60258DF8AE004385ED /* ConfettiView */; };
+		74938F65258DFB17004385ED /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74938F64258DFB17004385ED /* SettingsView.swift */; };
+		74938F70258E0765004385ED /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74938F6F258E0765004385ED /* LottieView.swift */; };
+		74938F73258E087B004385ED /* financial_lottie.json in Resources */ = {isa = PBXBuildFile; fileRef = 74938F72258E087B004385ED /* financial_lottie.json */; };
 		E2D08612135EE090F5DBAFFE /* Pods_GrowthPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3EA5FB1679F513B0A5A47EA /* Pods_GrowthPlus.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		744FCAA8258DE1CD00BCD3E6 /* DIN-D.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "DIN-D.ttf"; sourceTree = "<group>"; };
+		7489C8D4258E102D0085BC69 /* ColorSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionView.swift; sourceTree = "<group>"; };
+		7489C8D7258E13BE0085BC69 /* painter.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = painter.json; sourceTree = "<group>"; };
 		748E7CE1258A1FAC00477F53 /* GrowthPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowthPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		748E7CE4258A1FAC00477F53 /* GrowthPlusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowthPlusApp.swift; sourceTree = "<group>"; };
 		748E7CE8258A1FAC00477F53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -53,6 +59,9 @@
 		748E7D13258A1FFD00477F53 /* SearchResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		748E7D14258A1FFD00477F53 /* SellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellView.swift; sourceTree = "<group>"; };
 		748E7D29258A212100477F53 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		74938F64258DFB17004385ED /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		74938F6F258E0765004385ED /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		74938F72258E087B004385ED /* financial_lottie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = financial_lottie.json; sourceTree = "<group>"; };
 		92FEA67CAD4EA687F775204A /* Pods-GrowthPlus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrowthPlus.release.xcconfig"; path = "Target Support Files/Pods-GrowthPlus/Pods-GrowthPlus.release.xcconfig"; sourceTree = "<group>"; };
 		9C39FFAE105E82FABEED7D78 /* Pods-GrowthPlus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrowthPlus.debug.xcconfig"; path = "Target Support Files/Pods-GrowthPlus/Pods-GrowthPlus.debug.xcconfig"; sourceTree = "<group>"; };
 		D3EA5FB1679F513B0A5A47EA /* Pods_GrowthPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GrowthPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,6 +73,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2D08612135EE090F5DBAFFE /* Pods_GrowthPlus.framework in Frameworks */,
+				74938F61258DF8AE004385ED /* ConfettiView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,7 +115,8 @@
 				748E7D28258A20FC00477F53 /* Views */,
 				748E7CE4258A1FAC00477F53 /* GrowthPlusApp.swift */,
 				748E7CE8258A1FAC00477F53 /* Assets.xcassets */,
-				744FCAA8258DE1CD00BCD3E6 /* DIN-D.ttf */,
+				74938F72258E087B004385ED /* financial_lottie.json */,
+				7489C8D7258E13BE0085BC69 /* painter.json */,
 				748E7CED258A1FAC00477F53 /* Info.plist */,
 				748E7CEA258A1FAC00477F53 /* Preview Content */,
 			);
@@ -134,6 +145,9 @@
 				748E7D13258A1FFD00477F53 /* SearchResultView.swift */,
 				748E7D10258A1FFC00477F53 /* StockPageView.swift */,
 				748E7CFB258A1FE100477F53 /* HorizontalProgressView.swift */,
+				74938F64258DFB17004385ED /* SettingsView.swift */,
+				74938F6F258E0765004385ED /* LottieView.swift */,
+				7489C8D4258E102D0085BC69 /* ColorSelectionView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -183,6 +197,9 @@
 			dependencies = (
 			);
 			name = GrowthPlus;
+			packageProductDependencies = (
+				74938F60258DF8AE004385ED /* ConfettiView */,
+			);
 			productName = GrowthPlus;
 			productReference = 748E7CE1258A1FAC00477F53 /* GrowthPlus.app */;
 			productType = "com.apple.product-type.application";
@@ -210,6 +227,9 @@
 				Base,
 			);
 			mainGroup = 748E7CD8258A1FAC00477F53;
+			packageReferences = (
+				74938F5F258DF8AE004385ED /* XCRemoteSwiftPackageReference "ConfettiView" */,
+			);
 			productRefGroup = 748E7CE2258A1FAC00477F53 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -224,9 +244,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				744FCAA9258DE1CD00BCD3E6 /* DIN-D.ttf in Resources */,
+				74938F73258E087B004385ED /* financial_lottie.json in Resources */,
 				748E7CEC258A1FAC00477F53 /* Preview Assets.xcassets in Resources */,
 				748E7CE9258A1FAC00477F53 /* Assets.xcassets in Resources */,
+				7489C8D8258E13BE0085BC69 /* painter.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,8 +301,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				748E7D17258A1FFD00477F53 /* StockView.swift in Sources */,
+				74938F70258E0765004385ED /* LottieView.swift in Sources */,
 				748E7D16258A1FFD00477F53 /* StockPageView.swift in Sources */,
+				7489C8D5258E102D0085BC69 /* ColorSelectionView.swift in Sources */,
 				748E7D02258A1FE800477F53 /* InvestmentHeaderView.swift in Sources */,
+				74938F65258DFB17004385ED /* SettingsView.swift in Sources */,
 				748E7D0C258A1FF600477F53 /* RealmObjects.swift in Sources */,
 				748E7D07258A1FF000477F53 /* Portfolio.swift in Sources */,
 				748E7CFD258A1FE100477F53 /* HorizontalProgressView.swift in Sources */,
@@ -486,6 +510,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		74938F5F258DF8AE004385ED /* XCRemoteSwiftPackageReference "ConfettiView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ziligy/ConfettiView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		74938F60258DF8AE004385ED /* ConfettiView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 74938F5F258DF8AE004385ED /* XCRemoteSwiftPackageReference "ConfettiView" */;
+			productName = ConfettiView;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 748E7CD9258A1FAC00477F53 /* Project object */;
 }

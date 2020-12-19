@@ -70,7 +70,7 @@ struct SellView: View {
             }, label: {
                 Text("Sell")
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).fill(Color.primaryColor))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.primaryColor))
                     .frame(minWidth: 200)
                     .foregroundColor(.white)
                     .font(Font.custom("DIN-D", size: 20.0))
@@ -87,8 +87,9 @@ struct SellView: View {
                     .default(
                         Text("Dismiss")
                             .font(Font.custom("DIN-D", size: 20.0))
-                , action: {
-            }))
+                , action: {}
+                    )
+            )
         }) // end of alert
         .alert(isPresented: $showInvalidSharesNumberAlert, content: {
             Alert(title: Text("Not Enough Shares"), message: Text("You can sell at most \(wallet.selectedCard.shares) shares of \(wallet.selectedCard.ticker)"), dismissButton: .default(Text("Dismiss"), action: {

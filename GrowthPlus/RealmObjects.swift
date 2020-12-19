@@ -19,3 +19,8 @@ class RealmPortfolio: Object {
     @objc dynamic var overallBalance = 0.00 // changes when user sells stock holding
     var holdings = RealmSwift.List<RealmStockData>()
 }
+
+class RealmColorPalette: Object {
+    @objc dynamic var primaryColor = String()
+    @objc dynamic var secondaryColor = String()
+}

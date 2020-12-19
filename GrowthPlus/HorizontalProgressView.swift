@@ -13,10 +13,10 @@ struct HorizontalProgressView: View {
         GeometryReader { proxy in
             ZStack(alignment: .leading) {
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.secondaryColor)
+                    .fill(CustomColors.shared.secondaryColor)
                     .frame(height: 20)
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.primaryColor)
+                    .fill(CustomColors.shared.primaryColor)
                     .frame(width: proxy.size.width * CGFloat(percentage)/100, height: 20)
             }
         }

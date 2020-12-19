@@ -27,6 +27,9 @@ final class Portfolio: ObservableObject {
     init() {
         let realmConfigurations = try! Realm().configuration
         let realm = try! Realm(configuration: realmConfigurations)
+//        try! realm.write {
+//            realm.deleteAll()
+//        }
         let portfolio = Array(realm.objects(RealmPortfolio.self))
         // if no portfolio element found
         if portfolio.isEmpty {
@@ -160,5 +163,19 @@ final class Portfolio: ObservableObject {
     
     private var emptyStock: Stock {
         Stock(companyName: "", ticker: "", avgCost: 0.0, shares: 0, currentPrice: 0.0, percentChange: 0.0, dailyChange: 0.0, volume: 0, avgVolume: 0, imageName: "")
+    }
+    
+    func resetPortfolio() -> Bool {
+        let realm = try! Realm()
+        var success: Bool = false
+        try! realm.write {
+            if let portfolio = self.portfolio {
+                realm.delete(portfolio)
+                self.portfolioCards.removeAll()
+                self.portfolio = RealmPortfolio()
+                success = true
+            }
+        }
+        return success
     }
 }

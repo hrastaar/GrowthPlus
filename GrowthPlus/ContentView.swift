@@ -22,22 +22,31 @@ struct ContentView: View {
                     HeaderView()
                     InvestmentHeaderView()
                     HStack {
+                        NavigationLink(
+                            destination: SettingsView(),
+                            label: {
+                                Image(systemName: "gear")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(.white)
+                                    .padding(10)
+                                    .background(CustomColors.shared.primaryColor)
+                                    .cornerRadius(10)
+                            }
+                        )
                         Spacer()
                         NavigationLink(
                             destination: SearchStockView(),
                             label: {
-                                HStack {
-                                    Spacer()
-                                    Image(systemName: "plus")
-                                        .resizable()
-                                        .frame(width: 20, height: 20)
-                                        .foregroundColor(.black)
-                                        .padding(10)
-                                        .background(Color.primaryColor)
-                                        .opacity(0.2)
-                                        .cornerRadius(10)
-                                }
-                        })
+                                Image(systemName: "plus")
+                                    .resizable()
+                                    .frame(width: 20, height: 20)
+                                    .foregroundColor(.white)
+                                    .padding(10)
+                                    .background(CustomColors.shared.primaryColor)
+                                    .cornerRadius(10)
+                            }
+                        )
                     }
                     if wallet.loadedHoldings {
                         if wallet.portfolioCards.count > 0 && wallet.presentStocks {

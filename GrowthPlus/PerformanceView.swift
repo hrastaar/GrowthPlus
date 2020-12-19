@@ -24,7 +24,7 @@ struct PerformanceView: View {
                 Text(DollarString(value: wallet.selectedCard.equity))
                     .font(Font.custom("DIN-D", size: 20.0))
                     .fontWeight(.semibold)
-                    .foregroundColor(.primaryColor)
+                    .foregroundColor(CustomColors.shared.primaryColor)
                     .padding(.trailing)
                     .fixedSize()
             }
@@ -36,9 +36,9 @@ struct PerformanceView: View {
             Image(systemName: "arrow.up")
                 .resizable()
                 .frame(width: 20, height: 20)
-                .foregroundColor(Color.primaryColor)
+                .foregroundColor(CustomColors.shared.primaryColor)
                 .padding(10)
-                .background(Color.primaryColor)
+                .background(CustomColors.shared.primaryColor)
                 .opacity(0.2)
                 .cornerRadius(10)
             VStack(alignment: .leading) {
@@ -58,9 +58,9 @@ struct PerformanceView: View {
             Image(systemName: "arrow.down")
                 .resizable()
                 .frame(width: 20, height: 20)
-                .foregroundColor(Color.secondaryColor)
+                .foregroundColor(CustomColors.shared.secondaryColor)
                 .padding(10)
-                .background(Color.secondaryColor)
+                .background(CustomColors.shared.secondaryColor)
                 .opacity(0.2)
                 .cornerRadius(10)
             VStack(alignment: .leading) {

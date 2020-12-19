@@ -18,14 +18,14 @@ struct SearchResultView: View {
                     Text(searchResult.companyName)
                         .font(Font.custom("DIN-D", size: 18.0))
                         .fontWeight(.semibold)
-                        .foregroundColor(.primaryColor)
+                        .foregroundColor(CustomColors.shared.primaryColor)
                     Spacer()
                 }
                 HStack(spacing: 15) {
                     Text(searchResult.ticker)
                         .font(Font.custom("DIN-D", size: 15.0))
                         .fontWeight(.regular)
-                        .foregroundColor(.primaryColor)
+                        .foregroundColor(CustomColors.shared.primaryColor)
                     Spacer()
                 }
             }
