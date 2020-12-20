@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchResultView: View {
     let searchResult: SearchResult
-    @ObservedObject var StockSearch = SearchQuery.shared
+    @ObservedObject var StockSearch: SearchQuery = SearchQuery.shared
     @ObservedObject var stockData: StockPageData = StockPageData()
     var body: some View {
         NavigationLink(destination: StockPageView(ticker: searchResult.ticker)) {

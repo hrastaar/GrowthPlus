@@ -7,13 +7,14 @@
 
 import SwiftUI
 import SafariServices
-import Lottie
 
 struct SettingsView: View {
     @ObservedObject var portfolio: Portfolio = Portfolio.shared
     // whether or not to show the Safari ViewController
     @State var showSafari: Bool = false
     @State var showColorView: Bool = false
+    @State var showResetAccountAlert: Bool = false
+    @State var showTechnologiesView: Bool = false
         // initial URL string
     @State var urlString: String = "https://www.linkedin.com/in/rastaarhaghi"
     var body: some View {
@@ -25,8 +26,10 @@ struct SettingsView: View {
                     .fontWeight(.bold)
                 Spacer()
             }
+            Spacer()
             LottieView(fileName: "financial_lottie")
                 .frame(width: 300)
+                .cornerRadius(12)
             
             Button(action: {
                 self.showColorView = true
@@ -61,9 +64,26 @@ struct SettingsView: View {
                 }
             
             Button(action: {
+                self.showTechnologiesView = true
+            }, label: {
+                Text("Technologies Used in App")
+                    .font(Font.custom("DIN-D", size: 22.0))
+                    .padding()
+                    .frame(minWidth: 300)
+                    .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
+                    .cornerRadius(5)
+                    .foregroundColor(.white)
+            })
+                .frame(width: 300)
+                .sheet(isPresented: $showTechnologiesView) {
+                    TechnologiesUsedView()
+                }
+            
+            Button(action: {
                 let resetResult = self.portfolio.resetPortfolio()
+                CustomColors.shared.resetColors()
                 if resetResult == true {
-                    print("Success")
+                    self.showResetAccountAlert = true
                 }
             }, label: {
                 Text("Reset Account")
@@ -74,6 +94,20 @@ struct SettingsView: View {
                     .cornerRadius(5)
                     .foregroundColor(.white)
             }).frame(width: 300)
+            .alert(isPresented: $showResetAccountAlert, content: {
+                Alert(title:
+                        Text("Successfully Reset Account!")
+                            .font(Font.custom("DIN-D", size: 24.0)),
+                      message:
+                        Text("You have successfully reset all account information. Your portfolio holdings and account balances have all been cleared.")
+                            .font(Font.custom("DIN-D", size: 18.0)),
+                      dismissButton:
+                        .default(
+                            Text("Dismiss")
+                                .font(Font.custom("DIN-D", size: 22.0))
+                        )
+                )
+            }) // end of alert
             Spacer()
 
         }

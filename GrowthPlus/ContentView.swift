@@ -12,8 +12,14 @@ import Alamofire
 
 struct ContentView: View {
     @ObservedObject var wallet: Portfolio
+    @ObservedObject var customColors: CustomColors = CustomColors.shared
+    @State var firstVisit: Bool = false
     init() {
         wallet = Portfolio.shared
+        self.firstVisit = wallet.firstVisit
+        if self.firstVisit {
+            print("First visit")
+        }
     }
     var body: some View {
         NavigationView {
@@ -30,7 +36,7 @@ struct ContentView: View {
                                     .frame(width: 20, height: 20)
                                     .foregroundColor(.white)
                                     .padding(10)
-                                    .background(CustomColors.shared.primaryColor)
+                                    .background(customColors.primaryColor)
                                     .cornerRadius(10)
                             }
                         )
@@ -43,7 +49,7 @@ struct ContentView: View {
                                     .frame(width: 20, height: 20)
                                     .foregroundColor(.white)
                                     .padding(10)
-                                    .background(CustomColors.shared.primaryColor)
+                                    .background(customColors.primaryColor)
                                     .cornerRadius(10)
                             }
                         )

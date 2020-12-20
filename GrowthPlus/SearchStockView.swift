@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct SearchStockView: View {
-    @State var ticker = ""
-    @ObservedObject var wallet = Portfolio.shared
+    @State var ticker: String = ""
+    @ObservedObject var wallet: Portfolio = Portfolio.shared
     @ObservedObject var StockSearch = SearchQuery.shared
-    @State var searchQuery = ""
+    @State var searchQuery: String = ""
     var body: some View {
         ScrollView {
             VStack {
@@ -25,7 +25,7 @@ struct SearchStockView: View {
                           text: $searchQuery)
                     .font(Font.custom("DIN-D", size: 20.0))
                     .onChange(of: searchQuery, perform: { value in
-                        StockSearch.searchTicker(ticker: value)
+                        StockSearch.searchTicker(ticker: value, exchange: nil)
                     })
                 ForEach(self.StockSearch.searchResults.indices, id: \.self) { index in
                     SearchResultView(searchResult: self.StockSearch.searchResults[index])

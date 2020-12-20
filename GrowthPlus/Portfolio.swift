@@ -16,8 +16,9 @@ final class Portfolio: ObservableObject {
     @Published var unrealizedGains: Double = 0.00
     @Published var loadedHoldings = false
     @Published var totalStockValue = 0.00
+    @Published var firstVisit: Bool = false
     @State var presentStocks = true
-
+    
     var portfolio: RealmPortfolio?
     var selectedCard: Stock {
         portfolioCards.first(where: { $0.isSelected }) ?? emptyStock
@@ -33,6 +34,7 @@ final class Portfolio: ObservableObject {
         let portfolio = Array(realm.objects(RealmPortfolio.self))
         // if no portfolio element found
         if portfolio.isEmpty {
+            self.firstVisit = true
             // initialize a new object
             self.portfolio = RealmPortfolio()
             try! realm.write {

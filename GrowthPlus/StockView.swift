@@ -46,21 +46,3 @@ struct StockView_Previews: PreviewProvider {
         PortfolioListView()
     }
 }
-
-/*
- NavigationLink(
-     destination: SearchStockView(),
-     label: {
-         HStack {
-             Spacer()
-             Image(systemName: "plus")
-                 .resizable()
-                 .frame(width: 20, height: 20)
-                 .foregroundColor(.black)
-                 .padding(10)
-                 .background(Color.primaryColor)
-                 .opacity(0.2)
-                 .cornerRadius(10)
-         }
- })
- */

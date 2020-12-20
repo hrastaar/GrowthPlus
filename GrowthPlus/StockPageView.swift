@@ -41,7 +41,7 @@ struct StockPageView: View {
                         Spacer()
                     }
                     HStack(spacing: 20) {
-                        Text(DollarString(value: StockSearch.stockPageData.dailyChange) + String(format: "(%.2f%%)", StockSearch.stockPageData.percentChange))
+                        Text(DollarString(value: StockSearch.stockPageData.dailyChange) + String(format: "(%.2f%%)", StockSearch.stockPageData.percentChange*100))
                             .font(Font.custom("DIN-D", size: 20.0))
                             .foregroundColor(profitLossColor(inputDouble: StockSearch.stockPageData.dailyChange))
                             .fontWeight(.semibold)

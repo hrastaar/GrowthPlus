@@ -6,71 +6,7 @@
 //
 
 import SwiftUI
-import RealmSwift
 import Hex
-
-class CustomColors {
-    
-    static let shared = CustomColors()
-    var primaryColor: Color
-    var secondaryColor: Color
-    var realmColorPalette: RealmColorPalette?
-    init() {
-        let realm = try! Realm()
-        let realmColorArray = Array(realm.objects(RealmColorPalette.self))
-        if realmColorArray.count > 0 {
-            print("loaded saved colors. Hex: \(realmColorArray[0].primaryColor), \(realmColorArray[0].secondaryColor)")
-            self.realmColorPalette = realmColorArray[0]
-            self.primaryColor = Color(UIColor(hex: realmColorArray[0].primaryColor))
-            self.secondaryColor = Color(UIColor(hex: realmColorArray[0].secondaryColor))
-            print("initialized with custom colors!")
-        } else {
-            // set to defaults
-            self.primaryColor = Color(UIColor(hex: "#1ce4ac"))
-            self.secondaryColor = Color(UIColor(hex: "424B54"))
-            self.realmColorPalette = RealmColorPalette()
-            realmColorPalette?.primaryColor = UIColor(primaryColor).htmlRGBColor
-            realmColorPalette?.secondaryColor = UIColor(secondaryColor).htmlRGBColor
-            print("\(UIColor(primaryColor).htmlRGBColor), \(UIColor(secondaryColor).htmlRGBColor)")
-            try! realm.write {
-                realm.add(realmColorPalette!)
-                print("saved initial color palette")
-            }
-            print("Initialized with default colors")
-        }
-    }
-    
-    func updatePrimaryColor(color: UIColor) {
-        print("Trying to update primary color to \(color.htmlRGBColor)")
-        self.primaryColor = Color(color)
-        let realm = try! Realm()
-        try! realm.write {
-            self.realmColorPalette?.primaryColor = color.htmlRGBColor
-            print("Saved primary color to realm as \(String(describing: self.realmColorPalette?.primaryColor))")
-        }
-    }
-    
-    func updateSecondaryColor(color: UIColor) {
-        print("trying to update secondary color to \(color.htmlRGBColor)")
-        self.secondaryColor = Color(color)
-        let realm = try! Realm()
-        try! realm.write {
-            self.realmColorPalette?.secondaryColor = color.htmlRGBColor
-            print("Saved secondary color to realm as \(String(describing: self.realmColorPalette?.secondaryColor))")
-        }
-    }
-    
-    func resetColors() {
-        self.primaryColor = Color(UIColor(hex: "#1ce4ac"))
-        self.secondaryColor = Color(UIColor(hex: "424B54"))
-        let realm = try! Realm()
-        try! realm.write {
-            realmColorPalette?.primaryColor = "#1ce4ac"
-            realmColorPalette?.secondaryColor = "424B54"
-        }
-    }
-
-}
 
 func profitLossColor(inputDouble: Double) -> Color {
     return inputDouble >= 0 ? .green : .red
@@ -92,13 +28,7 @@ extension Font {
 }
 
 extension UIColor {
-     func toString() -> String {
-          let colorRef = self.cgColor
-          return CIColor(cgColor: colorRef).stringRepresentation
-     }
- }
-
-extension UIColor {
+    /// RGB String conversion material. Credited to https://stackoverflow.com/questions/36341358/how-to-convert-uicolor-to-string-and-string-to-uicolor-using-swift
     var rgbComponents:(red: CGFloat, green: CGFloat, blue: CGFloat, alpha: CGFloat) {
         var r:CGFloat = 0
         var g:CGFloat = 0

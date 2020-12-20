@@ -14,26 +14,44 @@ final class SearchQuery: ObservableObject {
     static let shared = SearchQuery()
     
     // Gather List of Search Results for Ticker
-    func searchTicker(ticker: String) {
-        guard let url = URL(string: "https://financialmodelingprep.com/api/v3/search?query=\(ticker)&limit=10&exchange=NASDAQ&apikey=ba2874a9ee6dd4fd27b5c111d230b9b0") else { return }
+    func searchTicker(ticker: String, exchange: String?) {
+        var i = 0
+        var url: URL
+        if let inputExchange = exchange {
+            url = URL(string: "https://dumbstockapi.com/stock?ticker_search=\(ticker)&exchange=\(inputExchange)")!
+        } else {
+            url = URL(string: "https://dumbstockapi.com/stock?ticker_search=\(ticker)&exchange=NASDAQ")!
+        }
+        
+        print("CALL...")
         let request = AF.request(url)
         request.responseJSON { data in
             do {
                 if let currData = data.data {
                     // clear old search results
+                    print("...RESULT")
                     self.searchResults = []
                     let json = try JSON(data: currData)
                     let searchResult = json.arrayValue
+
                     // append new search results
                     for stock in searchResult {
-                        let searchRes: SearchResult = SearchResult(ticker: stock["symbol"].stringValue, companyName: stock["name"].stringValue)
+                        let searchRes: SearchResult = SearchResult(ticker: stock["ticker"].stringValue, companyName: stock["name"].stringValue)
                         self.searchResults.append(searchRes)
+                        i += 1
+                        if(i == 5) {
+                            if exchange == nil {
+                                self.searchTicker(ticker: ticker, exchange: "NYSE")
+                            }
+                            break
+                        }
                     }
                 }
             } catch {
                 print(error.localizedDescription)
             }
         }
+        
     }
     
     // Gather Stock Data for Ticker

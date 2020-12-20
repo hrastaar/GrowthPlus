@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct PerformanceView: View {
-    @ObservedObject var wallet = Portfolio.shared
-    @State private var incomePercentage = 0
+    @ObservedObject var wallet: Portfolio = Portfolio.shared
+    @State private var incomePercentage: Int = 0
     var PerformanceHeaderView: some View {
         VStack {
             Text(wallet.selectedCard.companyName)

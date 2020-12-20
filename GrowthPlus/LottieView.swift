@@ -19,6 +19,7 @@ struct LottieView: UIViewRepresentable {
         let animation = Animation.named(fileName)
         animationView.animation = animation
         animationView.contentMode = .scaleAspectFit
+        animationView.layer.cornerRadius = 15
         animationView.play()
         animationView.loopMode = .loop
         if let color = backgroundColor {
@@ -38,4 +39,5 @@ struct LottieView: UIViewRepresentable {
     func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<LottieView>) {
         
     }
+
 }

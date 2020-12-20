@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ColorSelectionView: View {
     
-    @State private var selectedPrimaryColor = CustomColors.shared.primaryColor
-    @State private var selectedSecondaryColor = CustomColors.shared.secondaryColor
-    
+    @State private var selectedPrimaryColor: Color = CustomColors.shared.primaryColor
+    @State private var selectedSecondaryColor: Color = CustomColors.shared.secondaryColor
+    @State private var presentSavedColorAlert: Bool = false
+    @State private var presentResetToDefaultAlert: Bool = false
     var body: some View {
         VStack {
             HStack {
@@ -47,6 +48,7 @@ struct ColorSelectionView: View {
                 print("Save Selection")
                 CustomColors.shared.updatePrimaryColor(color: UIColor(selectedPrimaryColor))
                 CustomColors.shared.updateSecondaryColor(color: UIColor(selectedSecondaryColor))
+                self.presentSavedColorAlert = true
             }, label: {
                 Text("Save Color Palette")
                     .font(Font.custom("DIN-D", size: 22.0))
@@ -55,13 +57,24 @@ struct ColorSelectionView: View {
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
                     .cornerRadius(5)
                     .foregroundColor(.white)
-            })
+            }).alert(isPresented: $presentSavedColorAlert, content: {
+                Alert(title:
+                        Text("Saved your Color Preferences!")
+                            .font(Font.custom("DIN-D", size: 24.0)),
+                      message: Text("Your custom color palette selection has been saved. To update in-app colors, please close GrowthPlus and relaunch"),
+                      dismissButton:
+                        .default(
+                            Text("Dismiss")
+                                .font(Font.custom("DIN-D", size: 22.0))
+                        )
+                )
+            }) // end of alert
             
             Spacer()
             
             Button(action: {
                 CustomColors.shared.resetColors()
-                print("Resetting colors")
+                self.presentResetToDefaultAlert = true
             }, label: {
                 Text("Reset to Default")
                     .font(Font.custom("DIN-D", size: 22.0))
@@ -70,7 +83,18 @@ struct ColorSelectionView: View {
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
                     .cornerRadius(5)
                     .foregroundColor(.white)
-            })
+            }).alert(isPresented: $presentResetToDefaultAlert, content: {
+                Alert(title:
+                        Text("Color Palette has been reset to default")
+                            .font(Font.custom("DIN-D", size: 24.0)),
+                      message: Text("Your custom color palette selection has been saved. To update in-app colors, please close GrowthPlus and relaunch"),
+                      dismissButton:
+                        .default(
+                            Text("Dismiss")
+                                .font(Font.custom("DIN-D", size: 22.0))
+                        )
+                )
+            }) // end of alert
             
         }.padding()
     }
