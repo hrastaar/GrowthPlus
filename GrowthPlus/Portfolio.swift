@@ -134,8 +134,6 @@ final class Portfolio: ObservableObject {
     
     func buyShare(ticker: String, shares: Int, salePrice: Double) {
         let realm = try! Realm()
-        // Update balance to the new balance
-        self.totalStockValue += (salePrice * Double(shares))
         
         // iterate thru cards to see if ticker already in portfolio
         for index in 0..<portfolio!.holdings.count {
@@ -147,6 +145,7 @@ final class Portfolio: ObservableObject {
                 portfolioCards[index].avgCost = ( (portfolioCards[index].equity) + (salePrice * Double(shares)) ) / Double((portfolioCards[index].shares + shares))
                 portfolioCards[index].shares = portfolioCards[index].shares + shares
                 self.unrealizedGains = calculateUnrealizedGains()
+                self.totalStockValue += (Double(shares) * salePrice)
                 return
             }
         }
