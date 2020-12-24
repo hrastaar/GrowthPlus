@@ -22,14 +22,15 @@ struct Stock: Hashable {
     var avgVolume: Int
     
     // Calculations from data observed
-    var equity: Double {
-        Double(shares) * currentPrice
+    func calculateEquity() -> Double {
+        return Double(shares) * currentPrice
     }
-    var totalCost: Double {
-        Double(shares) * avgCost
+    
+    func calculateTotalCost() -> Double {
+        return Double(shares) * avgCost
     }
-    var netProfit: Double {
-        equity - totalCost
+    func calculateNetProfit() -> Double {
+        return calculateEquity() - calculateTotalCost()
     }
     var dailySign: String {
         percentChange >= 0 ? "+" : "-"

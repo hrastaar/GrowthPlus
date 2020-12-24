@@ -11,46 +11,51 @@ import SwiftyJSON
 import SwiftUI
 
 final class Portfolio: ObservableObject {
+    // Data for portfolio stocks
     @Published var portfolioCards: [Stock] = []
+    // Calculated Balances
     @Published var realizedGains: Double = 0.00
     @Published var unrealizedGains: Double = 0.00
-    @Published var loadedHoldings = false
-    @Published var totalStockValue = 0.00
-    @Published var firstVisit: Bool = false
-    @State var presentStocks = true
+    @Published var totalStockValue: Double = 0.00
     
+    
+    @Published var loadedHoldings: Bool = false
+    @Published var firstVisit: Bool = false
+    @State var presentStocks: Bool = true
+    
+    // Personal account info provided by realm
     var portfolio: RealmPortfolio?
+    
     var selectedCard: Stock {
         portfolioCards.first(where: { $0.isSelected }) ?? emptyStock
     }
     static var shared: Portfolio = Portfolio()
+    let realm: Realm
     
     init() {
-        let realmConfigurations = try! Realm().configuration
-        let realm = try! Realm(configuration: realmConfigurations)
-//        try! realm.write {
-//            realm.deleteAll()
-//        }
-        let portfolio = Array(realm.objects(RealmPortfolio.self))
+        let realmConfigurations: Realm.Configuration = try! Realm().configuration
+        self.realm = try! Realm(configuration: realmConfigurations)
+
+        let fetchedPortfolio: Array<RealmPortfolio> = Array(realm.objects(RealmPortfolio.self))
         // if no portfolio element found
-        if portfolio.isEmpty {
+        if fetchedPortfolio.isEmpty {
             self.firstVisit = true
             // initialize a new object
             self.portfolio = RealmPortfolio()
             try! realm.write {
                 realm.add(self.portfolio!)
             }
-            self.initializeWithSavedHoldings(stockHoldings: Array(self.portfolio!.holdings))
+            self.initializeWithSavedHoldings(realmStockHoldings: Array(self.portfolio!.holdings))
         } else {
-            self.portfolio = portfolio[0]
-            let stocks = Array(self.portfolio!.holdings)
-            self.realizedGains = portfolio[0].overallBalance
-            self.initializeWithSavedHoldings(stockHoldings: stocks)
+            self.portfolio = fetchedPortfolio[0]
+            let realmSavedStocks = Array(self.portfolio!.holdings)
+            self.realizedGains = fetchedPortfolio[0].overallBalance
+            self.initializeWithSavedHoldings(realmStockHoldings: realmSavedStocks)
         }
     }
     
-    private func initializeWithSavedHoldings(stockHoldings: [RealmStockData]) {
-        for holding in stockHoldings {
+    private func initializeWithSavedHoldings(realmStockHoldings: [RealmStockData]) {
+        for holding in realmStockHoldings {
             appendStockData(holding: holding)
         }
     }
@@ -58,26 +63,27 @@ final class Portfolio: ObservableObject {
     private func appendStockData(holding: RealmStockData) {
         var stock: Stock?
         // build get request
-        let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(holding.ticker)/quote?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let url: URL = URL(string: "https://cloud.iexapis.com/stable/stock/\(holding.ticker)/quote?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let request = AF.request(url)
         request.responseJSON { data in
             do {
                 if let currData = data.data {
-                    let json = try JSON(data: currData)
+                    let json: JSON = try JSON(data: currData)
                     // if valid call and has the info we need, create StockData type
-                    let companyName = json["companyName"].stringValue
-                    let volume = json["volume"].intValue
-                    let avgVolume = json["avgTotalVolume"].intValue
-                    let currPrice = json["latestPrice"].doubleValue
-                    let percentChange = json["changePercent"].doubleValue
-                    let dailyChange = json["change"].doubleValue
+                    let companyName: String = json["companyName"].stringValue
+                    let volume: Int = json["volume"].intValue
+                    let avgVolume: Int = json["avgTotalVolume"].intValue
+                    let currPrice: Double = json["latestPrice"].doubleValue
+                    let percentChange: Double = json["changePercent"].doubleValue
+                    let dailyChange: Double = json["change"].doubleValue
                     stock = Stock(companyName: companyName, ticker: holding.ticker, avgCost: holding.avgCost, shares: holding.shares, currentPrice: currPrice, percentChange: percentChange, dailyChange: dailyChange, volume: volume, avgVolume: avgVolume, imageName: "stock")
                     if self.portfolioCards.count == 0 {
                         stock?.isSelected = true
                     }
                     self.portfolioCards.append(stock!)
-                    self.totalStockValue += stock!.equity
+                    self.totalStockValue += stock!.calculateEquity()
                     self.loadedHoldings = true
+                    self.calculateUnrealizedGains()
                 }
             } catch {
                 print(error.localizedDescription)
@@ -85,16 +91,16 @@ final class Portfolio: ObservableObject {
         }
     }
     
-    private func calculateUnrealizedGains() -> Double {
-        var realizedGain = 0.00
+    private func calculateUnrealizedGains() {
+        var unrealizedGain: Double = 0.00
         for card in portfolioCards {
-            realizedGain += card.netProfit
+            unrealizedGain += (Double(card.shares) * (card.currentPrice - card.avgCost))
         }
-        return realizedGain
+        self.unrealizedGains = unrealizedGain
     }
     
     func sellShare(ticker: String, shares: Int, salePrice: Double, avgPrice: Double) {
-        let realm = try! Realm()
+        //let realm = try! Realm()
         // Update balance to the new balance
         self.realizedGains += ((salePrice - avgPrice) * Double(shares))
         self.totalStockValue -= (salePrice * Double(shares))
@@ -104,6 +110,7 @@ final class Portfolio: ObservableObject {
         
         for index in 0..<portfolio!.holdings.count {
             if portfolio!.holdings[index].ticker == ticker {
+                print("Sell for ticker: \(ticker), trying to sell \(shares) shares. There are currently: \(portfolio!.holdings[index].shares)")
                 try! realm.write {
                     portfolio!.holdings[index].shares -= shares
                     portfolioCards[index].shares -= shares
@@ -126,40 +133,41 @@ final class Portfolio: ObservableObject {
                         }
                     }
                 }
-                self.unrealizedGains = calculateUnrealizedGains()
+                calculateUnrealizedGains()
                 return
             }
         }
     }
     
     func buyShare(ticker: String, shares: Int, salePrice: Double) {
-        let realm = try! Realm()
+        
+        //let realm: Realm = try! Realm()
         
         // iterate thru cards to see if ticker already in portfolio
         for index in 0..<portfolio!.holdings.count {
             if portfolio!.holdings[index].ticker == ticker {
                 try! realm.write {
-                    portfolio!.holdings[index].avgCost = ( (portfolioCards[index].equity) + (salePrice * Double(shares)) ) / Double((portfolioCards[index].shares + shares))
+                    portfolio!.holdings[index].avgCost = ( (portfolioCards[index].calculateEquity()) + (salePrice * Double(shares)) ) / Double((portfolioCards[index].shares + shares))
                     portfolio!.holdings[index].shares = portfolioCards[index].shares + shares
                 }
-                portfolioCards[index].avgCost = ( (portfolioCards[index].equity) + (salePrice * Double(shares)) ) / Double((portfolioCards[index].shares + shares))
+                portfolioCards[index].avgCost = ( (portfolioCards[index].calculateEquity()) + (salePrice * Double(shares)) ) / Double((portfolioCards[index].shares + shares))
                 portfolioCards[index].shares = portfolioCards[index].shares + shares
-                self.unrealizedGains = calculateUnrealizedGains()
+                calculateUnrealizedGains()
                 self.totalStockValue += (Double(shares) * salePrice)
                 return
             }
         }
         
         // If here, write new stock
-        let stockHolding = RealmStockData()
-        stockHolding.ticker = ticker
-        stockHolding.avgCost = salePrice
-        stockHolding.shares = shares
+        let realmStockData: RealmStockData = RealmStockData()
+        realmStockData.ticker = ticker
+        realmStockData.avgCost = salePrice
+        realmStockData.shares = shares
         try! realm.write {
-            portfolio!.holdings.append(stockHolding)
-            self.appendStockData(holding: stockHolding)
+            portfolio!.holdings.append(realmStockData)
+            self.appendStockData(holding: realmStockData)
         }
-        self.unrealizedGains = calculateUnrealizedGains()
+        calculateUnrealizedGains()
     }
     
     private var emptyStock: Stock {
@@ -167,7 +175,7 @@ final class Portfolio: ObservableObject {
     }
     
     func resetPortfolio() -> Bool {
-        let realm = try! Realm()
+        //let realm: Realm = try! Realm()
         var success: Bool = false
         try! realm.write {
             if let portfolio = self.portfolio {

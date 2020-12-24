@@ -47,21 +47,21 @@ struct SettingsView: View {
                     ColorSelectionView()
                 }
             
-            Button(action: {
-                self.showSafari = true
-            }, label: {
-                Text("Meet the Developer")
-                    .font(Font.custom("DIN-D", size: 22.0))
-                    .padding()
-                    .frame(minWidth: 300)
-                    .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
-                    .cornerRadius(5)
-                    .foregroundColor(.white)
-            })
-                .frame(width: 300)
-                .sheet(isPresented: $showSafari) {
-                    SafariView(url:URL(string: self.urlString)!)
-                }
+//            Button(action: {
+//                self.showSafari = true
+//            }, label: {
+//                Text("Meet the Developer")
+//                    .font(Font.custom("DIN-D", size: 22.0))
+//                    .padding()
+//                    .frame(minWidth: 300)
+//                    .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
+//                    .cornerRadius(5)
+//                    .foregroundColor(.white)
+//            })
+//                .frame(width: 300)
+//                .sheet(isPresented: $showSafari) {
+//                    SafariView(url:URL(string: self.urlString)!)
+//                }
             
             Button(action: {
                 self.showTechnologiesView = true

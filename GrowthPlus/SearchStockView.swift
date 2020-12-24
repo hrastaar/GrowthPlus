@@ -24,15 +24,22 @@ struct SearchStockView: View {
                 TextField("Search by ticker...",
                           text: $searchQuery)
                     .font(Font.custom("DIN-D", size: 20.0))
+                    .disableAutocorrection(true)
+                    .autocapitalization(.allCharacters)
                     .onChange(of: searchQuery, perform: { value in
+                        searchQuery = searchQuery.uppercased()
                         StockSearch.searchTicker(ticker: value, exchange: nil)
                     })
+                Spacer()
                 ForEach(self.StockSearch.searchResults.indices, id: \.self) { index in
                     SearchResultView(searchResult: self.StockSearch.searchResults[index])
                     Divider()
                         .foregroundColor(.white)
                 }
             }.padding(25)
+
+        }.onTapGesture {
+            self.hideKeyboard()
         }
     }
 }

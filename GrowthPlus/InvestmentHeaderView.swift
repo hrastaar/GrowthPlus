@@ -13,7 +13,7 @@ struct InvestmentHeaderView: View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Investments")
-                    .font(Font.custom("DIN-D", size: 30.0))
+                    .font(Font.custom("D-DIN", size: 30.0))
                     .fontWeight(.bold)
                 Spacer()
             }
@@ -45,7 +45,6 @@ struct InvestmentHeaderView: View {
                     .foregroundColor(profitLossColor(inputDouble: wallet.unrealizedGains))
             }
             Divider()
-            Spacer(minLength: 35)
         }
     }
 }

@@ -21,7 +21,7 @@ struct SellView: View {
             Text("Sell \(wallet.selectedCard.ticker)")
                 .font(Font.custom("DIN-D", size: 20.0))
                 .fontWeight(.medium)
-            Spacer(minLength: 22.5)
+            Spacer()
             // Number of Shares
             HStack {
                 Text("Number of Shares")
@@ -58,6 +58,8 @@ struct SellView: View {
             Divider()
             Button(action: {
                 if let numShares: Int = Int(sharesToSell) {
+                    print(numShares)
+                    print("available: \(wallet.selectedCard.shares)")
                     if numShares > wallet.selectedCard.shares {
                         showInvalidSharesNumberAlert.toggle()
                     } else {
@@ -66,7 +68,6 @@ struct SellView: View {
                 } else {
                     self.showInputTypeAlert.toggle()
                 }
-                sharesToSell = ""
             }, label: {
                 Text("Sell")
                     .padding()

@@ -36,13 +36,13 @@ struct StockView: View {
         }
         .padding(.vertical, 10)
         .background(card.backgroundColor)
-        .cornerRadius(12)
+        .cornerRadius(15)
         .frame(width: 110, height: 150)
     }
 }
 
 struct StockView_Previews: PreviewProvider {
     static var previews: some View {
-        PortfolioListView()
+        StockView(card: Stock(companyName: "Apple Inc.", ticker: "AAPL", avgCost: 132.00, shares: 10, currentPrice: 131.44, percentChange: 0.002, dailyChange: 0.10, volume: 1000000000, avgVolume: 1000000000, imageName: "stock"))
     }
 }

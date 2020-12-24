@@ -8,19 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		7444112A258EF65A00F54290 /* TechnologiesUsedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74441129258EF65A00F54290 /* TechnologiesUsedView.swift */; };
-		7444112D258EF6FB00F54290 /* technology.json in Resources */ = {isa = PBXBuildFile; fileRef = 7444112C258EF6FB00F54290 /* technology.json */; };
 		74441130258EF83A00F54290 /* IndividualTechnologyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7444112F258EF83A00F54290 /* IndividualTechnologyView.swift */; };
-		74441133258EFA3100F54290 /* swiftUI.png in Resources */ = {isa = PBXBuildFile; fileRef = 74441132258EFA3100F54290 /* swiftUI.png */; };
-		74441136258EFA3800F54290 /* swiftIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 74441135258EFA3800F54290 /* swiftIcon.png */; };
-		74441139258EFA3F00F54290 /* lottie.png in Resources */ = {isa = PBXBuildFile; fileRef = 74441138258EFA3F00F54290 /* lottie.png */; };
-		7444113C258EFA4900F54290 /* iexcloud.png in Resources */ = {isa = PBXBuildFile; fileRef = 7444113B258EFA4900F54290 /* iexcloud.png */; };
-		7444113F258EFA5600F54290 /* Realm.png in Resources */ = {isa = PBXBuildFile; fileRef = 7444113E258EFA5600F54290 /* Realm.png */; };
 		74441143258F098500F54290 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74441142258F098500F54290 /* GlobalVariables.swift */; };
 		74441146258F09B600F54290 /* TechnologyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74441145258F09B600F54290 /* TechnologyData.swift */; };
+		7455106A25941B4B008AA796 /* MenuUtilitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455106925941B4B008AA796 /* MenuUtilitiesView.swift */; };
+		745510732594890B008AA796 /* NewsArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745510722594890B008AA796 /* NewsArticleView.swift */; };
+		7455108225948EF7008AA796 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 7455108125948EF7008AA796 /* URLImage */; };
 		7489C8D5258E102D0085BC69 /* ColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7489C8D4258E102D0085BC69 /* ColorSelectionView.swift */; };
-		7489C8D8258E13BE0085BC69 /* painter.json in Resources */ = {isa = PBXBuildFile; fileRef = 7489C8D7258E13BE0085BC69 /* painter.json */; };
 		7489C8DB258E1F600085BC69 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7489C8DA258E1F600085BC69 /* CustomColors.swift */; };
-		7489C8DE258E20F40085BC69 /* stock.png in Resources */ = {isa = PBXBuildFile; fileRef = 7489C8DD258E20F40085BC69 /* stock.png */; };
 		748E7CE5258A1FAC00477F53 /* GrowthPlusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7CE4258A1FAC00477F53 /* GrowthPlusApp.swift */; };
 		748E7CE9258A1FAC00477F53 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 748E7CE8258A1FAC00477F53 /* Assets.xcassets */; };
 		748E7CEC258A1FAC00477F53 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 748E7CEB258A1FAC00477F53 /* Preview Assets.xcassets */; };
@@ -43,25 +38,18 @@
 		74938F61258DF8AE004385ED /* ConfettiView in Frameworks */ = {isa = PBXBuildFile; productRef = 74938F60258DF8AE004385ED /* ConfettiView */; };
 		74938F65258DFB17004385ED /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74938F64258DFB17004385ED /* SettingsView.swift */; };
 		74938F70258E0765004385ED /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74938F6F258E0765004385ED /* LottieView.swift */; };
-		74938F73258E087B004385ED /* financial_lottie.json in Resources */ = {isa = PBXBuildFile; fileRef = 74938F72258E087B004385ED /* financial_lottie.json */; };
 		E2D08612135EE090F5DBAFFE /* Pods_GrowthPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3EA5FB1679F513B0A5A47EA /* Pods_GrowthPlus.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		74441129258EF65A00F54290 /* TechnologiesUsedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechnologiesUsedView.swift; sourceTree = "<group>"; };
-		7444112C258EF6FB00F54290 /* technology.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = technology.json; sourceTree = "<group>"; };
 		7444112F258EF83A00F54290 /* IndividualTechnologyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualTechnologyView.swift; sourceTree = "<group>"; };
-		74441132258EFA3100F54290 /* swiftUI.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swiftUI.png; sourceTree = "<group>"; };
-		74441135258EFA3800F54290 /* swiftIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swiftIcon.png; sourceTree = "<group>"; };
-		74441138258EFA3F00F54290 /* lottie.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lottie.png; sourceTree = "<group>"; };
-		7444113B258EFA4900F54290 /* iexcloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iexcloud.png; sourceTree = "<group>"; };
-		7444113E258EFA5600F54290 /* Realm.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Realm.png; sourceTree = "<group>"; };
 		74441142258F098500F54290 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
 		74441145258F09B600F54290 /* TechnologyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechnologyData.swift; sourceTree = "<group>"; };
+		7455106925941B4B008AA796 /* MenuUtilitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuUtilitiesView.swift; sourceTree = "<group>"; };
+		745510722594890B008AA796 /* NewsArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleView.swift; sourceTree = "<group>"; };
 		7489C8D4258E102D0085BC69 /* ColorSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionView.swift; sourceTree = "<group>"; };
-		7489C8D7258E13BE0085BC69 /* painter.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = painter.json; sourceTree = "<group>"; };
 		7489C8DA258E1F600085BC69 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
-		7489C8DD258E20F40085BC69 /* stock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stock.png; sourceTree = "<group>"; };
 		748E7CE1258A1FAC00477F53 /* GrowthPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowthPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		748E7CE4258A1FAC00477F53 /* GrowthPlusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrowthPlusApp.swift; sourceTree = "<group>"; };
 		748E7CE8258A1FAC00477F53 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -85,7 +73,6 @@
 		748E7D29258A212100477F53 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		74938F64258DFB17004385ED /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		74938F6F258E0765004385ED /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
-		74938F72258E087B004385ED /* financial_lottie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = financial_lottie.json; sourceTree = "<group>"; };
 		92FEA67CAD4EA687F775204A /* Pods-GrowthPlus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrowthPlus.release.xcconfig"; path = "Target Support Files/Pods-GrowthPlus/Pods-GrowthPlus.release.xcconfig"; sourceTree = "<group>"; };
 		9C39FFAE105E82FABEED7D78 /* Pods-GrowthPlus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrowthPlus.debug.xcconfig"; path = "Target Support Files/Pods-GrowthPlus/Pods-GrowthPlus.debug.xcconfig"; sourceTree = "<group>"; };
 		D3EA5FB1679F513B0A5A47EA /* Pods_GrowthPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GrowthPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +84,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2D08612135EE090F5DBAFFE /* Pods_GrowthPlus.framework in Frameworks */,
+				7455108225948EF7008AA796 /* URLImage in Frameworks */,
 				74938F61258DF8AE004385ED /* ConfettiView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -111,6 +99,51 @@
 				92FEA67CAD4EA687F775204A /* Pods-GrowthPlus.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		7455108725949D05008AA796 /* Settings Page */ = {
+			isa = PBXGroup;
+			children = (
+				74938F64258DFB17004385ED /* SettingsView.swift */,
+				7489C8D4258E102D0085BC69 /* ColorSelectionView.swift */,
+				74441129258EF65A00F54290 /* TechnologiesUsedView.swift */,
+				7444112F258EF83A00F54290 /* IndividualTechnologyView.swift */,
+				74938F6F258E0765004385ED /* LottieView.swift */,
+			);
+			name = "Settings Page";
+			sourceTree = "<group>";
+		};
+		7455108825949D41008AA796 /* Landing Page */ = {
+			isa = PBXGroup;
+			children = (
+				748E7CFC258A1FE100477F53 /* HeaderView.swift */,
+				748E7D00258A1FE800477F53 /* InvestmentHeaderView.swift */,
+				7455106925941B4B008AA796 /* MenuUtilitiesView.swift */,
+				748E7D06258A1FF000477F53 /* PortfolioListView.swift */,
+				748E7D11258A1FFD00477F53 /* StockView.swift */,
+				748E7D01258A1FE800477F53 /* PerformanceView.swift */,
+				748E7CFB258A1FE100477F53 /* HorizontalProgressView.swift */,
+				748E7D14258A1FFD00477F53 /* SellView.swift */,
+			);
+			name = "Landing Page";
+			sourceTree = "<group>";
+		};
+		7455108925949D8A008AA796 /* Search Page */ = {
+			isa = PBXGroup;
+			children = (
+				748E7D0F258A1FFC00477F53 /* SearchStockView.swift */,
+				748E7D13258A1FFD00477F53 /* SearchResultView.swift */,
+			);
+			name = "Search Page";
+			sourceTree = "<group>";
+		};
+		7455108A25949DAB008AA796 /* Individual Stock Page */ = {
+			isa = PBXGroup;
+			children = (
+				748E7D10258A1FFC00477F53 /* StockPageView.swift */,
+				745510722594890B008AA796 /* NewsArticleView.swift */,
+			);
+			name = "Individual Stock Page";
 			sourceTree = "<group>";
 		};
 		748E7CD8258A1FAC00477F53 = {
@@ -139,15 +172,6 @@
 				748E7D28258A20FC00477F53 /* Views */,
 				748E7CE4258A1FAC00477F53 /* GrowthPlusApp.swift */,
 				748E7CE8258A1FAC00477F53 /* Assets.xcassets */,
-				74441135258EFA3800F54290 /* swiftIcon.png */,
-				74441132258EFA3100F54290 /* swiftUI.png */,
-				7444113E258EFA5600F54290 /* Realm.png */,
-				74441138258EFA3F00F54290 /* lottie.png */,
-				7444113B258EFA4900F54290 /* iexcloud.png */,
-				7489C8DD258E20F40085BC69 /* stock.png */,
-				74938F72258E087B004385ED /* financial_lottie.json */,
-				7489C8D7258E13BE0085BC69 /* painter.json */,
-				7444112C258EF6FB00F54290 /* technology.json */,
 				748E7CED258A1FAC00477F53 /* Info.plist */,
 				748E7CEA258A1FAC00477F53 /* Preview Content */,
 			);
@@ -166,21 +190,10 @@
 			isa = PBXGroup;
 			children = (
 				748E7D29258A212100477F53 /* ContentView.swift */,
-				748E7CFC258A1FE100477F53 /* HeaderView.swift */,
-				748E7D00258A1FE800477F53 /* InvestmentHeaderView.swift */,
-				748E7D06258A1FF000477F53 /* PortfolioListView.swift */,
-				748E7D11258A1FFD00477F53 /* StockView.swift */,
-				748E7D01258A1FE800477F53 /* PerformanceView.swift */,
-				748E7D14258A1FFD00477F53 /* SellView.swift */,
-				748E7D0F258A1FFC00477F53 /* SearchStockView.swift */,
-				748E7D13258A1FFD00477F53 /* SearchResultView.swift */,
-				748E7D10258A1FFC00477F53 /* StockPageView.swift */,
-				748E7CFB258A1FE100477F53 /* HorizontalProgressView.swift */,
-				74938F64258DFB17004385ED /* SettingsView.swift */,
-				74938F6F258E0765004385ED /* LottieView.swift */,
-				7489C8D4258E102D0085BC69 /* ColorSelectionView.swift */,
-				74441129258EF65A00F54290 /* TechnologiesUsedView.swift */,
-				7444112F258EF83A00F54290 /* IndividualTechnologyView.swift */,
+				7455108A25949DAB008AA796 /* Individual Stock Page */,
+				7455108925949D8A008AA796 /* Search Page */,
+				7455108825949D41008AA796 /* Landing Page */,
+				7455108725949D05008AA796 /* Settings Page */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -235,6 +248,7 @@
 			name = GrowthPlus;
 			packageProductDependencies = (
 				74938F60258DF8AE004385ED /* ConfettiView */,
+				7455108125948EF7008AA796 /* URLImage */,
 			);
 			productName = GrowthPlus;
 			productReference = 748E7CE1258A1FAC00477F53 /* GrowthPlus.app */;
@@ -265,6 +279,7 @@
 			mainGroup = 748E7CD8258A1FAC00477F53;
 			packageReferences = (
 				74938F5F258DF8AE004385ED /* XCRemoteSwiftPackageReference "ConfettiView" */,
+				7455108025948EF7008AA796 /* XCRemoteSwiftPackageReference "url-image" */,
 			);
 			productRefGroup = 748E7CE2258A1FAC00477F53 /* Products */;
 			projectDirPath = "";
@@ -280,17 +295,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74938F73258E087B004385ED /* financial_lottie.json in Resources */,
-				7444113F258EFA5600F54290 /* Realm.png in Resources */,
-				74441133258EFA3100F54290 /* swiftUI.png in Resources */,
-				74441139258EFA3F00F54290 /* lottie.png in Resources */,
-				7489C8DE258E20F40085BC69 /* stock.png in Resources */,
 				748E7CEC258A1FAC00477F53 /* Preview Assets.xcassets in Resources */,
-				7444112D258EF6FB00F54290 /* technology.json in Resources */,
-				7444113C258EFA4900F54290 /* iexcloud.png in Resources */,
 				748E7CE9258A1FAC00477F53 /* Assets.xcassets in Resources */,
-				74441136258EFA3800F54290 /* swiftIcon.png in Resources */,
-				7489C8D8258E13BE0085BC69 /* painter.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -343,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7455106A25941B4B008AA796 /* MenuUtilitiesView.swift in Sources */,
 				748E7D17258A1FFD00477F53 /* StockView.swift in Sources */,
 				74938F70258E0765004385ED /* LottieView.swift in Sources */,
 				748E7D16258A1FFD00477F53 /* StockPageView.swift in Sources */,
@@ -365,6 +372,7 @@
 				74441143258F098500F54290 /* GlobalVariables.swift in Sources */,
 				748E7D03258A1FE800477F53 /* PerformanceView.swift in Sources */,
 				748E7D2A258A212100477F53 /* ContentView.swift in Sources */,
+				745510732594890B008AA796 /* NewsArticleView.swift in Sources */,
 				7444112A258EF65A00F54290 /* TechnologiesUsedView.swift in Sources */,
 				748E7CF8258A1FDA00477F53 /* Color+Extension.swift in Sources */,
 				748E7D15258A1FFD00477F53 /* SearchStockView.swift in Sources */,
@@ -497,7 +505,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"GrowthPlus/Preview Content\"";
 				DEVELOPMENT_TEAM = 2SDN5A8D5U;
 				ENABLE_PREVIEWS = YES;
@@ -507,7 +515,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.RastaarHaghi.GrowthPlus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -522,7 +530,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"GrowthPlus/Preview Content\"";
 				DEVELOPMENT_TEAM = 2SDN5A8D5U;
 				ENABLE_PREVIEWS = YES;
@@ -532,7 +540,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.RastaarHaghi.GrowthPlus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -564,6 +572,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		7455108025948EF7008AA796 /* XCRemoteSwiftPackageReference "url-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dmytro-anokhin/url-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
 		74938F5F258DF8AE004385ED /* XCRemoteSwiftPackageReference "ConfettiView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ziligy/ConfettiView";
@@ -575,6 +591,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		7455108125948EF7008AA796 /* URLImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7455108025948EF7008AA796 /* XCRemoteSwiftPackageReference "url-image" */;
+			productName = URLImage;
+		};
 		74938F60258DF8AE004385ED /* ConfettiView */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 74938F5F258DF8AE004385ED /* XCRemoteSwiftPackageReference "ConfettiView" */;

@@ -27,33 +27,7 @@ struct ContentView: View {
                 VStack {
                     HeaderView()
                     InvestmentHeaderView()
-                    HStack {
-                        NavigationLink(
-                            destination: SettingsView(),
-                            label: {
-                                Image(systemName: "gear")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(.white)
-                                    .padding(10)
-                                    .background(customColors.primaryColor)
-                                    .cornerRadius(10)
-                            }
-                        )
-                        Spacer()
-                        NavigationLink(
-                            destination: SearchStockView(),
-                            label: {
-                                Image(systemName: "plus")
-                                    .resizable()
-                                    .frame(width: 20, height: 20)
-                                    .foregroundColor(.white)
-                                    .padding(10)
-                                    .background(customColors.primaryColor)
-                                    .cornerRadius(10)
-                            }
-                        )
-                    }
+                    MenuUtilitiesView()
                     if wallet.loadedHoldings {
                         if wallet.portfolioCards.count > 0 && wallet.presentStocks {
                             PortfolioListView()
@@ -65,6 +39,8 @@ struct ContentView: View {
                         }
                     }
                 }.padding(25)
+            }.onTapGesture {
+                self.hideKeyboard()
             }
         }
     }
@@ -73,6 +49,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     @ObservedObject var wallet = Portfolio.shared
     static var previews: some View {
-        ContentView()
+        StockPageView(ticker: "AAPL")
     }
 }

@@ -17,7 +17,7 @@ class CustomColors: ObservableObject {
     var realmColorPalette: RealmColorPalette?
     init() {
         let realm = try! Realm()
-        let realmColorArray = Array(realm.objects(RealmColorPalette.self))
+        let realmColorArray: Array<RealmColorPalette> = Array(realm.objects(RealmColorPalette.self))
         if realmColorArray.count > 0 {
             print("loaded saved colors. Hex: \(realmColorArray[0].primaryColor), \(realmColorArray[0].secondaryColor)")
             self.realmColorPalette = realmColorArray[0]
@@ -43,7 +43,7 @@ class CustomColors: ObservableObject {
     func updatePrimaryColor(color: UIColor) {
         self.primaryColor = Color(color)
         print("Saved primaryColor to update primary color to \(color.htmlRGBColor)")
-        let realm = try! Realm()
+        let realm: Realm = try! Realm()
         try! realm.write {
             self.realmColorPalette?.primaryColor = color.htmlRGBColor
             print("Successfully saved primary color to realm as \(String(describing: self.realmColorPalette?.primaryColor))")
@@ -53,7 +53,7 @@ class CustomColors: ObservableObject {
     func updateSecondaryColor(color: UIColor) {
         self.secondaryColor = Color(color)
         print("Saved secondary color to \(color.htmlRGBColor)")
-        let realm = try! Realm()
+        let realm: Realm = try! Realm()
         try! realm.write {
             self.realmColorPalette?.secondaryColor = color.htmlRGBColor
             print("Successfully saved secondary color in realm to \(String(describing: self.realmColorPalette?.secondaryColor))")
@@ -63,7 +63,7 @@ class CustomColors: ObservableObject {
     func resetColors() {
         self.primaryColor = Color(UIColor(hex: "#1ce4ac"))
         self.secondaryColor = Color(UIColor(hex: "424B54"))
-        let realm = try! Realm()
+        let realm: Realm = try! Realm()
         try! realm.write {
             realmColorPalette?.primaryColor = "#1ce4ac"
             realmColorPalette?.secondaryColor = "424B54"
