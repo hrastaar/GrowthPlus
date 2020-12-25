@@ -9,16 +9,16 @@ import Alamofire
 import SwiftyJSON
 
 final class SearchQuery: ObservableObject {
-    @Published var searchResults: [SearchResult] = Array<SearchResult>()
-    @Published var stockNewsArticles: [StockNewsArticle] = Array<StockNewsArticle>()
-    @Published var stockPageData: StockPageData = StockPageData()
-    @Published var stockChartPoints: [StockChartPoint] = Array<StockChartPoint>()
-    static let shared: SearchQuery = SearchQuery()
-    
+    @Published var searchResults = [SearchResult]()
+    @Published var stockNewsArticles = [StockNewsArticle]()
+    @Published var stockPageData = StockPageData()
+    @Published var stockChartPoints = [StockChartPoint]()
+    static let shared = SearchQuery()
+
     // Gather List of Search Results for Ticker
-    func searchTicker(ticker: String, exchange: String?) {
+    func searchTicker(ticker: String, exchange _: String?) {
         var validTickerResultCount: Int = 0
-        let stockTickerSearchURL: URL = URL(string: "https://cloud.iexapis.com/stable/search/\(ticker)?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let stockTickerSearchURL = URL(string: "https://cloud.iexapis.com/stable/search/\(ticker)?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let stockTickerSearchRequest: DataRequest = AF.request(stockTickerSearchURL)
         stockTickerSearchRequest.responseJSON { data in
             do {
@@ -26,12 +26,12 @@ final class SearchQuery: ObservableObject {
                     // clear old search results
                     self.searchResults = []
                     let json: JSON = try JSON(data: responseData)
-                    let searchResultsArray: Array<JSON> = json.arrayValue
+                    let searchResultsArray: [JSON] = json.arrayValue
 
                     // append new search results
                     for stock in searchResultsArray {
                         if stock["region"].stringValue == "US" {
-                            let searchRes: SearchResult = SearchResult(ticker: stock["symbol"].stringValue, companyName: stock["securityName"].stringValue)
+                            let searchRes = SearchResult(ticker: stock["symbol"].stringValue, companyName: stock["securityName"].stringValue)
                             self.searchResults.append(searchRes)
                             validTickerResultCount += 1
                         }
@@ -44,15 +44,14 @@ final class SearchQuery: ObservableObject {
                 print(error.localizedDescription)
             }
         }
-        
     }
-    
+
     // Gather Stock Data for Ticker
     func fetchStockData(ticker: String) {
-        self.fetchNewsArticles(ticker: ticker)
+        fetchNewsArticles(ticker: ticker)
         var stock: StockPageData?
         // build get request
-        let fetchStockDataURL: URL = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/quote?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let fetchStockDataURL = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/quote?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let stockPageRequest: DataRequest = AF.request(fetchStockDataURL)
         stockPageRequest.responseJSON { data in
             do {
@@ -69,14 +68,14 @@ final class SearchQuery: ObservableObject {
                     let open: Double = json["open"].doubleValue
                     let low: Double = json["low"].doubleValue
                     let high: Double = json["high"].doubleValue
-                    
+
                     let yearLow: Double = json["week52Low"].doubleValue
                     let yearHigh: Double = json["week52High"].doubleValue
-                    
+
                     let primaryExchange: String = json["primaryExchange"].stringValue
                     let marketCap: Int = json["marketCap"].intValue
                     let peRatio: Double = json["peRatio"].doubleValue
-                    
+
                     stock = StockPageData(companyName: companyName, ticker: ticker, currentPrice: currPrice, percentChange: percentChange, dailyChange: dailyChange, volume: volume, avgVolume: avgVolume, open: open, low: low, high: high, yearLow: yearLow, yearHigh: yearHigh, primaryExchange: primaryExchange, marketCap: marketCap, peRatio: peRatio)
                     if let validStock = stock {
                         self.stockPageData = validStock
@@ -87,10 +86,10 @@ final class SearchQuery: ObservableObject {
             }
         }
     }
-    
+
     func fetchNewsArticles(ticker: String) {
-        self.stockNewsArticles.removeAll()
-        let url: URL = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/news?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        stockNewsArticles.removeAll()
+        let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/news?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let articleAPIRequest: DataRequest = AF.request(url)
         articleAPIRequest.responseJSON { data in
             do {
@@ -99,20 +98,20 @@ final class SearchQuery: ObservableObject {
                     let articleArray = json.arrayValue
                     for article in articleArray {
                         let articleLanguage: String? = article["lang"].stringValue
-                        if articleLanguage != nil && articleLanguage == "en" {
+                        if articleLanguage != nil, articleLanguage == "en" {
                             let date: Int = article["datetime"].intValue
                             let headline: String = article["headline"].stringValue
                             let source: String = article["source"].stringValue
-                            
+
                             let articleURLString: String = article["url"].stringValue
-                            let articleURL: URL = URL(string: articleURLString)!
-                            
+                            let articleURL = URL(string: articleURLString)!
+
                             let relatedString: String = article["related"].stringValue
-                            let relatedTickersArray: Array<String> = relatedString.components(separatedBy: ",")
+                            let relatedTickersArray: [String] = relatedString.components(separatedBy: ",")
                             let imageURLString: String = article["image"].stringValue
-                            let imageURL: URL = URL(string: imageURLString)!
-                            
-                            let newsArticle: StockNewsArticle = StockNewsArticle(date: date, ticker: ticker, headline: headline, source: source, articleURL: articleURL, related: relatedTickersArray, imageURL: imageURL)
+                            let imageURL = URL(string: imageURLString)!
+
+                            let newsArticle = StockNewsArticle(date: date, ticker: ticker, headline: headline, source: source, articleURL: articleURL, related: relatedTickersArray, imageURL: imageURL)
                             print(newsArticle)
                             self.stockNewsArticles.append(newsArticle)
                         }
@@ -123,10 +122,10 @@ final class SearchQuery: ObservableObject {
             }
         }
     }
-    
+
     func gatherChartPoints(ticker: String) {
-        self.stockChartPoints.removeAll()
-        let url: URL = URL(string: "https://cloud.iexapis.com/stable//stock/\(ticker)/intraday-prices?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        stockChartPoints.removeAll()
+        let url = URL(string: "https://cloud.iexapis.com/stable//stock/\(ticker)/intraday-prices?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let chartDataRequest: DataRequest = AF.request(url)
         chartDataRequest.responseJSON { data in
             do {
@@ -141,7 +140,7 @@ final class SearchQuery: ObservableObject {
                         if highPrice == Double(0) || lowPrice == Double(0) || avgPrice == Double(0) {
                             continue
                         }
-                        let stockChartPoint: StockChartPoint = StockChartPoint(timeLabel: timeStr, avgPrice: avgPrice, highPrice: highPrice, lowPrice: lowPrice)
+                        let stockChartPoint = StockChartPoint(timeLabel: timeStr, avgPrice: avgPrice, highPrice: highPrice, lowPrice: lowPrice)
                         print(stockChartPoint)
                         self.stockChartPoints.append(stockChartPoint)
                     }

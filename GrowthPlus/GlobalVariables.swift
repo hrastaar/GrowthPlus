@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Tools and Technologies used. Each array is of equal size, and each entry index corresponds to the same 
+// Tools and Technologies used. Each array is of equal size, and each entry index corresponds to the same
 let technologies: [TechnologyData] = [
     TechnologyData(technologyName: "Swift", imageName: "swiftIcon", description: "Backend implementations, data parsing, and database connectivity are all handled using Swift 5"),
     TechnologyData(technologyName: "SwiftUI", imageName: "swiftUI", description: "The frontend views and UI/UX designs are implemented using SwiftUI"),

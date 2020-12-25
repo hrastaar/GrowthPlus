@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchStockView: View {
     @State var ticker: String = ""
-    @ObservedObject var wallet: Portfolio = Portfolio.shared
+    @ObservedObject var wallet = Portfolio.shared
     @ObservedObject var StockSearch = SearchQuery.shared
     @State var searchQuery: String = ""
     var body: some View {

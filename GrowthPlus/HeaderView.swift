@@ -13,7 +13,7 @@ struct HeaderView: View {
             VStack(alignment: .leading) {
                 Text("Welcome to GrowthPlus")
                     .font(Font.custom("DIN-D", size: 18.0))
-                    .foregroundColor((Color(.systemGray3)))
+                    .foregroundColor(Color(.systemGray3))
             }
             Spacer()
             Image("playstore")

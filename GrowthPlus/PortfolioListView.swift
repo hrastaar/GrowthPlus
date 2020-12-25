@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PortfolioListView: View {
-    @ObservedObject var wallet: Portfolio = Portfolio.shared
+    @ObservedObject var wallet = Portfolio.shared
     @State var showOrderView: Bool = false
     var HeaderView: some View {
         HStack {
@@ -18,7 +18,7 @@ struct PortfolioListView: View {
             Spacer()
         }
     }
-    
+
     var body: some View {
         VStack {
             HeaderView

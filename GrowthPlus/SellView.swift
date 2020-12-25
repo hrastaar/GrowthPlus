@@ -12,6 +12,7 @@ struct SellView: View {
     init() {
         wallet = Portfolio.shared
     }
+
     @State var sharesToSell: String = ""
     @State var showInputTypeAlert = false
     @State var showInvalidSharesNumberAlert = false
@@ -43,7 +44,7 @@ struct SellView: View {
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.medium)
             }
-            
+
             Divider()
             // Purchase Estimated Cost
             HStack {
@@ -57,7 +58,7 @@ struct SellView: View {
             }
             Divider()
             Button(action: {
-                if let numShares: Int = Int(sharesToSell) {
+                if let numShares = Int(sharesToSell) {
                     print(numShares)
                     print("available: \(wallet.selectedCard.shares)")
                     if numShares > wallet.selectedCard.shares {
@@ -79,23 +80,22 @@ struct SellView: View {
         }.alert(isPresented: $showInputTypeAlert, content: {
             Alert(
                 title:
-                    Text("Invalid Number of Shares")
-                        .font(Font.custom("DIN-D", size: 20.0)),
-                  message:
-                    Text("Please check that your input for number of shares to sell is a valid whole number")
-                        .font(Font.custom("DIN-D", size: 18.0)),
+                Text("Invalid Number of Shares")
+                    .font(Font.custom("DIN-D", size: 20.0)),
+                message:
+                Text("Please check that your input for number of shares to sell is a valid whole number")
+                    .font(Font.custom("DIN-D", size: 18.0)),
                 dismissButton:
-                    .default(
-                        Text("Dismiss")
-                            .font(Font.custom("DIN-D", size: 20.0))
-                , action: {}
-                    )
+                .default(
+                    Text("Dismiss")
+                        .font(Font.custom("DIN-D", size: 20.0)),
+                    action: {}
+                )
             )
         }) // end of alert
-        .alert(isPresented: $showInvalidSharesNumberAlert, content: {
-            Alert(title: Text("Not Enough Shares"), message: Text("You can sell at most \(wallet.selectedCard.shares) shares of \(wallet.selectedCard.ticker)"), dismissButton: .default(Text("Dismiss"), action: {
-            }))
-        }) // end of alert
+            .alert(isPresented: $showInvalidSharesNumberAlert, content: {
+                Alert(title: Text("Not Enough Shares"), message: Text("You can sell at most \(wallet.selectedCard.shares) shares of \(wallet.selectedCard.ticker)"), dismissButton: .default(Text("Dismiss"), action: {}))
+            }) // end of alert
     }
 }
 

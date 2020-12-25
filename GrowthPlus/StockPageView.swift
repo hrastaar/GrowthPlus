@@ -10,9 +10,9 @@ import SwiftUICharts
 
 struct StockPageView: View {
     let ticker: String
-    @ObservedObject var wallet: Portfolio = Portfolio.shared
-    @ObservedObject var StockSearch: SearchQuery = SearchQuery.shared
-    
+    @ObservedObject var wallet = Portfolio.shared
+    @ObservedObject var StockSearch = SearchQuery.shared
+
     @State var sharesToBuy: String = ""
     @State var showInputTypeAlert: Bool = false
     @State var presentSuccessAlert: Bool = false
@@ -21,7 +21,6 @@ struct StockPageView: View {
     var body: some View {
         ScrollView {
             VStack {
-                
                 StockHeaderView
                 Divider()
                 IntradayChartView
@@ -40,7 +39,7 @@ struct StockPageView: View {
         }
         .padding()
     }
-    
+
     // Stock Heading: Ticker, Company Name, Price, Daily Change
     var StockHeaderView: some View {
         VStack {
@@ -64,7 +63,7 @@ struct StockPageView: View {
                 Spacer()
             }
             HStack(spacing: 20) {
-                Text(DollarString(value: StockSearch.stockPageData.dailyChange) + String(format: "(%.2f%%)", StockSearch.stockPageData.percentChange*100))
+                Text(DollarString(value: StockSearch.stockPageData.dailyChange) + String(format: "(%.2f%%)", StockSearch.stockPageData.percentChange * 100))
                     .font(Font.custom("DIN-D", size: 20.0))
                     .foregroundColor(profitLossColor(inputDouble: StockSearch.stockPageData.dailyChange))
                     .fontWeight(.semibold)
@@ -72,7 +71,7 @@ struct StockPageView: View {
             }
         }
     }
-    
+
     // View designated for purchasing shares of stock
     var PurchaseStockView: some View {
         VStack {
@@ -102,7 +101,7 @@ struct StockPageView: View {
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.medium)
             }
-            
+
             Divider()
             // Purchase Estimated Cost
             HStack {
@@ -130,35 +129,33 @@ struct StockPageView: View {
                     .foregroundColor(.white)
                     .font(Font.custom("DIN-D", size: 22.0))
             }).buttonStyle(PlainButtonStyle())
-            .alert(isPresented: $showInputTypeAlert, content: {
-                Alert(title:
+                .alert(isPresented: $showInputTypeAlert, content: {
+                    Alert(title:
                         Text("Invalid Number of Shares")
                             .font(Font.custom("DIN-D", size: 24.0)),
-                      message:
+                        message:
                         Text("Please check that your input for number of shares to sell is a valid whole number")
                             .font(Font.custom("DIN-D", size: 18.0)),
-                      dismissButton:
+                        dismissButton:
                         .default(
                             Text("Dismiss")
                                 .font(Font.custom("DIN-D", size: 22.0))
-                        )
-                )
-            }) // end of alert
-            .alert(isPresented: $presentSuccessAlert, content: {
-                Alert(title:
+                        ))
+                }) // end of alert
+                .alert(isPresented: $presentSuccessAlert, content: {
+                    Alert(title:
                         Text("Congrats!")
                             .font(Font.custom("DIN-D", size: 24.0)),
-                      message: Text("You have successfully purchased \(sharesToBuy) shares of \(ticker)!"),
-                      dismissButton:
+                        message: Text("You have successfully purchased \(sharesToBuy) shares of \(ticker)!"),
+                        dismissButton:
                         .default(
                             Text("Dismiss")
                                 .font(Font.custom("DIN-D", size: 22.0))
-                        )
-                )
-            }) // end of alert
+                        ))
+                }) // end of alert
         }
     }
-    
+
     // Statistical Information View for Current Stock
     var StatisticsView: some View {
         VStack {
@@ -262,7 +259,7 @@ struct StockPageView: View {
             .font(.subheadline)
         }
     }
-    
+
     // News Section View that contains recent news articles on stock
     var NewsSectionView: some View {
         VStack(spacing: 20) {
@@ -282,9 +279,9 @@ struct StockPageView: View {
             }
         }
     }
-    
+
     var IntradayChartView: some View {
-        MultiLineChartView(data: [(self.StockSearch.stockChartPoints.map { $0.avgPrice }, GradientColor.init(start: CustomColors.shared.primaryColor, end: CustomColors.shared.primaryColor))], title: "Intraday Activity", form: ChartForm.large, rateValue: Int(StockSearch.stockPageData.percentChange * 100), dropShadow: false)
+        MultiLineChartView(data: [(self.StockSearch.stockChartPoints.map { $0.avgPrice }, GradientColor(start: CustomColors.shared.primaryColor, end: CustomColors.shared.primaryColor))], title: "Intraday Activity", form: ChartForm.large, rateValue: Int(StockSearch.stockPageData.percentChange * 100), dropShadow: false)
             .font(Font.custom("DIN-D", size: 18.0))
     }
 }

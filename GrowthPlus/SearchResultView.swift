@@ -9,8 +9,8 @@ import SwiftUI
 
 struct SearchResultView: View {
     let searchResult: SearchResult
-    @ObservedObject var StockSearch: SearchQuery = SearchQuery.shared
-    @ObservedObject var stockData: StockPageData = StockPageData()
+    @ObservedObject var StockSearch = SearchQuery.shared
+    @ObservedObject var stockData = StockPageData()
     var body: some View {
         NavigationLink(destination: StockPageView(ticker: searchResult.ticker)) {
             VStack(spacing: 8) {

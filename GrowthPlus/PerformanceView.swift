@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct PerformanceView: View {
-    @ObservedObject var wallet: Portfolio = Portfolio.shared
+    @ObservedObject var wallet = Portfolio.shared
     @State private var incomePercentage: Int = 0
-    
+
     var body: some View {
         VStack(spacing: 15) {
             PerformanceHeaderView
@@ -38,7 +38,7 @@ struct PerformanceView: View {
             update()
         }
     }
-    
+
     var PerformanceHeaderView: some View {
         VStack {
             Text(wallet.selectedCard.companyName)
@@ -59,7 +59,7 @@ struct PerformanceView: View {
             }
         }
     }
-    
+
     var PriceView: some View {
         HStack(spacing: 10) {
             Image(systemName: "arrow.up")
@@ -81,7 +81,7 @@ struct PerformanceView: View {
             }
         }
     }
-    
+
     var CostView: some View {
         HStack(spacing: 10) {
             Image(systemName: "arrow.down")
@@ -102,7 +102,7 @@ struct PerformanceView: View {
             }
         }
     }
-    
+
     var DailyPerformanceView: some View {
         HStack(spacing: 10) {
             VStack(alignment: .center) {
@@ -118,7 +118,7 @@ struct PerformanceView: View {
             }
         }
     }
-    
+
     var TotalPerformanceView: some View {
         HStack(spacing: 10) {
             VStack(alignment: .center) {
@@ -128,13 +128,13 @@ struct PerformanceView: View {
                 Text(DollarString(value: wallet.selectedCard.calculateNetProfit()))
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.bold)
-                Text(String(format: "(\(wallet.selectedCard.totalSign)%.2f%%)",abs(wallet.selectedCard.calculateNetProfit() * 100)/wallet.selectedCard.calculateTotalCost()))
+                Text(String(format: "(\(wallet.selectedCard.totalSign)%.2f%%)", abs(wallet.selectedCard.calculateNetProfit() * 100) / wallet.selectedCard.calculateTotalCost()))
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.bold)
             }
         }
     }
-    
+
     private func update() {
         withAnimation(.spring(response: 2)) {
             incomePercentage = Int((wallet.selectedCard.calculateEquity() / wallet.totalStockValue) * 100)

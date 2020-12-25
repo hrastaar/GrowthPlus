@@ -5,22 +5,23 @@
 //  Created by Rastaar Haghi on 12/12/20.
 //
 
-import SwiftUI
-import RealmSwift
-import SwiftyJSON
 import Alamofire
+import RealmSwift
+import SwiftUI
+import SwiftyJSON
 
 struct LandingPageView: View {
     @ObservedObject var wallet: Portfolio
-    @ObservedObject var customColors: CustomColors = CustomColors.shared
+    @ObservedObject var customColors = CustomColors.shared
     @State var firstVisit: Bool = false
     init() {
         wallet = Portfolio.shared
-        self.firstVisit = wallet.firstVisit
-        if self.firstVisit {
+        firstVisit = wallet.firstVisit
+        if firstVisit {
             print("First visit")
         }
     }
+
     var body: some View {
         NavigationView {
             ScrollView {

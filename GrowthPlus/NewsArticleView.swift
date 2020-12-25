@@ -5,14 +5,14 @@
 //  Created by Rastaar Haghi on 12/24/20.
 //
 
-import SwiftUI
 import SafariServices
+import SwiftUI
 
 struct NewsArticleView: View {
     let newsArticle: StockNewsArticle
     @State var showArticle: Bool = false
-    @ObservedObject var colorPalette: CustomColors = CustomColors.shared
-    
+    @ObservedObject var colorPalette = CustomColors.shared
+
     var body: some View {
         VStack {
             HStack {
@@ -46,14 +46,13 @@ struct NewsArticleView: View {
 struct NewsArticleView_Previews: PreviewProvider {
     static var previews: some View {
         NewsArticleView(newsArticle:
-                            StockNewsArticle(date: 1608239100000,
-                                             ticker: "PLTR",
-                                             headline: "Palantir Announces Inaugural Live Demo Day on January 26, 2021",
-                                             source: "Business Wire",
-                                             articleURL: URL(string: "https://cloud.iexapis.com/v1/news/article/e421c573-2b1d-4a4c-ac50-60955c27c15c")!,
-                                             related: ["PLTR"],
-                                             imageURL: URL(string: "https://cloud.iexapis.com/v1/news/image/e421c573-2b1d-4a4c-ac50-60955c27c15c")!
-                            )
+            StockNewsArticle(date: 1_608_239_100_000,
+                             ticker: "PLTR",
+                             headline: "Palantir Announces Inaugural Live Demo Day on January 26, 2021",
+                             source: "Business Wire",
+                             articleURL: URL(string: "https://cloud.iexapis.com/v1/news/article/e421c573-2b1d-4a4c-ac50-60955c27c15c")!,
+                             related: ["PLTR"],
+                             imageURL: URL(string: "https://cloud.iexapis.com/v1/news/image/e421c573-2b1d-4a4c-ac50-60955c27c15c")!)
         )
     }
 }

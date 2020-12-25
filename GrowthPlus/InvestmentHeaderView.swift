@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct InvestmentHeaderView: View {
-    @ObservedObject var wallet: Portfolio = Portfolio.shared
+    @ObservedObject var wallet = Portfolio.shared
     var body: some View {
         VStack(alignment: .leading) {
             HStack {

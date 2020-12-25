@@ -10,7 +10,7 @@ import SwiftUI
 struct TechnologiesUsedView: View {
     var body: some View {
         ZStack {
-            Color.init(white: 0.96)
+            Color(white: 0.96)
                 .ignoresSafeArea()
             VStack(alignment: .center, spacing: 10) {
                 Spacer()
@@ -33,7 +33,7 @@ struct TechnologiesUsedView: View {
                     HStack(spacing: 25) {
                         ForEach(technologies.indices, id: \.self) { index in
                             IndividualTechnologyView(technology: technologies[index])
-                                .frame(width: UIScreen.main.bounds.width * (0.67), height: 500)
+                                .frame(width: UIScreen.main.bounds.width * 0.67, height: 500)
                         }
                     }
                 }.padding(.horizontal)

@@ -17,7 +17,7 @@ struct HorizontalProgressView: View {
                     .frame(height: 20)
                 RoundedRectangle(cornerRadius: 10)
                     .fill(CustomColors.shared.primaryColor)
-                    .frame(width: proxy.size.width * CGFloat(percentage)/100, height: 20)
+                    .frame(width: proxy.size.width * CGFloat(percentage) / 100, height: 20)
             }
         }
     }
@@ -26,6 +26,5 @@ struct HorizontalProgressView: View {
 struct HorizontalProgressView_Previews: PreviewProvider {
     static var previews: some View {
         HorizontalProgressView(percentage: .constant(50))
-            
     }
 }

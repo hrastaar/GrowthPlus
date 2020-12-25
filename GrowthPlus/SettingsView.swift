@@ -5,17 +5,17 @@
 //  Created by Rastaar Haghi on 12/19/20.
 //
 
-import SwiftUI
 import SafariServices
+import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var portfolio: Portfolio = Portfolio.shared
+    @ObservedObject var portfolio = Portfolio.shared
     // whether or not to show the Safari ViewController
     @State var showSafari: Bool = false
     @State var showColorView: Bool = false
     @State var showResetAccountAlert: Bool = false
     @State var showTechnologiesView: Bool = false
-        // initial URL string
+    // initial URL string
     @State var urlString: String = "https://www.linkedin.com/in/rastaarhaghi"
     var body: some View {
         VStack {
@@ -30,7 +30,7 @@ struct SettingsView: View {
             LottieView(fileName: "financial_lottie")
                 .frame(width: 300)
                 .cornerRadius(12)
-            
+
             Button(action: {
                 self.showColorView = true
             }, label: {
@@ -46,7 +46,7 @@ struct SettingsView: View {
                 .sheet(isPresented: $showColorView) {
                     ColorSelectionView()
                 }
-            
+
 //            Button(action: {
 //                self.showSafari = true
 //            }, label: {
@@ -62,7 +62,7 @@ struct SettingsView: View {
 //                .sheet(isPresented: $showSafari) {
 //                    SafariView(url:URL(string: self.urlString)!)
 //                }
-            
+
             Button(action: {
                 self.showTechnologiesView = true
             }, label: {
@@ -78,7 +78,7 @@ struct SettingsView: View {
                 .sheet(isPresented: $showTechnologiesView) {
                     TechnologiesUsedView()
                 }
-            
+
             Button(action: {
                 let resetResult = self.portfolio.resetPortfolio()
                 CustomColors.shared.resetColors()
@@ -94,22 +94,20 @@ struct SettingsView: View {
                     .cornerRadius(5)
                     .foregroundColor(.white)
             }).frame(width: 300)
-            .alert(isPresented: $showResetAccountAlert, content: {
-                Alert(title:
+                .alert(isPresented: $showResetAccountAlert, content: {
+                    Alert(title:
                         Text("Successfully Reset Account!")
                             .font(Font.custom("DIN-D", size: 24.0)),
-                      message:
+                        message:
                         Text("You have successfully reset all account information. Your portfolio holdings and account balances have all been cleared.")
                             .font(Font.custom("DIN-D", size: 18.0)),
-                      dismissButton:
+                        dismissButton:
                         .default(
                             Text("Dismiss")
                                 .font(Font.custom("DIN-D", size: 22.0))
-                        )
-                )
-            }) // end of alert
+                        ))
+                }) // end of alert
             Spacer()
-
         }
     }
 }
@@ -121,15 +119,11 @@ struct SettingsView_Previews: PreviewProvider {
 }
 
 struct SafariView: UIViewControllerRepresentable {
-
     let url: URL
 
-    func makeUIViewController(context: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
+    func makeUIViewController(context _: UIViewControllerRepresentableContext<SafariView>) -> SFSafariViewController {
         return SFSafariViewController(url: url)
     }
 
-    func updateUIViewController(_ uiViewController: SFSafariViewController, context: UIViewControllerRepresentableContext<SafariView>) {
-
-    }
-
+    func updateUIViewController(_: SFSafariViewController, context _: UIViewControllerRepresentableContext<SafariView>) {}
 }

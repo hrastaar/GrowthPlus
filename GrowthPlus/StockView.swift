@@ -43,6 +43,6 @@ struct StockView: View {
 
 struct StockView_Previews: PreviewProvider {
     static var previews: some View {
-        StockView(card: Stock(companyName: "Apple Inc.", ticker: "AAPL", avgCost: 132.00, shares: 10, currentPrice: 131.44, percentChange: 0.002, dailyChange: 0.10, volume: 1000000000, avgVolume: 1000000000, imageName: "stock"))
+        StockView(card: Stock(companyName: "Apple Inc.", ticker: "AAPL", avgCost: 132.00, shares: 10, currentPrice: 131.44, percentChange: 0.002, dailyChange: 0.10, volume: 1_000_000_000, avgVolume: 1_000_000_000, imageName: "stock"))
     }
 }

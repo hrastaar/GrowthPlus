@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct ColorSelectionView: View {
-    
     @State private var selectedPrimaryColor: Color = CustomColors.shared.primaryColor
     @State private var selectedSecondaryColor: Color = CustomColors.shared.secondaryColor
     @State private var presentSavedColorAlert: Bool = false
@@ -30,20 +29,20 @@ struct ColorSelectionView: View {
                 )
                 Spacer()
             }
-            
+
             Divider()
-            
+
             HStack {
                 ColorPicker(
                     "Pick a secondary color",
                     selection: $selectedSecondaryColor
                 )
-                
+
                 Spacer()
             }
-            
+
             Spacer()
-            
+
             Button(action: {
                 print("Save Selection")
                 CustomColors.shared.updatePrimaryColor(color: UIColor(selectedPrimaryColor))
@@ -59,19 +58,18 @@ struct ColorSelectionView: View {
                     .foregroundColor(.white)
             }).alert(isPresented: $presentSavedColorAlert, content: {
                 Alert(title:
-                        Text("Saved your Color Preferences!")
-                            .font(Font.custom("DIN-D", size: 24.0)),
-                      message: Text("Your custom color palette selection has been saved. To update in-app colors, please close GrowthPlus and relaunch"),
-                      dismissButton:
-                        .default(
-                            Text("Dismiss")
-                                .font(Font.custom("DIN-D", size: 22.0))
-                        )
-                )
+                    Text("Saved your Color Preferences!")
+                        .font(Font.custom("DIN-D", size: 24.0)),
+                    message: Text("Your custom color palette selection has been saved. To update in-app colors, please close GrowthPlus and relaunch"),
+                    dismissButton:
+                    .default(
+                        Text("Dismiss")
+                            .font(Font.custom("DIN-D", size: 22.0))
+                    ))
             }) // end of alert
-            
+
             Spacer()
-            
+
             Button(action: {
                 CustomColors.shared.resetColors()
                 self.presentResetToDefaultAlert = true
@@ -85,17 +83,16 @@ struct ColorSelectionView: View {
                     .foregroundColor(.white)
             }).alert(isPresented: $presentResetToDefaultAlert, content: {
                 Alert(title:
-                        Text("Color Palette has been reset to default")
-                            .font(Font.custom("DIN-D", size: 24.0)),
-                      message: Text("Your custom color palette selection has been saved. To update in-app colors, please close GrowthPlus and relaunch"),
-                      dismissButton:
-                        .default(
-                            Text("Dismiss")
-                                .font(Font.custom("DIN-D", size: 22.0))
-                        )
-                )
+                    Text("Color Palette has been reset to default")
+                        .font(Font.custom("DIN-D", size: 24.0)),
+                    message: Text("Your custom color palette selection has been saved. To update in-app colors, please close GrowthPlus and relaunch"),
+                    dismissButton:
+                    .default(
+                        Text("Dismiss")
+                            .font(Font.custom("DIN-D", size: 22.0))
+                    ))
             }) // end of alert
-            
+
         }.padding()
     }
 }

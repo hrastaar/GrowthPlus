@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MenuUtilitiesView: View {
-    let customColors: CustomColors = CustomColors.shared
-    
+    let customColors = CustomColors.shared
+
     var body: some View {
         HStack {
             NavigationLink(

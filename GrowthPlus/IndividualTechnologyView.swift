@@ -9,9 +9,9 @@ import SwiftUI
 
 struct IndividualTechnologyView: View {
     let technology: TechnologyData
-    
-    @ObservedObject var customColor: CustomColors = CustomColors.shared
-    
+
+    @ObservedObject var customColor = CustomColors.shared
+
     var body: some View {
         VStack {
             Spacer(minLength: 15)
@@ -22,7 +22,7 @@ struct IndividualTechnologyView: View {
             Image(technology.imageName)
                 .resizable()
                 .scaledToFit()
-                .frame(width: 200.0,height:200)
+                .frame(width: 200.0, height: 200)
                 .cornerRadius(15)
             Spacer()
             HStack(alignment: .center) {
@@ -36,8 +36,8 @@ struct IndividualTechnologyView: View {
             }
             Spacer()
         }.frame(width: UIScreen.main.bounds.width * 0.67, height: 400)
-        .background(Color.white)
-        .cornerRadius(15)
+            .background(Color.white)
+            .cornerRadius(15)
     }
 }
 
