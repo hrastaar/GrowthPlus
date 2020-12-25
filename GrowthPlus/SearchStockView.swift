@@ -18,7 +18,6 @@ struct SearchStockView: View {
                 HStack {
                     Text("Search for a Stock")
                         .font(Font.custom("DIN-D", size: 30.0))
-                        .fontWeight(.bold)
                     Spacer()
                 }
                 TextField("Search by ticker...",

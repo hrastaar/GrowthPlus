@@ -13,7 +13,9 @@
 		74441146258F09B600F54290 /* TechnologyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74441145258F09B600F54290 /* TechnologyData.swift */; };
 		7455106A25941B4B008AA796 /* MenuUtilitiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7455106925941B4B008AA796 /* MenuUtilitiesView.swift */; };
 		745510732594890B008AA796 /* NewsArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 745510722594890B008AA796 /* NewsArticleView.swift */; };
-		7455108225948EF7008AA796 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = 7455108125948EF7008AA796 /* URLImage */; };
+		745510912594A3FD008AA796 /* financial_lottie.json in Resources */ = {isa = PBXBuildFile; fileRef = 745510902594A3FD008AA796 /* financial_lottie.json */; };
+		745510942594A411008AA796 /* painter.json in Resources */ = {isa = PBXBuildFile; fileRef = 745510932594A411008AA796 /* painter.json */; };
+		745510982595DE74008AA796 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 745510972595DE74008AA796 /* SwiftUICharts */; };
 		7489C8D5258E102D0085BC69 /* ColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7489C8D4258E102D0085BC69 /* ColorSelectionView.swift */; };
 		7489C8DB258E1F600085BC69 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7489C8DA258E1F600085BC69 /* CustomColors.swift */; };
 		748E7CE5258A1FAC00477F53 /* GrowthPlusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7CE4258A1FAC00477F53 /* GrowthPlusApp.swift */; };
@@ -34,8 +36,7 @@
 		748E7D18258A1FFD00477F53 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D12258A1FFD00477F53 /* Stock.swift */; };
 		748E7D19258A1FFD00477F53 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D13258A1FFD00477F53 /* SearchResultView.swift */; };
 		748E7D1A258A1FFD00477F53 /* SellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D14258A1FFD00477F53 /* SellView.swift */; };
-		748E7D2A258A212100477F53 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D29258A212100477F53 /* ContentView.swift */; };
-		74938F61258DF8AE004385ED /* ConfettiView in Frameworks */ = {isa = PBXBuildFile; productRef = 74938F60258DF8AE004385ED /* ConfettiView */; };
+		748E7D2A258A212100477F53 /* LandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D29258A212100477F53 /* LandingPageView.swift */; };
 		74938F65258DFB17004385ED /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74938F64258DFB17004385ED /* SettingsView.swift */; };
 		74938F70258E0765004385ED /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74938F6F258E0765004385ED /* LottieView.swift */; };
 		E2D08612135EE090F5DBAFFE /* Pods_GrowthPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3EA5FB1679F513B0A5A47EA /* Pods_GrowthPlus.framework */; };
@@ -48,6 +49,8 @@
 		74441145258F09B600F54290 /* TechnologyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechnologyData.swift; sourceTree = "<group>"; };
 		7455106925941B4B008AA796 /* MenuUtilitiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuUtilitiesView.swift; sourceTree = "<group>"; };
 		745510722594890B008AA796 /* NewsArticleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsArticleView.swift; sourceTree = "<group>"; };
+		745510902594A3FD008AA796 /* financial_lottie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = financial_lottie.json; sourceTree = "<group>"; };
+		745510932594A411008AA796 /* painter.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = painter.json; sourceTree = "<group>"; };
 		7489C8D4258E102D0085BC69 /* ColorSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionView.swift; sourceTree = "<group>"; };
 		7489C8DA258E1F600085BC69 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
 		748E7CE1258A1FAC00477F53 /* GrowthPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GrowthPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,7 +73,7 @@
 		748E7D12258A1FFD00477F53 /* Stock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
 		748E7D13258A1FFD00477F53 /* SearchResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		748E7D14258A1FFD00477F53 /* SellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellView.swift; sourceTree = "<group>"; };
-		748E7D29258A212100477F53 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		748E7D29258A212100477F53 /* LandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
 		74938F64258DFB17004385ED /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		74938F6F258E0765004385ED /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		92FEA67CAD4EA687F775204A /* Pods-GrowthPlus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrowthPlus.release.xcconfig"; path = "Target Support Files/Pods-GrowthPlus/Pods-GrowthPlus.release.xcconfig"; sourceTree = "<group>"; };
@@ -84,8 +87,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2D08612135EE090F5DBAFFE /* Pods_GrowthPlus.framework in Frameworks */,
-				7455108225948EF7008AA796 /* URLImage in Frameworks */,
-				74938F61258DF8AE004385ED /* ConfettiView in Frameworks */,
+				745510982595DE74008AA796 /* SwiftUICharts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,6 +111,8 @@
 				74441129258EF65A00F54290 /* TechnologiesUsedView.swift */,
 				7444112F258EF83A00F54290 /* IndividualTechnologyView.swift */,
 				74938F6F258E0765004385ED /* LottieView.swift */,
+				745510902594A3FD008AA796 /* financial_lottie.json */,
+				745510932594A411008AA796 /* painter.json */,
 			);
 			name = "Settings Page";
 			sourceTree = "<group>";
@@ -116,6 +120,7 @@
 		7455108825949D41008AA796 /* Landing Page */ = {
 			isa = PBXGroup;
 			children = (
+				748E7D29258A212100477F53 /* LandingPageView.swift */,
 				748E7CFC258A1FE100477F53 /* HeaderView.swift */,
 				748E7D00258A1FE800477F53 /* InvestmentHeaderView.swift */,
 				7455106925941B4B008AA796 /* MenuUtilitiesView.swift */,
@@ -167,12 +172,12 @@
 		748E7CE3258A1FAC00477F53 /* GrowthPlus */ = {
 			isa = PBXGroup;
 			children = (
-				74938F1F258DE9E3004385ED /* Extensions */,
-				748E7D2C258A212B00477F53 /* Structs + Classes */,
-				748E7D28258A20FC00477F53 /* Views */,
 				748E7CE4258A1FAC00477F53 /* GrowthPlusApp.swift */,
-				748E7CE8258A1FAC00477F53 /* Assets.xcassets */,
+				748E7D28258A20FC00477F53 /* Views */,
+				748E7D2C258A212B00477F53 /* Structs + Classes */,
+				74938F1F258DE9E3004385ED /* Extensions */,
 				748E7CED258A1FAC00477F53 /* Info.plist */,
+				748E7CE8258A1FAC00477F53 /* Assets.xcassets */,
 				748E7CEA258A1FAC00477F53 /* Preview Content */,
 			);
 			path = GrowthPlus;
@@ -189,10 +194,9 @@
 		748E7D28258A20FC00477F53 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				748E7D29258A212100477F53 /* ContentView.swift */,
-				7455108A25949DAB008AA796 /* Individual Stock Page */,
 				7455108925949D8A008AA796 /* Search Page */,
 				7455108825949D41008AA796 /* Landing Page */,
+				7455108A25949DAB008AA796 /* Individual Stock Page */,
 				7455108725949D05008AA796 /* Settings Page */,
 			);
 			name = Views;
@@ -247,8 +251,7 @@
 			);
 			name = GrowthPlus;
 			packageProductDependencies = (
-				74938F60258DF8AE004385ED /* ConfettiView */,
-				7455108125948EF7008AA796 /* URLImage */,
+				745510972595DE74008AA796 /* SwiftUICharts */,
 			);
 			productName = GrowthPlus;
 			productReference = 748E7CE1258A1FAC00477F53 /* GrowthPlus.app */;
@@ -280,6 +283,7 @@
 			packageReferences = (
 				74938F5F258DF8AE004385ED /* XCRemoteSwiftPackageReference "ConfettiView" */,
 				7455108025948EF7008AA796 /* XCRemoteSwiftPackageReference "url-image" */,
+				745510962595DE74008AA796 /* XCRemoteSwiftPackageReference "ChartView" */,
 			);
 			productRefGroup = 748E7CE2258A1FAC00477F53 /* Products */;
 			projectDirPath = "";
@@ -295,8 +299,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				745510912594A3FD008AA796 /* financial_lottie.json in Resources */,
 				748E7CEC258A1FAC00477F53 /* Preview Assets.xcassets in Resources */,
 				748E7CE9258A1FAC00477F53 /* Assets.xcassets in Resources */,
+				745510942594A411008AA796 /* painter.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,7 +377,7 @@
 				74441130258EF83A00F54290 /* IndividualTechnologyView.swift in Sources */,
 				74441143258F098500F54290 /* GlobalVariables.swift in Sources */,
 				748E7D03258A1FE800477F53 /* PerformanceView.swift in Sources */,
-				748E7D2A258A212100477F53 /* ContentView.swift in Sources */,
+				748E7D2A258A212100477F53 /* LandingPageView.swift in Sources */,
 				745510732594890B008AA796 /* NewsArticleView.swift in Sources */,
 				7444112A258EF65A00F54290 /* TechnologiesUsedView.swift in Sources */,
 				748E7CF8258A1FDA00477F53 /* Color+Extension.swift in Sources */,
@@ -580,6 +586,14 @@
 				minimumVersion = 2.2.0;
 			};
 		};
+		745510962595DE74008AA796 /* XCRemoteSwiftPackageReference "ChartView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppPear/ChartView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.4;
+			};
+		};
 		74938F5F258DF8AE004385ED /* XCRemoteSwiftPackageReference "ConfettiView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ziligy/ConfettiView";
@@ -591,15 +605,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7455108125948EF7008AA796 /* URLImage */ = {
+		745510972595DE74008AA796 /* SwiftUICharts */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 7455108025948EF7008AA796 /* XCRemoteSwiftPackageReference "url-image" */;
-			productName = URLImage;
-		};
-		74938F60258DF8AE004385ED /* ConfettiView */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 74938F5F258DF8AE004385ED /* XCRemoteSwiftPackageReference "ConfettiView" */;
-			productName = ConfettiView;
+			package = 745510962595DE74008AA796 /* XCRemoteSwiftPackageReference "ChartView" */;
+			productName = SwiftUICharts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

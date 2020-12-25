@@ -12,13 +12,14 @@ final class SearchQuery: ObservableObject {
     @Published var searchResults: [SearchResult] = Array<SearchResult>()
     @Published var stockNewsArticles: [StockNewsArticle] = Array<StockNewsArticle>()
     @Published var stockPageData: StockPageData = StockPageData()
+    @Published var stockChartPoints: [StockChartPoint] = Array<StockChartPoint>()
     static let shared: SearchQuery = SearchQuery()
     
     // Gather List of Search Results for Ticker
     func searchTicker(ticker: String, exchange: String?) {
         var validTickerResultCount: Int = 0
         let stockTickerSearchURL: URL = URL(string: "https://cloud.iexapis.com/stable/search/\(ticker)?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
-        let stockTickerSearchRequest = AF.request(stockTickerSearchURL)
+        let stockTickerSearchRequest: DataRequest = AF.request(stockTickerSearchURL)
         stockTickerSearchRequest.responseJSON { data in
             do {
                 if let responseData = data.data {
@@ -52,7 +53,7 @@ final class SearchQuery: ObservableObject {
         var stock: StockPageData?
         // build get request
         let fetchStockDataURL: URL = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/quote?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
-        let stockPageRequest = AF.request(fetchStockDataURL)
+        let stockPageRequest: DataRequest = AF.request(fetchStockDataURL)
         stockPageRequest.responseJSON { data in
             do {
                 if let currData = data.data {
@@ -90,7 +91,7 @@ final class SearchQuery: ObservableObject {
     func fetchNewsArticles(ticker: String) {
         self.stockNewsArticles.removeAll()
         let url: URL = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/news?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
-        let articleAPIRequest = AF.request(url)
+        let articleAPIRequest: DataRequest = AF.request(url)
         articleAPIRequest.responseJSON { data in
             do {
                 if let articleData = data.data {
@@ -122,6 +123,34 @@ final class SearchQuery: ObservableObject {
             }
         }
     }
+    
+    func gatherChartPoints(ticker: String) {
+        self.stockChartPoints.removeAll()
+        let url: URL = URL(string: "https://cloud.iexapis.com/stable//stock/\(ticker)/intraday-prices?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let chartDataRequest: DataRequest = AF.request(url)
+        chartDataRequest.responseJSON { data in
+            do {
+                if let chartData = data.data {
+                    let json: JSON = try JSON(data: chartData)
+                    let chartDataArray = json.arrayValue
+                    for point in chartDataArray {
+                        let timeStr: String = point["label"].stringValue
+                        let avgPrice: Double = point["average"].doubleValue
+                        let highPrice: Double = point["high"].doubleValue
+                        let lowPrice: Double = point["low"].doubleValue
+                        if highPrice == Double(0) || lowPrice == Double(0) || avgPrice == Double(0) {
+                            continue
+                        }
+                        let stockChartPoint: StockChartPoint = StockChartPoint(timeLabel: timeStr, avgPrice: avgPrice, highPrice: highPrice, lowPrice: lowPrice)
+                        print(stockChartPoint)
+                        self.stockChartPoints.append(stockChartPoint)
+                    }
+                }
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
 
 // Data for each search result cell
@@ -139,4 +168,11 @@ struct StockNewsArticle {
     let articleURL: URL
     let related: [String]
     let imageURL: URL
+}
+
+struct StockChartPoint {
+    let timeLabel: String
+    let avgPrice: Double
+    let highPrice: Double
+    let lowPrice: Double
 }

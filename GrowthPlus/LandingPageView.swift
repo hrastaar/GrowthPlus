@@ -10,7 +10,7 @@ import RealmSwift
 import SwiftyJSON
 import Alamofire
 
-struct ContentView: View {
+struct LandingPageView: View {
     @ObservedObject var wallet: Portfolio
     @ObservedObject var customColors: CustomColors = CustomColors.shared
     @State var firstVisit: Bool = false
@@ -49,6 +49,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     @ObservedObject var wallet = Portfolio.shared
     static var previews: some View {
-        StockPageView(ticker: "AAPL")
+        LandingPageView()
     }
 }

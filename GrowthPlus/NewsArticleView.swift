@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SafariServices
-import URLImage
 
 struct NewsArticleView: View {
     let newsArticle: StockNewsArticle
@@ -18,21 +17,21 @@ struct NewsArticleView: View {
         VStack {
             HStack {
                 Text(newsArticle.source)
-                    .font(Font.custom("D-DIN", size: 22.0))
+                    .font(Font.custom("DIN-D", size: 22.0))
                     .frame(width: 150)
             }
             .frame(height: 60)
             .padding(.horizontal)
             .padding(.top)
             Text(newsArticle.headline)
-                .font(Font.custom("D-DIN", size: 18.0))
+                .font(Font.custom("DIN-D", size: 18.0))
                 .fontWeight(.semibold)
                 .padding(.bottom)
                 .padding(.horizontal)
                 .frame(height: 100)
         }
-        .background(colorPalette.secondaryColor)
-        .foregroundColor(UIColor(colorPalette.secondaryColor).isLight()! ? Color.black : Color.white)
+        .background(colorPalette.primaryColor)
+        .foregroundColor(UIColor(colorPalette.primaryColor).isLight()! ? Color.black : Color.white)
         .cornerRadius(15)
         .frame(width: 300, height: 175)
         .onTapGesture {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUICharts
 
 struct StockPageView: View {
     let ticker: String
@@ -23,6 +24,8 @@ struct StockPageView: View {
                 
                 StockHeaderView
                 Divider()
+                IntradayChartView
+                Divider()
                 PurchaseStockView
                 Divider()
                 StatisticsView
@@ -31,6 +34,7 @@ struct StockPageView: View {
         }.onAppear {
             self.StockSearch.fetchStockData(ticker: ticker)
             self.StockSearch.fetchNewsArticles(ticker: ticker)
+            self.StockSearch.gatherChartPoints(ticker: ticker)
         }.onTapGesture {
             self.hideKeyboard()
         }
@@ -69,8 +73,8 @@ struct StockPageView: View {
         }
     }
     
+    // View designated for purchasing shares of stock
     var PurchaseStockView: some View {
-        // Purchase Section
         VStack {
             Text("Buy \(ticker)")
                 .font(Font.custom("DIN-D", size: 22.0))
@@ -155,9 +159,9 @@ struct StockPageView: View {
         }
     }
     
+    // Statistical Information View for Current Stock
     var StatisticsView: some View {
         VStack {
-            // Stats Section
             HStack {
                 Text("Stats")
                     .font(.title2)
@@ -254,11 +258,12 @@ struct StockPageView: View {
                     }
                     Divider()
                 }
-            } // End of HStack for Stats
+            }
             .font(.subheadline)
         }
     }
     
+    // News Section View that contains recent news articles on stock
     var NewsSectionView: some View {
         VStack(spacing: 20) {
             HStack {
@@ -278,6 +283,10 @@ struct StockPageView: View {
         }
     }
     
+    var IntradayChartView: some View {
+        MultiLineChartView(data: [(self.StockSearch.stockChartPoints.map { $0.avgPrice }, GradientColor.init(start: CustomColors.shared.primaryColor, end: CustomColors.shared.primaryColor))], title: "Intraday Activity", form: ChartForm.large, rateValue: Int(StockSearch.stockPageData.percentChange * 100), dropShadow: false)
+            .font(Font.custom("DIN-D", size: 18.0))
+    }
 }
 
 struct StockPageView_Previews: PreviewProvider {

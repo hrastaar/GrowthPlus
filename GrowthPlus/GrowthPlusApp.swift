@@ -11,7 +11,7 @@ import SwiftUI
 struct GrowthPlusApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LandingPageView()
         }
     }
 }

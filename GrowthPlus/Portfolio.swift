@@ -18,7 +18,6 @@ final class Portfolio: ObservableObject {
     @Published var unrealizedGains: Double = 0.00
     @Published var totalStockValue: Double = 0.00
     
-    
     @Published var loadedHoldings: Bool = false
     @Published var firstVisit: Bool = false
     @State var presentStocks: Bool = true
@@ -29,6 +28,7 @@ final class Portfolio: ObservableObject {
     var selectedCard: Stock {
         portfolioCards.first(where: { $0.isSelected }) ?? emptyStock
     }
+    
     static var shared: Portfolio = Portfolio()
     let realm: Realm
     
@@ -100,7 +100,6 @@ final class Portfolio: ObservableObject {
     }
     
     func sellShare(ticker: String, shares: Int, salePrice: Double, avgPrice: Double) {
-        //let realm = try! Realm()
         // Update balance to the new balance
         self.realizedGains += ((salePrice - avgPrice) * Double(shares))
         self.totalStockValue -= (salePrice * Double(shares))
@@ -140,9 +139,6 @@ final class Portfolio: ObservableObject {
     }
     
     func buyShare(ticker: String, shares: Int, salePrice: Double) {
-        
-        //let realm: Realm = try! Realm()
-        
         // iterate thru cards to see if ticker already in portfolio
         for index in 0..<portfolio!.holdings.count {
             if portfolio!.holdings[index].ticker == ticker {
@@ -174,8 +170,8 @@ final class Portfolio: ObservableObject {
         Stock(companyName: "", ticker: "", avgCost: 0.0, shares: 0, currentPrice: 0.0, percentChange: 0.0, dailyChange: 0.0, volume: 0, avgVolume: 0, imageName: "")
     }
     
+    // Resets Realm Portfolio. Returns true if successful reset
     func resetPortfolio() -> Bool {
-        //let realm: Realm = try! Realm()
         var success: Bool = false
         try! realm.write {
             if let portfolio = self.portfolio {
