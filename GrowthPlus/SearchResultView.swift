@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SearchResultView: View {
     let searchResult: SearchResult
-    @ObservedObject var StockSearch = SearchQuery.shared
+    @ObservedObject var StockSearch = FinancialAPIConnection.shared
     @ObservedObject var stockData = StockPageData()
     var body: some View {
         NavigationLink(destination: StockPageView(ticker: searchResult.ticker)) {
@@ -35,6 +35,6 @@ struct SearchResultView: View {
 
 struct SearchResultView_Previews: PreviewProvider {
     static var previews: some View {
-        SearchResultView(searchResult: SearchResult(ticker: "AAPL", companyName: "Apple"))
+        SearchResultView(searchResult: SearchResult(ticker: "AAPL", companyName: "Apple", region: "US"))
     }
 }

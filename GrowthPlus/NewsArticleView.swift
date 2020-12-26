@@ -38,21 +38,13 @@ struct NewsArticleView: View {
             showArticle = true
         }
         .sheet(isPresented: $showArticle) {
-            SafariView(url: newsArticle.articleURL)
+            SafariView(url: URL(string: newsArticle.articleURL)!)
         }
     }
 }
 
 struct NewsArticleView_Previews: PreviewProvider {
     static var previews: some View {
-        NewsArticleView(newsArticle:
-            StockNewsArticle(date: 1_608_239_100_000,
-                             ticker: "PLTR",
-                             headline: "Palantir Announces Inaugural Live Demo Day on January 26, 2021",
-                             source: "Business Wire",
-                             articleURL: URL(string: "https://cloud.iexapis.com/v1/news/article/e421c573-2b1d-4a4c-ac50-60955c27c15c")!,
-                             related: ["PLTR"],
-                             imageURL: URL(string: "https://cloud.iexapis.com/v1/news/image/e421c573-2b1d-4a4c-ac50-60955c27c15c")!)
-        )
+        NewsArticleView(newsArticle: StockNewsArticle(language: "en", date: 1_608_239_100_000, headline: "Palantir Announces Inaugural Live Demo Day on January 26, 2021", source: "Business Wire", articleURL: "https://cloud.iexapis.com/v1/news/article/e421c573-2b1d-4a4c-ac50-60955c27c15c", related: "PLTR", imageURL: "https://cloud.iexapis.com/v1/news/image/e421c573-2b1d-4a4c-ac50-60955c27c15c"))
     }
 }

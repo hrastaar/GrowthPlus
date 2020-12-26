@@ -11,7 +11,7 @@ import SwiftUICharts
 struct StockPageView: View {
     let ticker: String
     @ObservedObject var wallet = Portfolio.shared
-    @ObservedObject var StockSearch = SearchQuery.shared
+    @ObservedObject var financialToolConnection = FinancialAPIConnection.shared
 
     @State var sharesToBuy: String = ""
     @State var showInputTypeAlert: Bool = false
@@ -31,9 +31,7 @@ struct StockPageView: View {
                 NewsSectionView
             } // end of VStack
         }.onAppear {
-            self.StockSearch.fetchStockData(ticker: ticker)
-            self.StockSearch.fetchNewsArticles(ticker: ticker)
-            self.StockSearch.gatherChartPoints(ticker: ticker)
+            self.financialToolConnection.fetchStockPageData(ticker: ticker)
         }.onTapGesture {
             self.hideKeyboard()
         }
@@ -44,28 +42,28 @@ struct StockPageView: View {
     var StockHeaderView: some View {
         VStack {
             HStack(spacing: 20) {
-                Text(StockSearch.stockPageData.ticker)
+                Text(financialToolConnection.stockPageData.ticker)
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.medium)
                 Spacer()
             }
             HStack(spacing: 20) {
-                Text(StockSearch.stockPageData.companyName)
+                Text(financialToolConnection.stockPageData.companyName)
                     .font(Font.custom("DIN-D", size: 24.0))
                     .fontWeight(.semibold)
                 Spacer()
             }
             Spacer(minLength: 15)
             HStack(spacing: 20) {
-                Text(String(format: "$%.2f", StockSearch.stockPageData.currentPrice))
+                Text(String(format: "$%.2f", financialToolConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 24.0))
                     .fontWeight(.semibold)
                 Spacer()
             }
             HStack(spacing: 20) {
-                Text(DollarString(value: StockSearch.stockPageData.dailyChange) + String(format: "(%.2f%%)", StockSearch.stockPageData.percentChange * 100))
+                Text(DollarString(value: financialToolConnection.stockPageData.dailyChange) + String(format: "(%.2f%%)", financialToolConnection.stockPageData.percentChange * 100))
                     .font(Font.custom("DIN-D", size: 20.0))
-                    .foregroundColor(profitLossColor(inputDouble: StockSearch.stockPageData.dailyChange))
+                    .foregroundColor(profitLossColor(inputDouble: financialToolConnection.stockPageData.dailyChange))
                     .fontWeight(.semibold)
                 Spacer()
             }
@@ -97,7 +95,7 @@ struct StockPageView: View {
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.medium)
                 Spacer()
-                Text(DollarString(value: StockSearch.stockPageData.currentPrice))
+                Text(DollarString(value: financialToolConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.medium)
             }
@@ -109,7 +107,7 @@ struct StockPageView: View {
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.medium)
                 Spacer()
-                Text(DollarString(value: Double(Int(sharesToBuy) ?? 0) * StockSearch.stockPageData.currentPrice))
+                Text(DollarString(value: Double(Int(sharesToBuy) ?? 0) * financialToolConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.medium)
             }
@@ -117,7 +115,7 @@ struct StockPageView: View {
             Button(action: {
                 if let shares = Int(sharesToBuy) {
                     self.presentSuccessAlert.toggle()
-                    self.wallet.buyShare(ticker: ticker, shares: shares, salePrice: StockSearch.stockPageData.currentPrice)
+                    self.wallet.buyShare(ticker: ticker, shares: shares, salePrice: financialToolConnection.stockPageData.currentPrice)
                 } else {
                     showInputTypeAlert.toggle()
                 }
@@ -171,7 +169,7 @@ struct StockPageView: View {
                         Text("Open")
                             .font(Font.custom("DIN-D", size: 16.0))
                         Spacer()
-                        Text(DollarString(value: StockSearch.stockPageData.open))
+                        Text(DollarString(value: financialToolConnection.stockPageData.open))
                             .font(Font.custom("DIN-D", size: 16.0))
                     }
                     Divider()
@@ -179,7 +177,7 @@ struct StockPageView: View {
                         Text("High")
                             .font(Font.custom("DIN-D", size: 16.0))
                         Spacer()
-                        Text(DollarString(value: StockSearch.stockPageData.high))
+                        Text(DollarString(value: financialToolConnection.stockPageData.high))
                             .font(Font.custom("DIN-D", size: 16.0))
                     }
                     Divider()
@@ -187,7 +185,7 @@ struct StockPageView: View {
                         Text("Low")
                             .font(Font.custom("DIN-D", size: 16.0))
                         Spacer()
-                        Text(DollarString(value: StockSearch.stockPageData.low))
+                        Text(DollarString(value: financialToolConnection.stockPageData.low))
                             .font(Font.custom("DIN-D", size: 16.0))
                     }
                     Divider()
@@ -195,7 +193,7 @@ struct StockPageView: View {
                         Text("52 Week High")
                             .font(Font.custom("DIN-D", size: 16.0))
                         Spacer()
-                        Text(DollarString(value: StockSearch.stockPageData.yearHigh))
+                        Text(DollarString(value: financialToolConnection.stockPageData.yearHigh))
                             .font(Font.custom("DIN-D", size: 16.0))
                     }
                     Divider()
@@ -203,7 +201,7 @@ struct StockPageView: View {
                         Text("52 Week Low")
                             .font(Font.custom("DIN-D", size: 16.0))
                         Spacer()
-                        Text(DollarString(value: StockSearch.stockPageData.yearLow))
+                        Text(DollarString(value: financialToolConnection.stockPageData.yearLow))
                             .font(Font.custom("DIN-D", size: 16.0))
                     }
                     Divider()
@@ -218,7 +216,7 @@ struct StockPageView: View {
                         Text("Volume")
                             .font(Font.custom("DIN-D", size: 16.0))
                         Spacer()
-                        Text(String(StockSearch.stockPageData.volume))
+                        Text(String(financialToolConnection.stockPageData.volume))
                             .font(Font.custom("DIN-D", size: 16.0))
                     }
                     Divider()
@@ -226,7 +224,7 @@ struct StockPageView: View {
                         Text("Avg Vol")
                             .font(Font.custom("DIN-D", size: 16.0))
                         Spacer()
-                        Text(String(StockSearch.stockPageData.avgVolume))
+                        Text(String(financialToolConnection.stockPageData.avgVolume))
                             .font(Font.custom("DIN-D", size: 16.0))
                     }
                     Divider()
@@ -234,7 +232,7 @@ struct StockPageView: View {
                         Text("Mkt Cap")
                             .font(Font.custom("DIN-D", size: 16.0))
                         Spacer()
-                        Text(String(StockSearch.stockPageData.marketCap))
+                        Text(String(financialToolConnection.stockPageData.marketCap))
                             .font(Font.custom("DIN-D", size: 12.0))
                     }
                     Divider()
@@ -242,7 +240,7 @@ struct StockPageView: View {
                         Text("P/E Ratio")
                             .font(Font.custom("DIN-D", size: 16.0))
                         Spacer()
-                        Text(String(format: "%.2f", StockSearch.stockPageData.peRatio))
+                        Text(String(format: "%.2f", financialToolConnection.stockPageData.peRatio))
                             .font(Font.custom("DIN-D", size: 16.0))
                     }
                     Divider()
@@ -250,7 +248,7 @@ struct StockPageView: View {
                         Text("Exchange")
                             .font(Font.custom("DIN-D", size: 16.0))
                         Spacer()
-                        Text(StockSearch.stockPageData.primaryExchange)
+                        Text(financialToolConnection.stockPageData.primaryExchange)
                             .font(Font.custom("DIN-D", size: 12.0))
                     }
                     Divider()
@@ -271,8 +269,8 @@ struct StockPageView: View {
             }
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 25) {
-                    ForEach(StockSearch.stockNewsArticles.indices, id: \.self) { index in
-                        NewsArticleView(newsArticle: StockSearch.stockNewsArticles[index])
+                    ForEach(financialToolConnection.stockNewsArticles.indices, id: \.self) { index in
+                        NewsArticleView(newsArticle: financialToolConnection.stockNewsArticles[index])
                             .padding(5)
                     }
                 }
@@ -281,7 +279,7 @@ struct StockPageView: View {
     }
 
     var IntradayChartView: some View {
-        MultiLineChartView(data: [(self.StockSearch.stockChartPoints.map { $0.avgPrice }, GradientColor(start: CustomColors.shared.primaryColor, end: CustomColors.shared.primaryColor))], title: "Intraday Activity", form: ChartForm.large, rateValue: Int(StockSearch.stockPageData.percentChange * 100), dropShadow: false)
+        MultiLineChartView(data: [(self.financialToolConnection.stockChartPoints.map { $0.avgPrice }, GradientColor(start: CustomColors.shared.primaryColor, end: CustomColors.shared.primaryColor))], title: "Intraday Activity", form: ChartForm.large, rateValue: Int(financialToolConnection.stockPageData.percentChange * 100), dropShadow: false)
             .font(Font.custom("DIN-D", size: 18.0))
     }
 }
