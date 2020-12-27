@@ -13,7 +13,7 @@ struct InvestmentHeaderView: View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Investments")
-                    .font(Font.custom("D-DIN", size: 30.0))
+                    .font(Font.custom("AppleColorEmoji", size: 30.0))
                     .fontWeight(.bold)
                 Spacer()
             }
@@ -26,21 +26,21 @@ struct InvestmentHeaderView: View {
             Divider()
             HStack {
                 Text("Realized Gains")
-                    .font(Font.custom("DIN-D", size: 16.0))
+                    .font(Font.custom("AppleColorEmoji", size: 16.0))
                     .fontWeight(.semibold)
                 Spacer()
                 Text(DollarString(value: wallet.realizedGains))
-                    .font(Font.custom("DIN-D", size: 16.0))
+                    .font(Font.custom("", size: 16.0))
                     .fontWeight(.semibold)
                     .foregroundColor(profitLossColor(inputDouble: wallet.realizedGains))
             }
             HStack {
                 Text("Unrealized Gains")
-                    .font(Font.custom("DIN-D", size: 16.0))
+                    .font(Font.custom("AppleColorEmoji", size: 16.0))
                     .fontWeight(.semibold)
                 Spacer()
                 Text(DollarString(value: wallet.unrealizedGains))
-                    .font(Font.custom("DIN-D", size: 16.0))
+                    .font(Font.custom("", size: 16.0))
                     .fontWeight(.semibold)
                     .foregroundColor(profitLossColor(inputDouble: wallet.unrealizedGains))
             }

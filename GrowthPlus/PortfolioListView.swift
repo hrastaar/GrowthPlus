@@ -13,7 +13,7 @@ struct PortfolioListView: View {
     var HeaderView: some View {
         HStack {
             Text("Your Portfolio")
-                .font(Font.custom("DIN-D", size: 24.0))
+                .font(Font.custom("AppleColorEmoji", size: 24.0))
                 .fontWeight(.bold)
             Spacer()
         }

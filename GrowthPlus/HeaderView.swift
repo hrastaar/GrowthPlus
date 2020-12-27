@@ -12,7 +12,7 @@ struct HeaderView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text("Welcome to GrowthPlus")
-                    .font(Font.custom("DIN-D", size: 18.0))
+                    .font(Font.custom("AppleColorEmoji", size: 18.0))
                     .foregroundColor(Color(.systemGray3))
             }
             Spacer()

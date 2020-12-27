@@ -17,21 +17,21 @@ struct NewsArticleView: View {
         VStack {
             HStack {
                 Text(newsArticle.source)
-                    .font(Font.custom("DIN-D", size: 22.0))
+                    .font(Font.custom("AppleColorEmoji", size: 16))
                     .frame(width: 150)
             }
             .frame(height: 60)
             .padding(.horizontal)
             .padding(.top)
             Text(newsArticle.headline)
-                .font(Font.custom("DIN-D", size: 18.0))
+                .font(Font.custom("AppleColorEmoji", size: 13))
                 .fontWeight(.semibold)
                 .padding(.bottom)
                 .padding(.horizontal)
                 .frame(height: 100)
         }
         .background(colorPalette.primaryColor)
-        .foregroundColor(UIColor(colorPalette.primaryColor).isLight()! ? Color.black : Color.white)
+        .foregroundColor(UIColor(colorPalette.primaryColor).isLight()! && colorPalette.primaryColor != Color(UIColor(hex: "#1ce4ac")) ? Color.black : Color.white)
         .cornerRadius(15)
         .frame(width: 300, height: 175)
         .onTapGesture {

@@ -14,6 +14,7 @@ class StockPageData: ObservableObject, Codable {
     var currentPrice: Double
     var percentChange: Double
     var dailyChange: Double
+    var latestTime: String
 
     var volume: Int
     var avgVolume: Int
@@ -28,12 +29,13 @@ class StockPageData: ObservableObject, Codable {
     var marketCap: Int
     var peRatio: Double
 
-    init(companyName: String, ticker: String, currentPrice: Double, percentChange: Double, dailyChange: Double, volume: Int, avgVolume: Int, open: Double, low: Double, high: Double, yearLow: Double, yearHigh: Double, primaryExchange: String, marketCap: Int, peRatio: Double) {
+    init(companyName: String, ticker: String, currentPrice: Double, percentChange: Double, dailyChange: Double, volume: Int, avgVolume: Int, latestTime: String, open: Double, low: Double, high: Double, yearLow: Double, yearHigh: Double, primaryExchange: String, marketCap: Int, peRatio: Double) {
         self.companyName = companyName
         self.ticker = ticker
         self.currentPrice = currentPrice
         self.percentChange = percentChange
         self.dailyChange = dailyChange
+        self.latestTime = latestTime
         self.volume = volume
         self.avgVolume = avgVolume
         self.open = open
@@ -54,6 +56,7 @@ class StockPageData: ObservableObject, Codable {
         dailyChange = 0.00
         volume = 0
         avgVolume = 0
+        latestTime = "December 24, 2020"
         open = 0.00
         low = 0.00
         high = 0.00
@@ -73,6 +76,7 @@ class StockPageData: ObservableObject, Codable {
         case dailyChange = "change"
         case volume = "volume"
         case avgVolume = "avgTotalVolume"
+        case latestTime = "latestTime"
         // Record Price Data
         case open = "open"
         case low = "low"
@@ -83,5 +87,16 @@ class StockPageData: ObservableObject, Codable {
         case primaryExchange = "primaryExchange"
         case marketCap = "marketCap"
         case peRatio = "peRatio"
+    }
+    
+    func truncateExchangeName() {
+        var shortenedExchange = ""
+        for char in self.primaryExchange {
+            if char == "/" || char == "(" {
+                break
+            }
+            shortenedExchange.append(char)
+        }
+        self.primaryExchange = shortenedExchange
     }
 }
