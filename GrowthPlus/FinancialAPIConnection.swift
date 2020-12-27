@@ -27,6 +27,7 @@ final class FinancialAPIConnection: ObservableObject {
                 if let responseData = data.data {
                     var searchResults: [SearchResult] = try JSONDecoder().decode([SearchResult].self, from: responseData)
                     searchResults.removeAll(where: { $0.region != "US" })
+                    searchResults.removeAll(where: { $0.companyName.isEmpty || $0.ticker.isEmpty})
                     self.searchResults = Array(searchResults.prefix(10))
                 }
             } catch {
@@ -40,7 +41,7 @@ final class FinancialAPIConnection: ObservableObject {
         self.fetchCompanyProfile(ticker: ticker)
         self.fetchNewsArticles(ticker: ticker)
         self.gatherChartPoints(ticker: ticker)
-        self.fetchEarningsReports(ticker: ticker, numberOfReports: numEarningsReports)
+        //self.fetchEarningsReports(ticker: ticker, numberOfReports: numEarningsReports)
     }
 
     // PRIVATE FINANCIAL TOOL FUNCTIONALITIES

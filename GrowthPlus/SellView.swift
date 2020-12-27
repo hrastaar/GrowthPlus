@@ -20,7 +20,7 @@ struct SellView: View {
         // Sell Section
         VStack {
             Text("Sell \(wallet.selectedCard.ticker)")
-                .font(Font.custom("DIN-D", size: 20.0))
+                .font(Font.custom("AppleColorEmoji", size: 20.0))
                 .fontWeight(.medium)
             Spacer()
             // Number of Shares

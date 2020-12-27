@@ -42,8 +42,10 @@ struct PerformanceView: View {
     var PerformanceHeaderView: some View {
         VStack {
             Text(wallet.selectedCard.companyName)
-                .font(Font.custom("DIN-D", size: 24.0))
+                .font(Font.custom("AppleColorEmoji", size: 20.0))
                 .fontWeight(.bold)
+                .minimumScaleFactor(0.001)
+                .lineLimit(2)
             Divider()
             HStack {
                 Text("Equity Owned")

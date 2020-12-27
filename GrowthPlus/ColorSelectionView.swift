@@ -15,8 +15,10 @@ struct ColorSelectionView: View {
     var body: some View {
         VStack {
             HStack {
-                Text("Select Custom Colors for App")
-                    .font(Font.custom("DIN-D", size: 26.0))
+                Text("Customize In-App Colors")
+                    .font(Font.custom("AppleColorEmoji", size: 24.0))
+                    .minimumScaleFactor(0.001)
+                    .lineLimit(1)
                 Spacer()
             }
             LottieView(fileName: "painter", backgroundColor: selectedPrimaryColor)
@@ -50,7 +52,9 @@ struct ColorSelectionView: View {
                 self.presentSavedColorAlert = true
             }, label: {
                 Text("Save Color Palette")
-                    .font(Font.custom("DIN-D", size: 22.0))
+                    .font(Font.custom("AppleColorEmoji", size: 20.0))
+                    .minimumScaleFactor(0.001)
+                    .lineLimit(1)
                     .padding()
                     .frame(minWidth: 300)
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
@@ -75,7 +79,9 @@ struct ColorSelectionView: View {
                 self.presentResetToDefaultAlert = true
             }, label: {
                 Text("Reset to Default")
-                    .font(Font.custom("DIN-D", size: 22.0))
+                    .font(Font.custom("AppleColorEmoji", size: 20.0))
+                    .minimumScaleFactor(0.001)
+                    .lineLimit(1)
                     .padding()
                     .frame(minWidth: 300)
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
@@ -89,7 +95,7 @@ struct ColorSelectionView: View {
                     dismissButton:
                     .default(
                         Text("Dismiss")
-                            .font(Font.custom("DIN-D", size: 22.0))
+                            .font(Font.custom("AppleColorEmoji", size: 22.0))
                     ))
             }) // end of alert
 

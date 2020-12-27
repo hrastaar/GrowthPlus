@@ -65,6 +65,10 @@ class CompanyProfile: ObservableObject, Codable {
     }
     
     func truncateExchangeName() {
+        if self.exchange == "NEW YORK STOCK EXCHANGE, INC." {
+            self.exchange = "NYSE"
+            return
+        }
         var shortenedExchange = ""
         for char in self.exchange {
             if char == "/" || char == "(" {

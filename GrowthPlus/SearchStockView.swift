@@ -17,12 +17,14 @@ struct SearchStockView: View {
             VStack {
                 HStack {
                     Text("Search for a Stock")
-                        .font(Font.custom("DIN-D", size: 30.0))
+                        .font(Font.custom("AppleColorEmoji", size: 30.0))
+                        .minimumScaleFactor(0.001)
+                        .lineLimit(1)
                     Spacer()
                 }
                 TextField("Search by ticker...",
                           text: $searchQuery)
-                    .font(Font.custom("DIN-D", size: 20.0))
+                    .font(Font.custom("AppleColorEmoji", size: 20.0))
                     .disableAutocorrection(true)
                     .autocapitalization(.allCharacters)
                     .onChange(of: searchQuery, perform: { value in

@@ -23,7 +23,7 @@ struct MenuUtilitiesView: View {
                         .background(customColors.primaryColor)
                         .cornerRadius(10)
                 }
-            )
+            ).accentColor(customColors.primaryColor)
             Spacer()
             NavigationLink(
                 destination: SearchStockView(),

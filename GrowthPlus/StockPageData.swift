@@ -90,6 +90,10 @@ class StockPageData: ObservableObject, Codable {
     }
     
     func truncateExchangeName() {
+        if self.primaryExchange == "NEW YORK STOCK EXCHANGE, INC." {
+            self.primaryExchange = "NYSE"
+            return
+        }
         var shortenedExchange = ""
         for char in self.primaryExchange {
             if char == "/" || char == "(" {

@@ -62,7 +62,7 @@ struct StockPageView: View {
                     .font(Font.custom("AppleColorEmoji", size: 24.0))
                     .fontWeight(.semibold)
                 Button(action: {
-                    self.showCompanyProfilePopoverView = true
+                    self.showCompanyProfilePopoverView.toggle()
                 }, label: {
                     Image(systemName: "info")
                 })
@@ -136,7 +136,7 @@ struct StockPageView: View {
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.primaryColor))
                     .frame(minWidth: 200)
-                    .foregroundColor(.white)
+                    .foregroundColor(UIColor(colorManager.primaryColor).isLight()! && colorManager.primaryColor != Color(UIColor(hex: "#1ce4ac")) ? Color.black : Color.white)
                     .font(Font.custom("AppleColorEmoji", size: 18.0))
             }).buttonStyle(PlainButtonStyle())
                 .alert(isPresented: $showInputTypeAlert, content: {
@@ -400,9 +400,8 @@ extension StockPageView {
                             }
                             Text(financialConnection.companyProfile.phone)
                                 .font(.custom("DIN-D", size: 13))
-                                
                         }
-                    }
+                    }.padding(.bottom)
                 }
                 
             }

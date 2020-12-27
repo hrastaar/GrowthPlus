@@ -16,15 +16,17 @@ struct SearchResultView: View {
             VStack(spacing: 8) {
                 HStack(spacing: 15) {
                     Text(searchResult.companyName)
-                        .font(Font.custom("DIN-D", size: 18.0))
+                        .font(Font.custom("AppleColorEmoji", size: 16.0))
                         .fontWeight(.semibold)
+                        .lineLimit(2)
                         .foregroundColor(CustomColors.shared.primaryColor)
                     Spacer()
                 }
                 HStack(spacing: 15) {
                     Text(searchResult.ticker)
-                        .font(Font.custom("DIN-D", size: 15.0))
-                        .fontWeight(.regular)
+                        .font(Font.custom("AppleColorEmoji", size: 13.0))
+                        .minimumScaleFactor(0.001)
+                        .lineLimit(1)
                         .foregroundColor(CustomColors.shared.primaryColor)
                     Spacer()
                 }

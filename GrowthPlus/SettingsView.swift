@@ -22,7 +22,7 @@ struct SettingsView: View {
             HStack {
                 Spacer()
                 Text("Settings")
-                    .font(Font.custom("DIN-D", size: 30.0))
+                    .font(Font.custom("AppleColorEmoji", size: 30.0))
                     .fontWeight(.bold)
                 Spacer()
             }
@@ -35,7 +35,9 @@ struct SettingsView: View {
                 self.showColorView = true
             }, label: {
                 Text("Adjust App Colors")
-                    .font(Font.custom("DIN-D", size: 22.0))
+                    .font(Font.custom("AppleColorEmoji", size: 20.0))
+                    .minimumScaleFactor(0.001)
+                    .lineLimit(1)
                     .padding()
                     .frame(minWidth: 300)
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
@@ -66,8 +68,10 @@ struct SettingsView: View {
             Button(action: {
                 self.showTechnologiesView = true
             }, label: {
-                Text("Technologies Used in App")
-                    .font(Font.custom("DIN-D", size: 22.0))
+                Text("Technologies Used")
+                    .font(Font.custom("AppleColorEmoji", size: 20.0))
+                    .minimumScaleFactor(0.001)
+                    .lineLimit(1)
                     .padding()
                     .frame(minWidth: 300)
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
@@ -87,7 +91,9 @@ struct SettingsView: View {
                 }
             }, label: {
                 Text("Reset Account")
-                    .font(Font.custom("DIN-D", size: 22.0))
+                    .font(Font.custom("AppleColorEmoji", size: 20.0))
+                    .minimumScaleFactor(0.001)
+                    .lineLimit(1)
                     .padding()
                     .frame(minWidth: 300)
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.primaryColor))

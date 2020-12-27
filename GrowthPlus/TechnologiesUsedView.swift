@@ -17,7 +17,7 @@ struct TechnologiesUsedView: View {
                 HStack {
                     Spacer()
                     Text("Technologies Used to Build GrowthPlus")
-                        .font(Font.custom("DIN-D", size: 28.0))
+                        .font(Font.custom("AppleColorEmoji", size: 24.0))
                         .foregroundColor(.black)
                         .multilineTextAlignment(.center)
                     Spacer()
@@ -26,7 +26,7 @@ struct TechnologiesUsedView: View {
                     .frame(width: UIScreen.main.bounds.width - 25)
                 Divider()
                 Text("These are the fantastic tools and libraries used to build this app!")
-                    .font(Font.custom("DIN-D", size: 18.0))
+                    .font(Font.custom("AppleColorEmoji", size: 14.0))
                     .foregroundColor(.black)
                 Divider()
                 ScrollView(.horizontal, showsIndicators: false) {

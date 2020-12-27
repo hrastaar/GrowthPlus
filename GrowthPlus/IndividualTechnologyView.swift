@@ -17,7 +17,7 @@ struct IndividualTechnologyView: View {
             Spacer(minLength: 15)
             Text(technology.technologyName)
                 .fontWeight(.bold)
-                .font(.title2)
+                .font(.custom("AppleColorEmoji", size: 20))
                 .foregroundColor(.black)
             Image(technology.imageName)
                 .resizable()
@@ -28,6 +28,7 @@ struct IndividualTechnologyView: View {
             HStack(alignment: .center) {
                 Spacer()
                 Text(technology.description)
+                    .font(.custom("AppleColorEmoji", size: 14))
                     .fontWeight(.semibold)
                     .lineLimit(5)
                     .multilineTextAlignment(.center)
