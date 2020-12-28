@@ -26,22 +26,22 @@ struct SellView: View {
             // Number of Shares
             HStack {
                 Text("Number of Shares")
-                    .font(Font.custom("DIN-D", size: 18.0))
+                    .font(Font.custom("AppleColorEmoji", size: 14.0))
                 Spacer()
                 TextField("0", text: $sharesToSell)
                     .multilineTextAlignment(.trailing)
                     .textContentType(.creditCardNumber)
-                    .font(Font.custom("DIN-D", size: 18.0))
+                    .font(Font.custom("DIN-D", size: 16.0))
             }
             Divider()
             // Market Price
             HStack {
                 Text("Market Price")
-                    .font(Font.custom("DIN-D", size: 18.0))
+                    .font(Font.custom("AppleColorEmoji", size: 14.0))
                     .fontWeight(.medium)
                 Spacer()
                 Text(DollarString(value: wallet.selectedCard.currentPrice))
-                    .font(Font.custom("DIN-D", size: 18.0))
+                    .font(Font.custom("DIN-D", size: 16.0))
                     .fontWeight(.medium)
             }
 
@@ -49,7 +49,7 @@ struct SellView: View {
             // Purchase Estimated Cost
             HStack {
                 Text("Estimated Credit")
-                    .font(Font.custom("DIN-D", size: 18.0))
+                    .font(Font.custom("AppleColorEmoji", size: 14.0))
                     .fontWeight(.medium)
                 Spacer()
                 Text(DollarString(value: Double(Int(sharesToSell) ?? 0) * wallet.selectedCard.currentPrice))
@@ -75,7 +75,7 @@ struct SellView: View {
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.primaryColor))
                     .frame(minWidth: 200)
                     .foregroundColor(.white)
-                    .font(Font.custom("DIN-D", size: 20.0))
+                    .font(Font.custom("AppleColorEmoji", size: 18.0))
             }).buttonStyle(PlainButtonStyle())
         }.alert(isPresented: $showInputTypeAlert, content: {
             Alert(

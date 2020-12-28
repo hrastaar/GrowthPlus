@@ -65,6 +65,7 @@ struct StockPageView: View {
                     self.showCompanyProfilePopoverView.toggle()
                 }, label: {
                     Image(systemName: "info")
+                        .accentColor(self.colorManager.primaryColor)
                 })
                 Spacer()
             }
@@ -314,13 +315,8 @@ extension StockPageView {
     var CompanyInfoPopoverView: some View {
         VStack {
             HStack {
-                Button(action: {
-                    self.showCompanyProfilePopoverView = false
-                    print("turned false")
-                }, label: {
-                    Text("X")
-                        .font(.custom("AppleColorEmoji", size: 24))
-                })
+                Text("Hold Popup to Hide")
+                    .font(.custom("AppleColorEmoji", size: 12))
                 Spacer()
                 Text(financialConnection.companyProfile.ticker)
                     .font(.custom("AppleColorEmoji", size: 12))
@@ -357,7 +353,7 @@ extension StockPageView {
                             Text("No. of Employees")
                                 .font(.custom("AppleColorEmoji", size: 15))
                             Spacer()
-                            Text(String(financialConnection.companyProfile.numEmployees))
+                            Text(financialConnection.companyProfile.numEmployees == 0 ? "NA" : String(financialConnection.companyProfile.numEmployees))
                                 .font(.custom("DIN-D", size: 15))
                         }
                         Text("Description")
@@ -378,7 +374,7 @@ extension StockPageView {
                                     .padding(3)
                                     .background(colorManager.primaryColor)
                                     .foregroundColor(.white)
-                                    .cornerRadius(14)
+                                    .cornerRadius(7.5)
                                     .font(.custom("AppleColorEmoji", size: 12))
                             }
                         }
@@ -405,6 +401,8 @@ extension StockPageView {
                 }
                 
             }
+        }.onLongPressGesture {
+            self.showCompanyProfilePopoverView = false
         }
         .frame(width: UIScreen.main.bounds.width - 10, height: UIScreen.main.bounds.height - 75, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         .background(Color.init(white: 0.07).opacity(0.95))

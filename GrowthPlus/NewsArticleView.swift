@@ -14,7 +14,7 @@ struct NewsArticleView: View {
     @ObservedObject var colorPalette = CustomColors.shared
 
     var body: some View {
-        VStack {
+        VStack(alignment: .center) {
             HStack {
                 Text(newsArticle.source)
                     .font(Font.custom("AppleColorEmoji", size: 16))
@@ -22,7 +22,7 @@ struct NewsArticleView: View {
             }
             .frame(height: 60)
             .padding(.horizontal)
-            .padding(.top)
+            
             Text(newsArticle.headline)
                 .font(Font.custom("AppleColorEmoji", size: 13))
                 .fontWeight(.semibold)
