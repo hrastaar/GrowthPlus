@@ -13,7 +13,7 @@ struct InvestmentHeaderView: View {
         VStack(alignment: .leading) {
             HStack {
                 Text("Investments")
-                    .font(Font.custom("AppleColorEmoji", size: 30.0))
+                    .font(primaryFont(size: 30))
                     .fontWeight(.bold)
                 Spacer()
             }
@@ -26,7 +26,7 @@ struct InvestmentHeaderView: View {
             Divider()
             HStack {
                 Text("Realized Gains")
-                    .font(Font.custom("AppleColorEmoji", size: 16.0))
+                    .font(primaryFont(size: 16))
                     .fontWeight(.semibold)
                 Spacer()
                 Text(DollarString(value: wallet.realizedGains))
@@ -36,7 +36,7 @@ struct InvestmentHeaderView: View {
             }
             HStack {
                 Text("Unrealized Gains")
-                    .font(Font.custom("AppleColorEmoji", size: 16.0))
+                    .font(primaryFont(size: 16))
                     .fontWeight(.semibold)
                 Spacer()
                 Text(DollarString(value: wallet.unrealizedGains))

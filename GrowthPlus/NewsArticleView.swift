@@ -17,14 +17,14 @@ struct NewsArticleView: View {
         VStack(alignment: .center) {
             HStack {
                 Text(newsArticle.source)
-                    .font(Font.custom("AppleColorEmoji", size: 16))
+                    .font(primaryFont(size: 16))
                     .frame(width: 150)
             }
             .frame(height: 60)
             .padding(.horizontal)
             
             Text(newsArticle.headline)
-                .font(Font.custom("AppleColorEmoji", size: 13))
+                .font(primaryFont(size: 13))
                 .fontWeight(.semibold)
                 .padding(.bottom)
                 .padding(.horizontal)

@@ -16,7 +16,7 @@ struct ColorSelectionView: View {
         VStack {
             HStack {
                 Text("Customize In-App Colors")
-                    .font(Font.custom("AppleColorEmoji", size: 24.0))
+                    .font(primaryFont(size: 24.0))
                     .minimumScaleFactor(0.001)
                     .lineLimit(1)
                 Spacer()
@@ -52,7 +52,7 @@ struct ColorSelectionView: View {
                 self.presentSavedColorAlert = true
             }, label: {
                 Text("Save Color Palette")
-                    .font(Font.custom("AppleColorEmoji", size: 20.0))
+                    .font(primaryFont(size: 20.0))
                     .minimumScaleFactor(0.001)
                     .lineLimit(1)
                     .padding()
@@ -79,7 +79,7 @@ struct ColorSelectionView: View {
                 self.presentResetToDefaultAlert = true
             }, label: {
                 Text("Reset to Default")
-                    .font(Font.custom("AppleColorEmoji", size: 20.0))
+                    .font(primaryFont(size: 20.0))
                     .minimumScaleFactor(0.001)
                     .lineLimit(1)
                     .padding()
@@ -95,7 +95,7 @@ struct ColorSelectionView: View {
                     dismissButton:
                     .default(
                         Text("Dismiss")
-                            .font(Font.custom("AppleColorEmoji", size: 22.0))
+                            .font(primaryFont(size: 22.0))
                     ))
             }) // end of alert
 

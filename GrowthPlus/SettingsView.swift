@@ -35,7 +35,7 @@ struct SettingsView: View {
                 self.showColorView = true
             }, label: {
                 Text("Adjust App Colors")
-                    .font(Font.custom("AppleColorEmoji", size: 20.0))
+                    .font(primaryFont(size: 20))
                     .minimumScaleFactor(0.001)
                     .lineLimit(1)
                     .padding()
@@ -48,28 +48,11 @@ struct SettingsView: View {
                 .sheet(isPresented: $showColorView) {
                     ColorSelectionView()
                 }
-
-//            Button(action: {
-//                self.showSafari = true
-//            }, label: {
-//                Text("Meet the Developer")
-//                    .font(Font.custom("DIN-D", size: 22.0))
-//                    .padding()
-//                    .frame(minWidth: 300)
-//                    .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
-//                    .cornerRadius(5)
-//                    .foregroundColor(.white)
-//            })
-//                .frame(width: 300)
-//                .sheet(isPresented: $showSafari) {
-//                    SafariView(url:URL(string: self.urlString)!)
-//                }
-
             Button(action: {
                 self.showTechnologiesView = true
             }, label: {
                 Text("Technologies Used")
-                    .font(Font.custom("AppleColorEmoji", size: 20.0))
+                    .font(primaryFont(size: 20))
                     .minimumScaleFactor(0.001)
                     .lineLimit(1)
                     .padding()
@@ -91,7 +74,7 @@ struct SettingsView: View {
                 }
             }, label: {
                 Text("Reset Account")
-                    .font(Font.custom("AppleColorEmoji", size: 20.0))
+                    .font(primaryFont(size: 20))
                     .minimumScaleFactor(0.001)
                     .lineLimit(1)
                     .padding()

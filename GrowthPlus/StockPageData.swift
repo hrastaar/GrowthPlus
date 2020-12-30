@@ -27,8 +27,11 @@ class StockPageData: ObservableObject, Codable {
 
     var primaryExchange: String
     var marketCap: Int
-    var peRatio: Double
-
+    var peRatio: Double? = 0.00
+    var success: Bool? {
+        companyName != "NA" && currentPrice != 0.00
+    }
+    
     init(companyName: String, ticker: String, currentPrice: Double, percentChange: Double, dailyChange: Double, volume: Int, avgVolume: Int, latestTime: String, open: Double, low: Double, high: Double, yearLow: Double, yearHigh: Double, primaryExchange: String, marketCap: Int, peRatio: Double) {
         self.companyName = companyName
         self.ticker = ticker

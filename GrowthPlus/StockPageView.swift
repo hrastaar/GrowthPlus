@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftUICharts
+import SkeletonUI
 
 struct StockPageView: View {
     let ticker: String
@@ -19,7 +20,7 @@ struct StockPageView: View {
     @State var presentSuccessAlert: Bool = false
     @State private var showOrderConfirmationConfetti: Bool = false
     @State private var showCompanyProfilePopoverView: Bool = false
-    @Environment(\.colorScheme) var colorScheme
+    
     var body: some View {
         ZStack {
             if showCompanyProfilePopoverView {
@@ -53,20 +54,26 @@ struct StockPageView: View {
         VStack {
             HStack(spacing: 20) {
                 Text(financialConnection.stockPageData.ticker)
-                    .font(Font.custom("AppleColorEmoji", size: 18.0))
+                    .font(primaryFont(size: 18))
                     .fontWeight(.medium)
+                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .animation(type: .pulse())
+
                 Spacer()
             }
             HStack(spacing: 20) {
                 Text(financialConnection.stockPageData.companyName)
-                    .font(Font.custom("AppleColorEmoji", size: 24.0))
+                    .font(primaryFont(size: 24))
                     .fontWeight(.semibold)
+                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .animation(type: .pulse())
+
                 Button(action: {
                     self.showCompanyProfilePopoverView.toggle()
                 }, label: {
                     Image(systemName: "info")
                         .accentColor(self.colorManager.primaryColor)
-                })
+                }).disabled(!(financialConnection.stockPageData.success ?? false))
                 Spacer()
             }
             Divider()
@@ -74,6 +81,9 @@ struct StockPageView: View {
                 Text(String(format: "$%.2f", financialConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 24.0))
                     .fontWeight(.semibold)
+                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .animation(type: .pulse())
+
                 Spacer()
             }
             HStack(spacing: 20) {
@@ -81,6 +91,8 @@ struct StockPageView: View {
                     .font(Font.custom("DIN-D", size: 20.0))
                     .foregroundColor(profitLossColor(inputDouble: financialConnection.stockPageData.dailyChange))
                     .fontWeight(.semibold)
+                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .animation(type: .pulse())
                 Spacer()
             }
         }
@@ -90,40 +102,45 @@ struct StockPageView: View {
     var PurchaseStockView: some View {
         VStack {
             Text("Buy \(ticker)")
-                .font(Font.custom("AppleColorEmoji", size: 24.0))
+                .font(primaryFont(size: 24))
                 .fontWeight(.medium)
             // Number of Shares
             HStack {
                 Text("Number of Shares")
-                    .font(Font.custom("AppleColorEmoji", size: 14.0))
+                    .font(primaryFont(size: 14))
                 Spacer()
                 TextField("0", text: $sharesToBuy)
                     .multilineTextAlignment(.trailing)
                     .textContentType(.creditCardNumber)
                     .font(Font.custom("DIN-D", size: 16.0))
+                    .disabled(!(financialConnection.stockPageData.success ?? false))
             }
             Divider()
             // Market Price
             HStack {
                 Text("Market Price")
-                    .font(Font.custom("AppleColorEmoji", size: 14.0))
+                    .font(primaryFont(size: 14))
                     .fontWeight(.medium)
                 Spacer()
                 Text(DollarString(value: financialConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 16.0))
                     .fontWeight(.medium)
+                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .animation(type: .pulse())
             }
 
             Divider()
             // Purchase Estimated Cost
             HStack {
                 Text("Estimated Cost")
-                    .font(Font.custom("AppleColorEmoji", size: 14.0))
+                    .font(primaryFont(size: 14))
                     .fontWeight(.medium)
                 Spacer()
                 Text(DollarString(value: Double(Int(sharesToBuy) ?? 0) * financialConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 16.0))
                     .fontWeight(.medium)
+                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .animation(type: .pulse())
             }
             Button(action: {
                 if let shares = Int(sharesToBuy) {
@@ -138,7 +155,7 @@ struct StockPageView: View {
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.primaryColor))
                     .frame(minWidth: 200)
                     .foregroundColor(UIColor(colorManager.primaryColor).isLight()! && colorManager.primaryColor != Color(UIColor(hex: "#1ce4ac")) ? Color.black : Color.white)
-                    .font(Font.custom("AppleColorEmoji", size: 18.0))
+                    .font(primaryFont(size: 18))
             }).buttonStyle(PlainButtonStyle())
                 .alert(isPresented: $showInputTypeAlert, content: {
                     Alert(title:
@@ -172,49 +189,59 @@ struct StockPageView: View {
         VStack {
             HStack {
                 Text("Statistics")
-                    .font(.custom("AppleColorEmoji", size: 24))
+                    .font(primaryFont(size: 24))
                     .fontWeight(.semibold)
             }
             HStack {
                 VStack(spacing: 15) {
                     HStack {
                         Text("Open")
-                            .font(Font.custom("AppleColorEmoji", size: 14.0))
+                            .font(primaryFont(size: 14))
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.open))
                             .font(Font.custom("DIN-D", size: 14.0))
+                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .animation(type: .pulse())
                     }
                     Divider()
                     HStack {
                         Text("High")
-                            .font(Font.custom("AppleColorEmoji", size: 14.0))
+                            .font(primaryFont(size: 14))
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.high))
                             .font(Font.custom("DIN-D", size: 14.0))
+                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .animation(type: .pulse())
                     }
                     Divider()
                     HStack {
                         Text("Low")
-                            .font(Font.custom("AppleColorEmoji", size: 14.0))
+                            .font(primaryFont(size: 14))
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.low))
                             .font(Font.custom("DIN-D", size: 14.0))
+                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .animation(type: .pulse())
                     }
                     Divider()
                     HStack {
                         Text("Year High")
-                            .font(Font.custom("AppleColorEmoji", size: 14.0))
+                            .font(primaryFont(size: 14))
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.yearHigh))
                             .font(Font.custom("DIN-D", size: 14.0))
+                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .animation(type: .pulse())
                     }
                     Divider()
                     HStack {
                         Text("Year Low")
-                            .font(Font.custom("AppleColorEmoji", size: 14.0))
+                            .font(primaryFont(size: 14))
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.yearLow))
                             .font(Font.custom("DIN-D", size: 14.0))
+                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .animation(type: .pulse())
                     }
                     Divider()
                 }
@@ -226,44 +253,54 @@ struct StockPageView: View {
                 VStack(spacing: 15) {
                     HStack {
                         Text("Volume")
-                            .font(Font.custom("AppleColorEmoji", size: 14.0))
+                            .font(primaryFont(size: 14))
                         Spacer()
                         Text(String(financialConnection.stockPageData.volume))
                             .font(Font.custom("DIN-D", size: 14.0))
+                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .animation(type: .pulse())
                     }
                     Divider()
                     HStack {
                         Text("Avg Vol")
-                            .font(Font.custom("AppleColorEmoji", size: 14.0))
+                            .font(primaryFont(size: 14))
                         Spacer()
                         Text(String(financialConnection.stockPageData.avgVolume))
                             .font(Font.custom("DIN-D", size: 14.0))
+                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .animation(type: .pulse())
                     }
                     Divider()
                     HStack {
                         Text("Mkt Cap")
-                            .font(Font.custom("AppleColorEmoji", size: 14.0))
+                            .font(primaryFont(size: 14))
                         Spacer()
                         Text(String(financialConnection.stockPageData.marketCap))
                             .font(Font.custom("DIN-D", size: 12.0))
+                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .animation(type: .pulse())
                     }
                     Divider()
                     HStack {
                         Text("P/E Ratio")
-                            .font(Font.custom("AppleColorEmoji", size: 14.0))
+                            .font(primaryFont(size: 14))
                         Spacer()
-                        Text(String(format: "%.2f", financialConnection.stockPageData.peRatio))
+                        Text(String(format: "%.2f", financialConnection.stockPageData.peRatio ?? 0.00))
                             .font(Font.custom("DIN-D", size: 14.0))
+                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .animation(type: .pulse())
                     }
                     Divider()
                     HStack {
                         Text("Exchange")
-                            .font(Font.custom("AppleColorEmoji", size: 14.0))
+                            .font(primaryFont(size: 14))
                         Spacer()
                         Text(financialConnection.stockPageData.primaryExchange)
-                            .font(Font.custom("AppleColorEmoji", size: 14.0))
+                            .font(primaryFont(size: 14))
                             .minimumScaleFactor(0.001)
                             .lineLimit(1)
+                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .animation(type: .pulse())
                     }
                     Divider()
                 }
@@ -277,7 +314,7 @@ struct StockPageView: View {
         VStack(spacing: 20) {
             HStack {
                 Text("News")
-                    .font(.custom("AppleColorEmoji", size: 24))
+                    .font(primaryFont(size: 24))
                     .fontWeight(.semibold)
             }
             ScrollView(.horizontal, showsIndicators: false) {
@@ -301,7 +338,7 @@ struct StockPageView: View {
             }.zIndex(1.0)
 
             MultiLineChartView(data: [(self.financialConnection.stockChartPoints.map { $0.avgPrice }, GradientColor(start: CustomColors.shared.primaryColor, end: CustomColors.shared.primaryColor))], title: "", form: ChartForm.large, rateValue: Int(financialConnection.stockPageData.percentChange * 100), dropShadow: false)
-                .font(Font.custom("AppleColorEmoji", size: 18.0))
+                .font(primaryFont(size: 18))
                 .zIndex(0.1)
         }
         
@@ -316,91 +353,106 @@ extension StockPageView {
         VStack {
             HStack {
                 Text("Hold Popup to Hide")
-                    .font(.custom("AppleColorEmoji", size: 12))
+                    .font(primaryFont(size: 12))
                 Spacer()
                 Text(financialConnection.companyProfile.ticker)
-                    .font(.custom("AppleColorEmoji", size: 12))
+                    .font(primaryFont(size: 12))
                 Divider()
                     .background(Color.white)
                     .frame(height: 15)
                 Text(financialConnection.companyProfile.exchange)
-                    .font(.custom("AppleColorEmoji", size: 12))
+                    .font(primaryFont(size: 12))
             }.onTapGesture {
                 self.showCompanyProfilePopoverView = false
             }
             .padding(.horizontal)
             .padding(.top)
+            
             Text(financialConnection.companyProfile.companyName)
-                .font(.custom("AppleColorEmoji", size: 20))
+                .font(primaryFont(size: 20))
+            
             ScrollView {
                 VStack(spacing: 20) {
                     Section {
                         HStack {
                             Text("Industry")
-                                .font(.custom("AppleColorEmoji", size: 15))
+                                .font(primaryFont(size: 15))
                             Spacer()
                             Text(financialConnection.companyProfile.industry)
-                                .font(.custom("AppleColorEmoji", size: 15))
+                                .font(primaryFont(size: 15))
                         }
-                        HStack {
-                            Text("CEO")
-                                .font(.custom("AppleColorEmoji", size: 15))
-                            Spacer()
-                            Text(financialConnection.companyProfile.CEO)
-                                .font(.custom("AppleColorEmoji", size: 15))
+                        if !financialConnection.companyProfile.CEO.isEmpty {
+                            HStack {
+                                Text("CEO")
+                                    .font(primaryFont(size: 15))
+                                Spacer()
+                                Text(financialConnection.companyProfile.CEO)
+                                    .font(primaryFont(size: 15))
+                            }
                         }
-                        HStack {
-                            Text("No. of Employees")
-                                .font(.custom("AppleColorEmoji", size: 15))
-                            Spacer()
-                            Text(financialConnection.companyProfile.numEmployees == 0 ? "NA" : String(financialConnection.companyProfile.numEmployees))
-                                .font(.custom("DIN-D", size: 15))
+                        
+                        if let numEmployees = financialConnection.companyProfile.numEmployees {
+                            HStack {
+                                Text("No. of Employees")
+                                    .font(primaryFont(size: 15))
+                                Spacer()
+                                Text(numEmployees == 0 ? "NA" : String(numEmployees))
+                                    .font(.custom("DIN-D", size: 15))
+                            }
                         }
-                        Text("Description")
-                            .font(.custom("AppleColorEmoji", size: 15))
-                        Text(financialConnection.companyProfile.description.isEmpty ? "Not Available" : "\t" + financialConnection.companyProfile.description)
-                            .font(.custom("AppleColorEmoji", size: 12))
-                            .multilineTextAlignment(.leading)
+                        if let description = financialConnection.companyProfile.description {
+                            Text("Description")
+                                .font(primaryFont(size: 15))
+                            Text(description.isEmpty ? "Not Available" : "\t" + description)
+                                .font(primaryFont(size: 12))
+                                .multilineTextAlignment(.leading)
+                        }
+                        
                     }.padding(.horizontal)
                     Divider()
                         .background(colorManager.primaryColor)
                         .frame(width: UIScreen.main.bounds.width - 75)
-                    Section {
-                        Text("Company Tags")
-                            .font(.custom("AppleColorEmoji", size: 18))
-                        ForEach(financialConnection.companyProfile.tags.indices, id: \.self) { index in
-                            HStack {
-                                Text(financialConnection.companyProfile.tags[index])
-                                    .padding(3)
-                                    .background(colorManager.primaryColor)
-                                    .foregroundColor(.white)
-                                    .cornerRadius(7.5)
-                                    .font(.custom("AppleColorEmoji", size: 12))
+                    if let tags = financialConnection.companyProfile.tags {
+                        Section {
+                            Text("Company Tags")
+                                .font(primaryFont(size: 18))
+                            ForEach(tags.indices, id: \.self) { index in
+                                HStack {
+                                    Text(tags[index])
+                                        .padding(3)
+                                        .background(colorManager.primaryColor)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(7.5)
+                                        .font(primaryFont(size: 15))
+                                }
                             }
                         }
+                        Divider()
+                            .background(colorManager.primaryColor)
+                            .frame(width: UIScreen.main.bounds.width - 75)
                     }
-                    Divider()
-                        .background(colorManager.primaryColor)
-                        .frame(width: UIScreen.main.bounds.width - 75)
-                    Section {
-                        VStack {
-                            Text("Company Address")
-                                .font(.custom("AppleColorEmoji", size: 18))
-                            Text(financialConnection.companyProfile.address)
-                                .font(.custom("AppleColorEmoji", size: 13))
-                            HStack {
-                                Text(financialConnection.companyProfile.city + ", " + financialConnection.companyProfile.state)
-                                    .font(.custom("AppleColorEmoji", size: 13))
-                                Text(financialConnection.companyProfile.zip)
+                    
+                    if financialConnection.companyProfile.addressAvailable() {
+                        Section {
+                            VStack {
+                                Text("Company Address")
+                                    .font(primaryFont(size: 18))
+                                Text(financialConnection.companyProfile.address)
+                                    .font(primaryFont(size: 13))
+                                HStack {
+                                    Text(financialConnection.companyProfile.city! + ", " + financialConnection.companyProfile.state!)
+                                        .font(primaryFont(size: 13))
+                                    Text(financialConnection.companyProfile.zip!)
+                                        .font(.custom("DIN-D", size: 13))
+                                }
+                                Text(financialConnection.companyProfile.phone)
                                     .font(.custom("DIN-D", size: 13))
                             }
-                            Text(financialConnection.companyProfile.phone)
-                                .font(.custom("DIN-D", size: 13))
-                        }
-                    }.padding(.bottom)
+                        }.padding(.bottom)
+                    }
                 }
                 
-            }
+            } /// End of ScrollView
         }.onLongPressGesture {
             self.showCompanyProfilePopoverView = false
         }
@@ -409,6 +461,14 @@ extension StockPageView {
         .foregroundColor(.white)
         .cornerRadius(12.5)
         .padding()
+    }
+}
+
+extension StockPageView {
+    var AnalystRecommendationView: some View {
+        VStack {
+            Text("Analyst Recommendations")
+        }
     }
 }
 

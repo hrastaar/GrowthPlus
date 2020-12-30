@@ -46,6 +46,12 @@
 		748E7D2A258A212100477F53 /* LandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D29258A212100477F53 /* LandingPageView.swift */; };
 		74938F65258DFB17004385ED /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74938F64258DFB17004385ED /* SettingsView.swift */; };
 		74938F70258E0765004385ED /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74938F6F258E0765004385ED /* LottieView.swift */; };
+		7496683E259C27A9008A7501 /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7496683D259C27A9008A7501 /* SkeletonUI */; };
+		749AC44E259C865800C4BE68 /* education.json in Resources */ = {isa = PBXBuildFile; fileRef = 749AC44D259C865800C4BE68 /* education.json */; };
+		74C16617259C6DBF009D7FB6 /* AnalystRecommendation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C16616259C6DBF009D7FB6 /* AnalystRecommendation.swift */; };
+		74C1661A259C70BE009D7FB6 /* SectorPerformance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C16619259C70BE009D7FB6 /* SectorPerformance.swift */; };
+		74C16624259C7850009D7FB6 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C16623259C7850009D7FB6 /* DiscoverView.swift */; };
+		74C16628259C793E009D7FB6 /* SectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C16627259C793E009D7FB6 /* SectorView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +97,11 @@
 		748E7D29258A212100477F53 /* LandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
 		74938F64258DFB17004385ED /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		74938F6F258E0765004385ED /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
+		749AC44D259C865800C4BE68 /* education.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = education.json; sourceTree = "<group>"; };
+		74C16616259C6DBF009D7FB6 /* AnalystRecommendation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalystRecommendation.swift; sourceTree = "<group>"; };
+		74C16619259C70BE009D7FB6 /* SectorPerformance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorPerformance.swift; sourceTree = "<group>"; };
+		74C16623259C7850009D7FB6 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
+		74C16627259C793E009D7FB6 /* SectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +110,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				745510982595DE74008AA796 /* SwiftUICharts in Frameworks */,
+				7496683E259C27A9008A7501 /* SkeletonUI in Frameworks */,
 				12974A05B533FD4967F14F6F /* Pods_GrowthPlus.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -190,6 +202,7 @@
 				74938F1F258DE9E3004385ED /* Extensions */,
 				748E7CED258A1FAC00477F53 /* Info.plist */,
 				748E7CE8258A1FAC00477F53 /* Assets.xcassets */,
+				749AC44D259C865800C4BE68 /* education.json */,
 				748E7CEA258A1FAC00477F53 /* Preview Content */,
 			);
 			path = GrowthPlus;
@@ -206,6 +219,7 @@
 		748E7D28258A20FC00477F53 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				74C16622259C7841009D7FB6 /* Discover Page */,
 				7455108925949D8A008AA796 /* Search Page */,
 				7455108825949D41008AA796 /* Landing Page */,
 				7455108A25949DAB008AA796 /* Individual Stock Page */,
@@ -218,9 +232,9 @@
 			isa = PBXGroup;
 			children = (
 				748E7D05258A1FF000477F53 /* Portfolio.swift */,
+				748E7D0B258A1FF600477F53 /* FinancialAPIConnection.swift */,
 				748E7D0A258A1FF600477F53 /* RealmObjects.swift */,
 				748E7D12258A1FFD00477F53 /* Stock.swift */,
-				748E7D0B258A1FF600477F53 /* FinancialAPIConnection.swift */,
 				7489C8DA258E1F600085BC69 /* CustomColors.swift */,
 				74441142258F098500F54290 /* GlobalVariables.swift */,
 				74441145258F09B600F54290 /* TechnologyData.swift */,
@@ -230,6 +244,8 @@
 				748B49512596DD8C00F10EFA /* StockChartPoint.swift */,
 				748B49542596DDAE00F10EFA /* Earnings.swift */,
 				748B49852598454400F10EFA /* CompanyProfile.swift */,
+				74C16616259C6DBF009D7FB6 /* AnalystRecommendation.swift */,
+				74C16619259C70BE009D7FB6 /* SectorPerformance.swift */,
 			);
 			name = "Structs + Classes";
 			sourceTree = "<group>";
@@ -240,6 +256,15 @@
 				748E7CF5258A1FDA00477F53 /* Color+Extension.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		74C16622259C7841009D7FB6 /* Discover Page */ = {
+			isa = PBXGroup;
+			children = (
+				74C16623259C7850009D7FB6 /* DiscoverView.swift */,
+				74C16627259C793E009D7FB6 /* SectorView.swift */,
+			);
+			path = "Discover Page";
 			sourceTree = "<group>";
 		};
 		A01F3F1750E6D35697381218 /* Frameworks */ = {
@@ -270,6 +295,7 @@
 			name = GrowthPlus;
 			packageProductDependencies = (
 				745510972595DE74008AA796 /* SwiftUICharts */,
+				7496683D259C27A9008A7501 /* SkeletonUI */,
 			);
 			productName = GrowthPlus;
 			productReference = 748E7CE1258A1FAC00477F53 /* GrowthPlus.app */;
@@ -302,6 +328,7 @@
 				74938F5F258DF8AE004385ED /* XCRemoteSwiftPackageReference "ConfettiView" */,
 				7455108025948EF7008AA796 /* XCRemoteSwiftPackageReference "url-image" */,
 				745510962595DE74008AA796 /* XCRemoteSwiftPackageReference "ChartView" */,
+				7496683C259C27A9008A7501 /* XCRemoteSwiftPackageReference "SkeletonUI" */,
 			);
 			productRefGroup = 748E7CE2258A1FAC00477F53 /* Products */;
 			projectDirPath = "";
@@ -319,6 +346,7 @@
 			files = (
 				745510912594A3FD008AA796 /* financial_lottie.json in Resources */,
 				748E7CEC258A1FAC00477F53 /* Preview Assets.xcassets in Resources */,
+				749AC44E259C865800C4BE68 /* education.json in Resources */,
 				748E7CE9258A1FAC00477F53 /* Assets.xcassets in Resources */,
 				745510942594A411008AA796 /* painter.json in Resources */,
 			);
@@ -386,6 +414,7 @@
 				748B49862598454400F10EFA /* CompanyProfile.swift in Sources */,
 				748E7D0C258A1FF600477F53 /* RealmObjects.swift in Sources */,
 				748E7D07258A1FF000477F53 /* Portfolio.swift in Sources */,
+				74C16628259C793E009D7FB6 /* SectorView.swift in Sources */,
 				748E7CFD258A1FE100477F53 /* HorizontalProgressView.swift in Sources */,
 				748E7CFE258A1FE100477F53 /* HeaderView.swift in Sources */,
 				748E7D08258A1FF000477F53 /* PortfolioListView.swift in Sources */,
@@ -396,12 +425,15 @@
 				748E7D19258A1FFD00477F53 /* SearchResultView.swift in Sources */,
 				7489C8DB258E1F600085BC69 /* CustomColors.swift in Sources */,
 				748B494C2596DD4A00F10EFA /* SearchResult.swift in Sources */,
+				74C16624259C7850009D7FB6 /* DiscoverView.swift in Sources */,
 				74441130258EF83A00F54290 /* IndividualTechnologyView.swift in Sources */,
 				74441143258F098500F54290 /* GlobalVariables.swift in Sources */,
 				748E7D03258A1FE800477F53 /* PerformanceView.swift in Sources */,
 				748B494F2596DD7200F10EFA /* StockNewsArticle.swift in Sources */,
 				748E7D2A258A212100477F53 /* LandingPageView.swift in Sources */,
+				74C1661A259C70BE009D7FB6 /* SectorPerformance.swift in Sources */,
 				745510732594890B008AA796 /* NewsArticleView.swift in Sources */,
+				74C16617259C6DBF009D7FB6 /* AnalystRecommendation.swift in Sources */,
 				7444112A258EF65A00F54290 /* TechnologiesUsedView.swift in Sources */,
 				748E7CF8258A1FDA00477F53 /* Color+Extension.swift in Sources */,
 				748E7D15258A1FFD00477F53 /* SearchStockView.swift in Sources */,
@@ -545,7 +577,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.RastaarHaghi.GrowthPlus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -570,7 +602,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1;
+				MARKETING_VERSION = 3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.RastaarHaghi.GrowthPlus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -626,6 +658,14 @@
 				minimumVersion = 1.0.1;
 			};
 		};
+		7496683C259C27A9008A7501 /* XCRemoteSwiftPackageReference "SkeletonUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CSolanaM/SkeletonUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.5;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -633,6 +673,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 745510962595DE74008AA796 /* XCRemoteSwiftPackageReference "ChartView" */;
 			productName = SwiftUICharts;
+		};
+		7496683D259C27A9008A7501 /* SkeletonUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7496683C259C27A9008A7501 /* XCRemoteSwiftPackageReference "SkeletonUI" */;
+			productName = SkeletonUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

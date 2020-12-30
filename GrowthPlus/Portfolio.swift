@@ -35,7 +35,6 @@ final class Portfolio: ObservableObject {
     init() {
         let realmConfigurations: Realm.Configuration = try! Realm().configuration
         realm = try! Realm(configuration: realmConfigurations)
-
         let fetchedPortfolio: [RealmPortfolio] = Array(realm.objects(RealmPortfolio.self))
         // if no portfolio element found
         if fetchedPortfolio.isEmpty {

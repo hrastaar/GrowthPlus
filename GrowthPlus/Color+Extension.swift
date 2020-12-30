@@ -21,10 +21,8 @@ func DollarString(value: Double) -> String {
     }
 }
 
-extension Font {
-    func primaryFont(size: CGFloat) -> Font {
-        return Font.custom("DIN-D", size: size)
-    }
+func primaryFont(size: CGFloat) -> Font {
+    return Font.custom("AppleColorEmoji", size: size)
 }
 
 extension UIColor {

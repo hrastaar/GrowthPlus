@@ -7,25 +7,38 @@
 
 import Foundation
 
-class CompanyProfile: ObservableObject, Codable {
+class CompanyProfile: ObservableObject, Decodable {
     var ticker: String
     var companyName: String
-    var numEmployees: Int
-    var exchange: String
-    var industry: String
+    var numEmployees: Int? = 0
+    var exchange: String? = "Exchange N/A"
+    var industry: String? = ""
     var website: String
-    var description: String
+    var description: String? = "Description unavailable"
     var CEO: String
-    var tags: [String]
+    var tags: [String]? = []
     // Address / Contact Info
-    var address: String
-    var state: String
-    var city: String
-    var zip: String
-    var country: String
-    var phone: String
+    var address: String? = ""
+    var state: String? = ""
+    var city: String? = ""
+    var zip: String? = ""
+    var country: String? = ""
+    var phone: String? = ""
     var isValidProfile: Bool {
         !ticker.isEmpty
+    }
+    func addressAvailable() -> Bool {
+        if let _ = self.address,
+           let _ = self.state,
+           let _ = self.city,
+           let _ = self.zip {
+            return true
+        } else {
+            return false
+        }
+    }
+    var success: Bool? {
+        !ticker.isEmpty && !companyName.isEmpty
     }
     
     init() {
@@ -65,18 +78,20 @@ class CompanyProfile: ObservableObject, Codable {
     }
     
     func truncateExchangeName() {
-        if self.exchange == "NEW YORK STOCK EXCHANGE, INC." {
-            self.exchange = "NYSE"
-            return
-        }
-        var shortenedExchange = ""
-        for char in self.exchange {
-            if char == "/" || char == "(" {
-                break
+        if let exchange = self.exchange {
+            if exchange == "NEW YORK STOCK EXCHANGE, INC." {
+                self.exchange = "NYSE"
+                return
             }
-            shortenedExchange.append(char)
+            var shortenedExchange = ""
+            for char in exchange {
+                if char == "/" || char == "(" {
+                    break
+                }
+                shortenedExchange.append(char)
+            }
+            self.exchange = shortenedExchange
         }
-        self.exchange = shortenedExchange
     }
     
     enum CodingKeys: String, CodingKey {

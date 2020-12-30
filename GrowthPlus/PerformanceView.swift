@@ -44,7 +44,7 @@ struct PerformanceView: View {
     var PerformanceHeaderView: some View {
         VStack {
             Text(wallet.selectedCard.companyName)
-                .font(Font.custom("AppleColorEmoji", size: 20.0))
+                .font(primaryFont(size: 20))
                 .fontWeight(.bold)
                 .minimumScaleFactor(0.001)
                 .lineLimit(1)
@@ -52,7 +52,7 @@ struct PerformanceView: View {
             Divider()
             HStack {
                 Text("Equity Owned")
-                    .font(Font.custom("AppleColorEmoji", size: 16.0))
+                    .font(primaryFont(size: 16))
                     .fontWeight(.bold)
                 Spacer()
                 Text(DollarString(value: wallet.selectedCard.calculateEquity()))
@@ -67,19 +67,11 @@ struct PerformanceView: View {
 
     var PriceView: some View {
         HStack(spacing: 10) {
-//            Image(systemName: "arrow.up")
-//                .resizable()
-//                .frame(width: 20, height: 20)
-//                .foregroundColor(CustomColors.shared.primaryColor)
-//                .padding(10)
-//                .background(CustomColors.shared.primaryColor)
-//                .opacity(0.2)
-//                .cornerRadius(10)
             VStack(alignment: .center) {
                 Text("Current Price")
                     .minimumScaleFactor(0.001)
                     .lineLimit(1)
-                    .font(Font.custom("AppleColorEmoji", size: 16.0))
+                    .font(primaryFont(size: 16))
                     .foregroundColor(Color(.systemGray3))
                 Text(DollarString(value: wallet.selectedCard.currentPrice))
                     .font(Font.custom("DIN-D", size: 18.0))
@@ -90,17 +82,9 @@ struct PerformanceView: View {
 
     var CostView: some View {
         HStack(spacing: 10) {
-//            Image(systemName: "arrow.down")
-//                .resizable()
-//                .frame(width: 20, height: 20)
-//                .foregroundColor(CustomColors.shared.secondaryColor)
-//                .padding(10)
-//                .background(CustomColors.shared.secondaryColor)
-//                .opacity(0.2)
-//                .cornerRadius(10)
             VStack(alignment: .center) {
                 Text("Avg Cost")
-                    .font(Font.custom("AppleColorEmoji", size: 16.0))
+                    .font(primaryFont(size: 16))
                     .foregroundColor(Color(.systemGray3))
                 Text(DollarString(value: wallet.selectedCard.avgCost))
                     .font(Font.custom("DIN-D", size: 18.0))
@@ -113,7 +97,7 @@ struct PerformanceView: View {
         HStack(spacing: 10) {
             VStack(alignment: .center) {
                 Text("Today's Return")
-                    .font(Font.custom("AppleColorEmoji", size: 16.0))
+                    .font(primaryFont(size: 16))
                     .foregroundColor(Color(.systemGray3))
                 Text(DollarString(value: wallet.selectedCard.dailyChange * Double(wallet.selectedCard.shares)))
                     .font(Font.custom("DIN-D", size: 18.0))
@@ -129,7 +113,7 @@ struct PerformanceView: View {
         HStack(spacing: 10) {
             VStack(alignment: .center) {
                 Text("Total Return")
-                    .font(Font.custom("AppleColorEmoji", size: 16.0))
+                    .font(primaryFont(size: 16))
                     .foregroundColor(Color(.systemGray3))
                 Text(DollarString(value: wallet.selectedCard.calculateNetProfit()))
                     .font(Font.custom("DIN-D", size: 18.0))

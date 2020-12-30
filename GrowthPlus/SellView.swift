@@ -20,13 +20,13 @@ struct SellView: View {
         // Sell Section
         VStack {
             Text("Sell \(wallet.selectedCard.ticker)")
-                .font(Font.custom("AppleColorEmoji", size: 20.0))
+                .font(primaryFont(size: 20))
                 .fontWeight(.medium)
             Spacer()
             // Number of Shares
             HStack {
                 Text("Number of Shares")
-                    .font(Font.custom("AppleColorEmoji", size: 14.0))
+                    .font(primaryFont(size: 14))
                 Spacer()
                 TextField("0", text: $sharesToSell)
                     .multilineTextAlignment(.trailing)
@@ -37,7 +37,7 @@ struct SellView: View {
             // Market Price
             HStack {
                 Text("Market Price")
-                    .font(Font.custom("AppleColorEmoji", size: 14.0))
+                    .font(primaryFont(size: 14))
                     .fontWeight(.medium)
                 Spacer()
                 Text(DollarString(value: wallet.selectedCard.currentPrice))
@@ -49,7 +49,7 @@ struct SellView: View {
             // Purchase Estimated Cost
             HStack {
                 Text("Estimated Credit")
-                    .font(Font.custom("AppleColorEmoji", size: 14.0))
+                    .font(primaryFont(size: 14))
                     .fontWeight(.medium)
                 Spacer()
                 Text(DollarString(value: Double(Int(sharesToSell) ?? 0) * wallet.selectedCard.currentPrice))
@@ -75,7 +75,7 @@ struct SellView: View {
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.primaryColor))
                     .frame(minWidth: 200)
                     .foregroundColor(.white)
-                    .font(Font.custom("AppleColorEmoji", size: 18.0))
+                    .font(primaryFont(size: 18))
             }).buttonStyle(PlainButtonStyle())
         }.alert(isPresented: $showInputTypeAlert, content: {
             Alert(

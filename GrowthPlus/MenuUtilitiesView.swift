@@ -26,6 +26,19 @@ struct MenuUtilitiesView: View {
             ).accentColor(customColors.primaryColor)
             Spacer()
             NavigationLink(
+                destination: DiscoverView(),
+                label: {
+                    Image(systemName: "book")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .background(customColors.primaryColor)
+                        .cornerRadius(10)
+                }
+            ).accentColor(customColors.primaryColor)
+            Spacer()
+            NavigationLink(
                 destination: SearchStockView(),
                 label: {
                     Image(systemName: "plus")

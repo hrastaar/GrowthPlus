@@ -16,7 +16,7 @@ struct SearchResultView: View {
             VStack(spacing: 8) {
                 HStack(spacing: 15) {
                     Text(searchResult.companyName)
-                        .font(Font.custom("AppleColorEmoji", size: 16.0))
+                        .font(primaryFont(size: 16))
                         .fontWeight(.semibold)
                         .lineLimit(2)
                         .foregroundColor(CustomColors.shared.primaryColor)
@@ -24,7 +24,7 @@ struct SearchResultView: View {
                 }
                 HStack(spacing: 15) {
                     Text(searchResult.ticker)
-                        .font(Font.custom("AppleColorEmoji", size: 13.0))
+                        .font(primaryFont(size: 13))
                         .minimumScaleFactor(0.001)
                         .lineLimit(1)
                         .foregroundColor(CustomColors.shared.primaryColor)

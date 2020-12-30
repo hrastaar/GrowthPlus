@@ -9,14 +9,17 @@ import Alamofire
 import SwiftyJSON
 
 final class FinancialAPIConnection: ObservableObject {
-    @Published var searchResults = [SearchResult]()
-    @Published var stockNewsArticles = [StockNewsArticle]()
-    @Published var stockPageData = StockPageData()
-    @Published var companyProfile = CompanyProfile()
-    @Published var stockChartPoints = [StockChartPoint]()
-    @Published var stockEarnings = [Earnings]()
     
-    static let shared = FinancialAPIConnection()
+    @Published var searchResults = [SearchResult]() // Search results when user searches a symbol
+    @Published var stockNewsArticles = [StockNewsArticle]() // Array of articles associated with a current stock page
+    @Published var stockPageData = StockPageData() // Stock data for the StockPageView
+    @Published var companyProfile = CompanyProfile() // Stock Company Profile for the popup (if available)
+    @Published var stockChartPoints = [StockChartPoint]() // Chart points used to draw up daily performance
+    @Published var stockEarnings = [Earnings]() // Array of past earnings
+    @Published var sectorPerformances = [SectorPerformance]() // Array of sector performances
+    
+    static let shared = FinancialAPIConnection() // Singleton element used to control data gathered
+    
     // Gather List of Search Results for Ticker
     public func searchTicker(ticker: String, exchange _: String?) {
         self.searchResults.removeAll()
@@ -36,6 +39,10 @@ final class FinancialAPIConnection: ObservableObject {
         }
     }
     
+    init() {
+        self.fetchSectorPerformances()
+    }
+    
     public func fetchStockPageData(ticker: String, numEarningsReports: Int? = 4) {
         self.fetchStockData(ticker: ticker)
         self.fetchCompanyProfile(ticker: ticker)
@@ -48,18 +55,20 @@ final class FinancialAPIConnection: ObservableObject {
     
     // Gather Stock Data for Ticker
     private func fetchStockData(ticker: String) {
+        self.stockPageData = StockPageData()
         // build get request
         let fetchStockDataURL = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/quote?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let stockPageRequest: DataRequest = AF.request(fetchStockDataURL)
         stockPageRequest.responseJSON { data in
-            do {
-                if let currData = data.data {
+            if let currData = data.data {
+                do {
                     let stockPageData = try JSONDecoder().decode(StockPageData.self, from: currData)
                     stockPageData.truncateExchangeName()
                     self.stockPageData = stockPageData
+                    return
+                } catch {
+                    print("Error using JSONDecoder to parse StockPageData type for stock symbol: \(ticker)")
                 }
-            } catch {
-                print(error.localizedDescription)
             }
         }
     }
@@ -129,27 +138,44 @@ final class FinancialAPIConnection: ObservableObject {
         let companyProfileDataRequest: DataRequest = AF.request(companyProfileURL)
         companyProfileDataRequest.responseJSON { data in
             if let profileData = data.data {
-                let json = JSON(profileData)
-                let companyProfile = CompanyProfile()
-                companyProfile.ticker = json["ticker"].stringValue
-                companyProfile.companyName = json["companyName"].stringValue
-                companyProfile.numEmployees = json["employees"].intValue
-                companyProfile.exchange = json["exchange"].stringValue
-                companyProfile.industry = json["industry"].stringValue
-                companyProfile.website = json["website"].stringValue
-                companyProfile.description = json["description"].stringValue
-                companyProfile.CEO = json["CEO"].stringValue
-                let tags = json["tags"].arrayObject
-                companyProfile.tags = tags as! [String]
-                companyProfile.address = json["address"].stringValue
-                companyProfile.state = json["state"].stringValue
-                companyProfile.city = json["city"].stringValue
-                companyProfile.zip = json["zip"].stringValue
-                companyProfile.country = json["country"].stringValue
-                companyProfile.phone = json["phone"].stringValue
-                companyProfile.truncateExchangeName()
-                print(companyProfile)
-                self.companyProfile = companyProfile
+                do {
+                    let companyProfile = try JSONDecoder().decode(CompanyProfile.self, from: profileData)
+                    companyProfile.truncateExchangeName()
+                    print(companyProfile)
+                    self.companyProfile = companyProfile
+                } catch {
+                    print("Error with JSONDecoder")
+                }
+            }
+        }
+    }
+    
+    private func fetchSectorPerformances() {
+        self.sectorPerformances.removeAll()
+        let sectorPerformanceURLString: String = "https://cloud.iexapis.com/stable/stock/market/sector-performance?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
+        let sectorPerformanceURL: URL = URL(string: sectorPerformanceURLString)!
+        let sectorPerformanceDataRequest: DataRequest = AF.request(sectorPerformanceURL)
+        sectorPerformanceDataRequest.responseJSON { data in
+            if let performanceData = data.data {
+                do {
+                    let sectorPerformanceArray: [SectorPerformance] = try JSONDecoder().decode([SectorPerformance].self, from: performanceData)
+                    self.sectorPerformances = sectorPerformanceArray
+                } catch {
+                    print("Error fetching sector performances.")
+                }
+            }
+        }
+    }
+    
+    /// NOT READY FOR PRODUCTION. As of Dec. 30, IEXCloud is in the process of finding a provider for this data set
+    private func fetchAnalystRecommendations(ticker: String) {
+        let recommendationURLString: String = "https://cloud.iexapis.com/stable/stock/\(ticker)/recommendation-trends?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
+        let recommendationURL = URL(string: recommendationURLString)!
+        let recommendationDataRequest: DataRequest = AF.request(recommendationURL)
+        recommendationDataRequest.responseJSON { data in
+            if let analystData = data.data {
+                let json = JSON(analystData)
+                print(json)
             }
         }
     }
