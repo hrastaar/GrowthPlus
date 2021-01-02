@@ -11,6 +11,7 @@ struct DiscoverView: View {
     @ObservedObject var financialToolConnection = FinancialAPIConnection.shared
     @ObservedObject var colorManager = CustomColors.shared
     @Environment(\.colorScheme) var colorScheme
+
     var body: some View {
         ScrollView {
             VStack {
@@ -23,24 +24,88 @@ struct DiscoverView: View {
                         Text("Welcome to the Discover Page, where you can see how the major sectors, indexes, and industries are currently performing.")
                             .font(primaryFont(size: 12))
                         
-                        HStack {
-                            Text("Sector Performances")
-                                .font(primaryFont(size: 20))
-                                .fontWeight(.bold)
-                            Spacer()
-                        }
-                        ScrollView(.horizontal) {
-                            HStack(spacing: 15) {
-                                ForEach(financialToolConnection.sectorPerformances.indices, id: \.self) { index in
-                                        SectorView(sector: financialToolConnection.sectorPerformances[index])
+                        Section {
+                            HStack {
+                                Text("Today's Sector Performances")
+                                    .font(primaryFont(size: 20))
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 15) {
+                                    ForEach(financialToolConnection.sectorPerformances.indices, id: \.self) { index in
+                                            SectorView(sector: financialToolConnection.sectorPerformances[index])
+                                                .padding(7.5)
+                                    }
+                                }
+                            } // ScrollView
+                            
+                            HStack {
+                                Text("Today's Most Active Stocks")
+                                    .font(primaryFont(size: 20))
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 15) {
+                                    ForEach(financialToolConnection.mostActiveStocks.indices, id: \.self) { index in
+                                        StockListView(stock: financialToolConnection.mostActiveStocks[index])
                                             .padding(7.5)
+                                    }
+                                }
+                            } // ScrollView
+                            
+                            HStack {
+                                Text("Today's Best Performing Stocks")
+                                    .font(primaryFont(size: 20))
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 15) {
+                                    ForEach(financialToolConnection.todayGainersStocks.indices, id: \.self) { index in
+                                        StockListView(stock: financialToolConnection.todayGainersStocks[index])
+                                            .padding(7.5)
+                                    }
+                                }
+                            } // ScrollView
+                            
+                            HStack {
+                                Text("Today's Worst Performing Stocks")
+                                    .font(primaryFont(size: 20))
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 15) {
+                                    ForEach(financialToolConnection.todayLosersStocks.indices, id: \.self) { index in
+                                        StockListView(stock: financialToolConnection.todayLosersStocks[index])
+                                            .padding(7.5)
+                                    }
+                                }
+                            } // ScrollView
+                            
+                            HStack {
+                                Text("News About Your Stocks")
+                                    .font(primaryFont(size: 20))
+                                    .fontWeight(.bold)
+                                Spacer()
+                            }
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 15) {
+                                    ForEach(financialToolConnection.holdingsNewsArticles.indices, id: \.self) { index in
+                                        NewsArticleView(newsArticle: financialToolConnection.holdingsNewsArticles[index])
+                                    }
                                 }
                             }
-                        } // ScrollView
+                        }
                     } // VStack
                 }.padding()
             }
         }.navigationTitle("Discover")
+        .onAppear {
+            self.financialToolConnection.getDiscoveryPageData()
+        }
     }
 }
 

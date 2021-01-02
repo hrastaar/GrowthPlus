@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftUICharts
 import SkeletonUI
+import PopupView
 
 struct StockPageView: View {
     let ticker: String
@@ -18,8 +19,9 @@ struct StockPageView: View {
     @State var sharesToBuy: String = ""
     @State var showInputTypeAlert: Bool = false
     @State var presentSuccessAlert: Bool = false
-    @State private var showOrderConfirmationConfetti: Bool = false
-    @State private var showCompanyProfilePopoverView: Bool = false
+    @State var successMessage = ""
+    @State var showOrderConfirmationConfetti: Bool = false
+    @State var showCompanyProfilePopoverView: Bool = false
     
     var body: some View {
         ZStack {
@@ -46,7 +48,14 @@ struct StockPageView: View {
             .padding()
             .zIndex(0.9)
         }
-
+        .popup(isPresented: $presentSuccessAlert) {
+            ShowSalePopupView(popupResult: .success, message: self.successMessage)
+                .opacity(self.presentSuccessAlert ? 1.0 : 0.0)
+        }
+        .popup(isPresented: $showInputTypeAlert) {
+            ShowSalePopupView(popupResult: .inputTypeError, message: "Invalid number of shares to sell. Please check your input.")
+                .opacity(self.showInputTypeAlert ? 1.0 : 0.0)
+        }
     }
 
     // Stock Heading: Ticker, Company Name, Price, Daily Change
@@ -97,6 +106,42 @@ struct StockPageView: View {
             }
         }
     }
+    
+    func ShowSalePopupView(popupResult: SellResponseCode, message: String) -> some View {
+        VStack(spacing: 10) {
+            Text(popupResult.description)
+                .foregroundColor(.white)
+                .fontWeight(.bold)
+            Spacer()
+            Text(message)
+                .font(primaryFont(size: 13))
+                .foregroundColor(.white)
+                .lineLimit(3)
+                .minimumScaleFactor(0.001)
+                .frame(minHeight: 60)
+                .multilineTextAlignment(.center)
+                .scaledToFit()
+            Spacer()
+            Button(action: {
+                // Set all flags to false
+                self.presentSuccessAlert = false
+                self.showInputTypeAlert = false
+            }) {
+                Text("Dismiss")
+                    .font(primaryFont(size: 14))
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+            }
+            .frame(width: 100, height: 40)
+            .background(CustomColors.shared.secondaryColor)
+            .cornerRadius(10)
+        }
+        .padding(EdgeInsets(top: 70, leading: 20, bottom: 40, trailing: 20))
+        .frame(width: 300, height: 300)
+        .background(CustomColors.shared.primaryColor)
+        .cornerRadius(10.0)
+        .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
+    }
 
     // View designated for purchasing shares of stock
     var PurchaseStockView: some View {
@@ -143,45 +188,24 @@ struct StockPageView: View {
                     .animation(type: .pulse())
             }
             Button(action: {
-                if let shares = Int(sharesToBuy) {
-                    self.presentSuccessAlert.toggle()
+                if let shares = Int(sharesToBuy), shares > 0 {
+                    self.successMessage = "You have successfully purchased \(shares) shares of \(ticker)"
+                    self.presentSuccessAlert = true
                     self.wallet.buyShare(ticker: ticker, shares: shares, salePrice: financialConnection.stockPageData.currentPrice)
                 } else {
-                    showInputTypeAlert.toggle()
+                    self.showInputTypeAlert = true
                 }
+                self.hideKeyboard()
             }, label: {
                 Text("Purchase")
                     .padding()
-                    .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.primaryColor))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(colorManager.primaryColor))
                     .frame(minWidth: 200)
-                    .foregroundColor(UIColor(colorManager.primaryColor).isLight()! && colorManager.primaryColor != Color(UIColor(hex: "#1ce4ac")) ? Color.black : Color.white)
+                    .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
                     .font(primaryFont(size: 18))
             }).buttonStyle(PlainButtonStyle())
-                .alert(isPresented: $showInputTypeAlert, content: {
-                    Alert(title:
-                        Text("Invalid Number of Shares")
-                            .font(Font.custom("DIN-D", size: 24.0)),
-                        message:
-                        Text("Please check that your input for number of shares to sell is a valid whole number")
-                            .font(Font.custom("DIN-D", size: 18.0)),
-                        dismissButton:
-                        .default(
-                            Text("Dismiss")
-                                .font(Font.custom("DIN-D", size: 22.0))
-                        ))
-                }) // end of alert
-                .alert(isPresented: $presentSuccessAlert, content: {
-                    Alert(title:
-                        Text("Congrats!")
-                            .font(Font.custom("DIN-D", size: 24.0)),
-                        message: Text("You have successfully purchased \(sharesToBuy) shares of \(ticker)!"),
-                        dismissButton:
-                        .default(
-                            Text("Dismiss")
-                                .font(Font.custom("DIN-D", size: 22.0))
-                        ))
-                }) // end of alert
         }
+        
     }
 
     // Statistical Information View for Current Stock
@@ -337,7 +361,7 @@ struct StockPageView: View {
                 Spacer()
             }.zIndex(1.0)
 
-            MultiLineChartView(data: [(self.financialConnection.stockChartPoints.map { $0.avgPrice }, GradientColor(start: CustomColors.shared.primaryColor, end: CustomColors.shared.primaryColor))], title: "", form: ChartForm.large, rateValue: Int(financialConnection.stockPageData.percentChange * 100), dropShadow: false)
+            MultiLineChartView(data: [(self.financialConnection.stockChartPoints.map { $0.avgPrice }, GradientColor(start: colorManager.primaryColor, end: colorManager.primaryColor))], title: "", form: ChartForm.large, rateValue: Int(financialConnection.stockPageData.percentChange * 100), dropShadow: false)
                 .font(primaryFont(size: 18))
                 .zIndex(0.1)
         }
@@ -347,122 +371,7 @@ struct StockPageView: View {
     
 }
 
-// Extention for popover view
-extension StockPageView {
-    var CompanyInfoPopoverView: some View {
-        VStack {
-            HStack {
-                Text("Hold Popup to Hide")
-                    .font(primaryFont(size: 12))
-                Spacer()
-                Text(financialConnection.companyProfile.ticker)
-                    .font(primaryFont(size: 12))
-                Divider()
-                    .background(Color.white)
-                    .frame(height: 15)
-                Text(financialConnection.companyProfile.exchange)
-                    .font(primaryFont(size: 12))
-            }.onTapGesture {
-                self.showCompanyProfilePopoverView = false
-            }
-            .padding(.horizontal)
-            .padding(.top)
-            
-            Text(financialConnection.companyProfile.companyName)
-                .font(primaryFont(size: 20))
-            
-            ScrollView {
-                VStack(spacing: 20) {
-                    Section {
-                        HStack {
-                            Text("Industry")
-                                .font(primaryFont(size: 15))
-                            Spacer()
-                            Text(financialConnection.companyProfile.industry)
-                                .font(primaryFont(size: 15))
-                        }
-                        if !financialConnection.companyProfile.CEO.isEmpty {
-                            HStack {
-                                Text("CEO")
-                                    .font(primaryFont(size: 15))
-                                Spacer()
-                                Text(financialConnection.companyProfile.CEO)
-                                    .font(primaryFont(size: 15))
-                            }
-                        }
-                        
-                        if let numEmployees = financialConnection.companyProfile.numEmployees {
-                            HStack {
-                                Text("No. of Employees")
-                                    .font(primaryFont(size: 15))
-                                Spacer()
-                                Text(numEmployees == 0 ? "NA" : String(numEmployees))
-                                    .font(.custom("DIN-D", size: 15))
-                            }
-                        }
-                        if let description = financialConnection.companyProfile.description {
-                            Text("Description")
-                                .font(primaryFont(size: 15))
-                            Text(description.isEmpty ? "Not Available" : "\t" + description)
-                                .font(primaryFont(size: 12))
-                                .multilineTextAlignment(.leading)
-                        }
-                        
-                    }.padding(.horizontal)
-                    Divider()
-                        .background(colorManager.primaryColor)
-                        .frame(width: UIScreen.main.bounds.width - 75)
-                    if let tags = financialConnection.companyProfile.tags {
-                        Section {
-                            Text("Company Tags")
-                                .font(primaryFont(size: 18))
-                            ForEach(tags.indices, id: \.self) { index in
-                                HStack {
-                                    Text(tags[index])
-                                        .padding(3)
-                                        .background(colorManager.primaryColor)
-                                        .foregroundColor(.white)
-                                        .cornerRadius(7.5)
-                                        .font(primaryFont(size: 15))
-                                }
-                            }
-                        }
-                        Divider()
-                            .background(colorManager.primaryColor)
-                            .frame(width: UIScreen.main.bounds.width - 75)
-                    }
-                    
-                    if financialConnection.companyProfile.addressAvailable() {
-                        Section {
-                            VStack {
-                                Text("Company Address")
-                                    .font(primaryFont(size: 18))
-                                Text(financialConnection.companyProfile.address)
-                                    .font(primaryFont(size: 13))
-                                HStack {
-                                    Text(financialConnection.companyProfile.city! + ", " + financialConnection.companyProfile.state!)
-                                        .font(primaryFont(size: 13))
-                                    Text(financialConnection.companyProfile.zip!)
-                                        .font(.custom("DIN-D", size: 13))
-                                }
-                                Text(financialConnection.companyProfile.phone)
-                                    .font(.custom("DIN-D", size: 13))
-                            }
-                        }.padding(.bottom)
-                    }
-                }
-                
-            } /// End of ScrollView
-        }.onLongPressGesture {
-            self.showCompanyProfilePopoverView = false
-        }
-        .frame(width: UIScreen.main.bounds.width - 10, height: UIScreen.main.bounds.height - 75, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        .background(Color.init(white: 0.07).opacity(0.95))
-        .foregroundColor(.white)
-        .cornerRadius(12.5)
-        .padding()
-    }
-}
+
 
 extension StockPageView {
     var AnalystRecommendationView: some View {

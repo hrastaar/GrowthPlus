@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import PopupView
 
 struct SellView: View {
     @ObservedObject var wallet: Portfolio
@@ -16,6 +17,9 @@ struct SellView: View {
     @State var sharesToSell: String = ""
     @State var showInputTypeAlert = false
     @State var showInvalidSharesNumberAlert = false
+    @State var showSuccess = false
+    @State var successMessage = ""
+    
     var body: some View {
         // Sell Section
         VStack {
@@ -58,17 +62,20 @@ struct SellView: View {
             }
             Divider()
             Button(action: {
-                if let numShares = Int(sharesToSell) {
+                if let numShares = Int(sharesToSell), numShares > 0 {
                     print(numShares)
                     print("available: \(wallet.selectedCard.shares)")
                     if numShares > wallet.selectedCard.shares {
-                        showInvalidSharesNumberAlert.toggle()
+                        self.showInvalidSharesNumberAlert = true
                     } else {
+                        self.successMessage = "Successfully sold \(numShares) shares of \(wallet.selectedCard.ticker)"
                         wallet.sellShare(ticker: wallet.selectedCard.ticker, shares: numShares, salePrice: wallet.selectedCard.currentPrice, avgPrice: wallet.selectedCard.avgCost)
+                        self.showSuccess = true
                     }
                 } else {
-                    self.showInputTypeAlert.toggle()
+                    self.showInputTypeAlert = true
                 }
+                self.hideKeyboard()
             }, label: {
                 Text("Sell")
                     .padding()
@@ -77,30 +84,80 @@ struct SellView: View {
                     .foregroundColor(.white)
                     .font(primaryFont(size: 18))
             }).buttonStyle(PlainButtonStyle())
-        }.alert(isPresented: $showInputTypeAlert, content: {
-            Alert(
-                title:
-                Text("Invalid Number of Shares")
-                    .font(Font.custom("DIN-D", size: 20.0)),
-                message:
-                Text("Please check that your input for number of shares to sell is a valid whole number")
-                    .font(Font.custom("DIN-D", size: 18.0)),
-                dismissButton:
-                .default(
-                    Text("Dismiss")
-                        .font(Font.custom("DIN-D", size: 20.0)),
-                    action: {}
-                )
-            )
-        }) // end of alert
-            .alert(isPresented: $showInvalidSharesNumberAlert, content: {
-                Alert(title: Text("Not Enough Shares"), message: Text("You can sell at most \(wallet.selectedCard.shares) shares of \(wallet.selectedCard.ticker)"), dismissButton: .default(Text("Dismiss"), action: {}))
-            }) // end of alert
+        }
+        .popup(isPresented: $showInvalidSharesNumberAlert) {
+            ShowSalePopupView(popupResult: .invalidNumberOfShares, message: "You can sell at most \(wallet.selectedCard.shares) shares of \(wallet.selectedCard.ticker)")
+                .opacity(showInvalidSharesNumberAlert ? 1.0 : 0.0)
+        }
+        
+        .popup(isPresented: $showSuccess) {
+            ShowSalePopupView(popupResult: .success, message: successMessage)
+                .opacity(showSuccess ? 1.0 : 0.0)
+        }
+        
+        .popup(isPresented: $showInputTypeAlert) {
+            ShowSalePopupView(popupResult: .inputTypeError, message: "Invalid number of shares to sell. Please check your input.")
+                .opacity(showInputTypeAlert ? 1.0 : 0.0)
+        }
+    }
+    
+    func ShowSalePopupView(popupResult: SellResponseCode, message: String) -> some View {
+        VStack(spacing: 10) {
+            Text(popupResult.description)
+                .foregroundColor(.white)
+                .fontWeight(.bold)
+            Spacer()
+            Text(message)
+                .font(primaryFont(size: 13))
+                .foregroundColor(.white)
+                .lineLimit(3)
+                .minimumScaleFactor(0.001)
+                .frame(minHeight: 60)
+                .multilineTextAlignment(.center)
+                .scaledToFit()
+            Spacer()
+            Button(action: {
+                // Set all flags to false
+                self.showSuccess = false
+                self.showInvalidSharesNumberAlert = false
+                self.showInputTypeAlert = false
+            }) {
+                Text("Dismiss")
+                    .font(primaryFont(size: 14))
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+            }
+            .frame(width: 100, height: 40)
+            .background(CustomColors.shared.secondaryColor)
+            .cornerRadius(10)
+        }
+        .padding(EdgeInsets(top: 70, leading: 20, bottom: 40, trailing: 20))
+        .frame(width: 300, height: 300)
+        .background(CustomColors.shared.primaryColor)
+        .cornerRadius(10.0)
+        .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
     }
 }
 
 struct SellView_Previews: PreviewProvider {
     static var previews: some View {
         SellView()
+    }
+}
+
+enum SellResponseCode: CustomStringConvertible {
+    case success
+    case invalidNumberOfShares
+    case inputTypeError
+    
+    var description: String {
+        switch self {
+        case .success:
+            return "Sale Confirmation"
+        case .invalidNumberOfShares:
+            return "Invalid Number of Shares"
+        case .inputTypeError:
+            return "Invalid Input"
+        }
     }
 }

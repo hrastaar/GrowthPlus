@@ -58,6 +58,30 @@ class CustomColors: ObservableObject {
             print("Successfully saved secondary color in realm to \(String(describing: self.realmColorPalette?.secondaryColor))")
         }
     }
+    
+    func getPrimaryBackgroundTextColor() -> Color {
+        let primaryUIColor = UIColor(self.primaryColor)
+        if let isLight = primaryUIColor.isLight() {
+            if isLight && primaryUIColor != UIColor(hex: "#1ce4ac") {
+                return .black
+            } else {
+                return .white
+            }
+        }
+        return .white
+    }
+    
+    func getSecondaryBackgroundTextColor() -> Color {
+        let secondaryUIColor = UIColor(self.secondaryColor)
+        if let isLight = secondaryUIColor.isLight() {
+            if isLight && secondaryUIColor != UIColor(hex: "#1ce4ac") {
+                return .black
+            } else {
+                return .white
+            }
+        }
+        return .white
+    }
 
     func resetColors() {
         primaryColor = Color(UIColor(hex: "#1ce4ac"))

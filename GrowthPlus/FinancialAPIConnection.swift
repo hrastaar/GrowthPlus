@@ -12,11 +12,19 @@ final class FinancialAPIConnection: ObservableObject {
     
     @Published var searchResults = [SearchResult]() // Search results when user searches a symbol
     @Published var stockNewsArticles = [StockNewsArticle]() // Array of articles associated with a current stock page
+    @Published var holdingsNewsArticles = [StockNewsArticle]()
     @Published var stockPageData = StockPageData() // Stock data for the StockPageView
     @Published var companyProfile = CompanyProfile() // Stock Company Profile for the popup (if available)
     @Published var stockChartPoints = [StockChartPoint]() // Chart points used to draw up daily performance
     @Published var stockEarnings = [Earnings]() // Array of past earnings
+    
+    
+    // Discover Page Data Sets
     @Published var sectorPerformances = [SectorPerformance]() // Array of sector performances
+    @Published var holdingNews = [StockNewsArticle]()
+    @Published var mostActiveStocks = [StockPageData]()
+    @Published var todayGainersStocks = [StockPageData]()
+    @Published var todayLosersStocks = [StockPageData]()
     
     static let shared = FinancialAPIConnection() // Singleton element used to control data gathered
     
@@ -39,8 +47,12 @@ final class FinancialAPIConnection: ObservableObject {
         }
     }
     
-    init() {
-        self.fetchSectorPerformances()
+    public func getDiscoveryPageData() {
+        if self.sectorPerformances.isEmpty {
+            self.fetchSectorPerformances()
+        }
+        self.initializeHoldingsNewsArticles()
+        self.fetchDailyListStocks()
     }
     
     public func fetchStockPageData(ticker: String, numEarningsReports: Int? = 4) {
@@ -159,7 +171,9 @@ final class FinancialAPIConnection: ObservableObject {
             if let performanceData = data.data {
                 do {
                     let sectorPerformanceArray: [SectorPerformance] = try JSONDecoder().decode([SectorPerformance].self, from: performanceData)
+                    print(JSON(performanceData))
                     self.sectorPerformances = sectorPerformanceArray
+                    print(self.sectorPerformances.map { $0.performance})
                 } catch {
                     print("Error fetching sector performances.")
                 }
@@ -176,6 +190,89 @@ final class FinancialAPIConnection: ObservableObject {
             if let analystData = data.data {
                 let json = JSON(analystData)
                 print(json)
+            }
+        }
+    }
+    
+    // gather all news articles for stocks in holdings and sort by date
+    private func initializeHoldingsNewsArticles() {
+        print("HI")
+        self.holdingsNewsArticles.removeAll()
+        let portfolioRef = Portfolio.shared
+        for card in portfolioRef.portfolioCards {
+            print(card.ticker)
+            let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(card.ticker)/news/latest/3?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+            let articleAPIRequest: DataRequest = AF.request(url)
+            articleAPIRequest.responseJSON { data in
+                do {
+                    if let articleData = data.data {
+                        var articleObjectArray: [StockNewsArticle] = try JSONDecoder().decode([StockNewsArticle].self, from: articleData)
+                        articleObjectArray.removeAll(where: {$0.language != "en"})
+                        self.holdingsNewsArticles.append(contentsOf: articleObjectArray)
+                    }
+                } catch {
+                    print(error.localizedDescription)
+                }
+            }
+        }
+        self.holdingsNewsArticles.sort { (a, b) -> Bool in
+            a.date < b.date
+        }
+    }
+    
+    private func fetchDailyListStocks() {
+        self.todayGainersStocks.removeAll()
+        self.todayLosersStocks.removeAll()
+        self.mostActiveStocks.removeAll()
+        
+        let mostActiveURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/mostactive?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let mostActiveDataRequest: DataRequest = AF.request(mostActiveURL)
+        mostActiveDataRequest.responseJSON { data in
+            if let currData = data.data {
+                do {
+                    let activeStocks = try JSONDecoder().decode([StockPageData].self, from: currData)
+                    for stock in activeStocks {
+                        stock.truncateExchangeName()
+                    }
+                    self.mostActiveStocks = activeStocks
+                    return
+                } catch {
+                    print("Error using JSONDecoder to parse list of most active stocks")
+                }
+            }
+        }
+        
+        let gainerListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/gainers?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let gainerDataRequest: DataRequest = AF.request(gainerListURL)
+        gainerDataRequest.responseJSON { data in
+            if let currData = data.data {
+                do {
+                    let gainerStocks = try JSONDecoder().decode([StockPageData].self, from: currData)
+                    for stock in gainerStocks {
+                        stock.truncateExchangeName()
+                    }
+                    self.todayGainersStocks = gainerStocks
+                    return
+                } catch {
+                    print("Error using JSONDecoder to parse list of gainer stocks")
+                }
+            }
+        }
+        
+        let loserListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/losers?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let loserDataRequest: DataRequest = AF.request(loserListURL)
+        loserDataRequest.responseJSON { data in
+            if let currData = data.data {
+                do {
+                    let loserStocks = try JSONDecoder().decode([StockPageData].self, from: currData)
+                    for stock in loserStocks {
+                        stock.truncateExchangeName()
+                    }
+                    self.todayLosersStocks = loserStocks
+                    return
+                } catch {
+                    print("Error using JSONDecoder to parse list of loser stocks")
+                }
             }
         }
     }

@@ -44,6 +44,9 @@
 		748E7D19258A1FFD00477F53 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D13258A1FFD00477F53 /* SearchResultView.swift */; };
 		748E7D1A258A1FFD00477F53 /* SellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D14258A1FFD00477F53 /* SellView.swift */; };
 		748E7D2A258A212100477F53 /* LandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D29258A212100477F53 /* LandingPageView.swift */; };
+		7492AF06259ECBC10039FCCF /* PopupView in Frameworks */ = {isa = PBXBuildFile; productRef = 7492AF05259ECBC10039FCCF /* PopupView */; };
+		7492AF1D25A029110039FCCF /* CompanyProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7492AF1C25A029110039FCCF /* CompanyProfileView.swift */; };
+		7492AF2225A03A020039FCCF /* StockListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7492AF2125A03A020039FCCF /* StockListView.swift */; };
 		74938F65258DFB17004385ED /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74938F64258DFB17004385ED /* SettingsView.swift */; };
 		74938F70258E0765004385ED /* LottieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74938F6F258E0765004385ED /* LottieView.swift */; };
 		7496683E259C27A9008A7501 /* SkeletonUI in Frameworks */ = {isa = PBXBuildFile; productRef = 7496683D259C27A9008A7501 /* SkeletonUI */; };
@@ -95,6 +98,8 @@
 		748E7D13258A1FFD00477F53 /* SearchResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		748E7D14258A1FFD00477F53 /* SellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellView.swift; sourceTree = "<group>"; };
 		748E7D29258A212100477F53 /* LandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
+		7492AF1C25A029110039FCCF /* CompanyProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanyProfileView.swift; sourceTree = "<group>"; };
+		7492AF2125A03A020039FCCF /* StockListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StockListView.swift; sourceTree = "<group>"; };
 		74938F64258DFB17004385ED /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		74938F6F258E0765004385ED /* LottieView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LottieView.swift; sourceTree = "<group>"; };
 		749AC44D259C865800C4BE68 /* education.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = education.json; sourceTree = "<group>"; };
@@ -109,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7492AF06259ECBC10039FCCF /* PopupView in Frameworks */,
 				745510982595DE74008AA796 /* SwiftUICharts in Frameworks */,
 				7496683E259C27A9008A7501 /* SkeletonUI in Frameworks */,
 				12974A05B533FD4967F14F6F /* Pods_GrowthPlus.framework in Frameworks */,
@@ -171,6 +177,7 @@
 			children = (
 				748E7D10258A1FFC00477F53 /* StockPageView.swift */,
 				745510722594890B008AA796 /* NewsArticleView.swift */,
+				7492AF1C25A029110039FCCF /* CompanyProfileView.swift */,
 			);
 			name = "Individual Stock Page";
 			sourceTree = "<group>";
@@ -263,6 +270,7 @@
 			children = (
 				74C16623259C7850009D7FB6 /* DiscoverView.swift */,
 				74C16627259C793E009D7FB6 /* SectorView.swift */,
+				7492AF2125A03A020039FCCF /* StockListView.swift */,
 			);
 			path = "Discover Page";
 			sourceTree = "<group>";
@@ -296,6 +304,7 @@
 			packageProductDependencies = (
 				745510972595DE74008AA796 /* SwiftUICharts */,
 				7496683D259C27A9008A7501 /* SkeletonUI */,
+				7492AF05259ECBC10039FCCF /* PopupView */,
 			);
 			productName = GrowthPlus;
 			productReference = 748E7CE1258A1FAC00477F53 /* GrowthPlus.app */;
@@ -329,6 +338,7 @@
 				7455108025948EF7008AA796 /* XCRemoteSwiftPackageReference "url-image" */,
 				745510962595DE74008AA796 /* XCRemoteSwiftPackageReference "ChartView" */,
 				7496683C259C27A9008A7501 /* XCRemoteSwiftPackageReference "SkeletonUI" */,
+				7492AF04259ECBC10039FCCF /* XCRemoteSwiftPackageReference "PopupView" */,
 			);
 			productRefGroup = 748E7CE2258A1FAC00477F53 /* Products */;
 			projectDirPath = "";
@@ -411,6 +421,7 @@
 				74441146258F09B600F54290 /* TechnologyData.swift in Sources */,
 				748E7D02258A1FE800477F53 /* InvestmentHeaderView.swift in Sources */,
 				74938F65258DFB17004385ED /* SettingsView.swift in Sources */,
+				7492AF1D25A029110039FCCF /* CompanyProfileView.swift in Sources */,
 				748B49862598454400F10EFA /* CompanyProfile.swift in Sources */,
 				748E7D0C258A1FF600477F53 /* RealmObjects.swift in Sources */,
 				748E7D07258A1FF000477F53 /* Portfolio.swift in Sources */,
@@ -436,6 +447,7 @@
 				74C16617259C6DBF009D7FB6 /* AnalystRecommendation.swift in Sources */,
 				7444112A258EF65A00F54290 /* TechnologiesUsedView.swift in Sources */,
 				748E7CF8258A1FDA00477F53 /* Color+Extension.swift in Sources */,
+				7492AF2225A03A020039FCCF /* StockListView.swift in Sources */,
 				748E7D15258A1FFD00477F53 /* SearchStockView.swift in Sources */,
 				748B49522596DD8C00F10EFA /* StockChartPoint.swift in Sources */,
 			);
@@ -650,6 +662,14 @@
 				minimumVersion = 1.5.4;
 			};
 		};
+		7492AF04259ECBC10039FCCF /* XCRemoteSwiftPackageReference "PopupView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/PopupView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.10;
+			};
+		};
 		74938F5F258DF8AE004385ED /* XCRemoteSwiftPackageReference "ConfettiView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ziligy/ConfettiView";
@@ -673,6 +693,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 745510962595DE74008AA796 /* XCRemoteSwiftPackageReference "ChartView" */;
 			productName = SwiftUICharts;
+		};
+		7492AF05259ECBC10039FCCF /* PopupView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7492AF04259ECBC10039FCCF /* XCRemoteSwiftPackageReference "PopupView" */;
+			productName = PopupView;
 		};
 		7496683D259C27A9008A7501 /* SkeletonUI */ = {
 			isa = XCSwiftPackageProductDependency;
