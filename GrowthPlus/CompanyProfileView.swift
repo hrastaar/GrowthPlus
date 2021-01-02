@@ -92,6 +92,7 @@ extension StockPageView {
                             .frame(width: UIScreen.main.bounds.width - 75)
                     }
                     
+                    // If true, it is guaranteed that none of the address data is nil
                     if financialConnection.companyProfile.addressAvailable() {
                         Section {
                             VStack {

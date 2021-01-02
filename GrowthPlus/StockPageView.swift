@@ -309,7 +309,7 @@ struct StockPageView: View {
                         Text("P/E Ratio")
                             .font(primaryFont(size: 14))
                         Spacer()
-                        Text(String(format: "%.2f", financialConnection.stockPageData.peRatio ?? 0.00))
+                        Text(String(financialConnection.stockPageData.peRatio))
                             .font(Font.custom("DIN-D", size: 14.0))
                             .skeleton(with: !(financialConnection.stockPageData.success ?? false))
                             .animation(type: .pulse())

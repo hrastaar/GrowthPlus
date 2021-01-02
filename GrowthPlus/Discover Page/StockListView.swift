@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StockListView: View {
-    var stock: StockPageData
+    var stock: StockListData
     @ObservedObject var colorManager = CustomColors.shared
     
     var body: some View {
@@ -19,7 +19,7 @@ struct StockListView: View {
                     .minimumScaleFactor(0.001)
                     .lineLimit(2)
                 Spacer()
-                Text(String(format: "%.2f%%", stock.percentChange * 100.000))
+                Text(stock.displayPercentChange)
                     .fontWeight(.bold)
                 Spacer()
                 Text(stock.companyName)
@@ -43,6 +43,6 @@ struct StockListView: View {
 
 struct StockListView_Previews: PreviewProvider {
     static var previews: some View {
-        StockListView(stock: StockPageData(companyName: "Apple Inc.", ticker: "AAPL", currentPrice: 0.00, percentChange: 0.0148, dailyChange: 0.00, volume: 10000000, avgVolume: 10000000, latestTime: "", open: 0.0, low: 0.0, high: 0.0, yearLow: 0.0, yearHigh: 0.0, primaryExchange: "NASDAQ", marketCap: 0, peRatio: 0))
+        StockListView(stock: StockListData(ticker: "AAPL", companyName: "Apple Inc.", percentChange: 0.013, dailyChange: 1.32))
     }
 }

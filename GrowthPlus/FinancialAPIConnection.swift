@@ -10,21 +10,24 @@ import SwiftyJSON
 
 final class FinancialAPIConnection: ObservableObject {
     
+    // Search Page Data Sets
     @Published var searchResults = [SearchResult]() // Search results when user searches a symbol
+    
+    // Stock Page Data Sets
     @Published var stockNewsArticles = [StockNewsArticle]() // Array of articles associated with a current stock page
-    @Published var holdingsNewsArticles = [StockNewsArticle]()
     @Published var stockPageData = StockPageData() // Stock data for the StockPageView
-    @Published var companyProfile = CompanyProfile() // Stock Company Profile for the popup (if available)
     @Published var stockChartPoints = [StockChartPoint]() // Chart points used to draw up daily performance
     @Published var stockEarnings = [Earnings]() // Array of past earnings
     
+    // Stock Company Profile Popup Data Sets
+    @Published var companyProfile = CompanyProfile() // Stock Company Profile for the popup (if available)
     
     // Discover Page Data Sets
-    @Published var sectorPerformances = [SectorPerformance]() // Array of sector performances
-    @Published var holdingNews = [StockNewsArticle]()
-    @Published var mostActiveStocks = [StockPageData]()
-    @Published var todayGainersStocks = [StockPageData]()
-    @Published var todayLosersStocks = [StockPageData]()
+    @Published var dailySectorPerformancesList = [SectorPerformance]() // Array of sector performances
+    @Published var dailyMostActiveStocksList = [StockListData]()
+    @Published var dailyBestPerformingStocksList = [StockListData]()
+    @Published var dailyWorstPerformingStocksList = [StockListData]()
+    @Published var portfolioHoldingsNewsArticlesList = [StockNewsArticle]()
     
     static let shared = FinancialAPIConnection() // Singleton element used to control data gathered
     
@@ -48,7 +51,7 @@ final class FinancialAPIConnection: ObservableObject {
     }
     
     public func getDiscoveryPageData() {
-        if self.sectorPerformances.isEmpty {
+        if self.dailySectorPerformancesList.isEmpty {
             self.fetchSectorPerformances()
         }
         self.initializeHoldingsNewsArticles()
@@ -60,7 +63,6 @@ final class FinancialAPIConnection: ObservableObject {
         self.fetchCompanyProfile(ticker: ticker)
         self.fetchNewsArticles(ticker: ticker)
         self.gatherChartPoints(ticker: ticker)
-        //self.fetchEarningsReports(ticker: ticker, numberOfReports: numEarningsReports)
     }
 
     // PRIVATE FINANCIAL TOOL FUNCTIONALITIES
@@ -163,7 +165,7 @@ final class FinancialAPIConnection: ObservableObject {
     }
     
     private func fetchSectorPerformances() {
-        self.sectorPerformances.removeAll()
+        self.dailySectorPerformancesList.removeAll()
         let sectorPerformanceURLString: String = "https://cloud.iexapis.com/stable/stock/market/sector-performance?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
         let sectorPerformanceURL: URL = URL(string: sectorPerformanceURLString)!
         let sectorPerformanceDataRequest: DataRequest = AF.request(sectorPerformanceURL)
@@ -171,9 +173,7 @@ final class FinancialAPIConnection: ObservableObject {
             if let performanceData = data.data {
                 do {
                     let sectorPerformanceArray: [SectorPerformance] = try JSONDecoder().decode([SectorPerformance].self, from: performanceData)
-                    print(JSON(performanceData))
-                    self.sectorPerformances = sectorPerformanceArray
-                    print(self.sectorPerformances.map { $0.performance})
+                    self.dailySectorPerformancesList = sectorPerformanceArray
                 } catch {
                     print("Error fetching sector performances.")
                 }
@@ -196,11 +196,9 @@ final class FinancialAPIConnection: ObservableObject {
     
     // gather all news articles for stocks in holdings and sort by date
     private func initializeHoldingsNewsArticles() {
-        print("HI")
-        self.holdingsNewsArticles.removeAll()
+        self.portfolioHoldingsNewsArticlesList.removeAll()
         let portfolioRef = Portfolio.shared
         for card in portfolioRef.portfolioCards {
-            print(card.ticker)
             let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(card.ticker)/news/latest/3?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
             let articleAPIRequest: DataRequest = AF.request(url)
             articleAPIRequest.responseJSON { data in
@@ -208,72 +206,83 @@ final class FinancialAPIConnection: ObservableObject {
                     if let articleData = data.data {
                         var articleObjectArray: [StockNewsArticle] = try JSONDecoder().decode([StockNewsArticle].self, from: articleData)
                         articleObjectArray.removeAll(where: {$0.language != "en"})
-                        self.holdingsNewsArticles.append(contentsOf: articleObjectArray)
+                        self.portfolioHoldingsNewsArticlesList.append(contentsOf: articleObjectArray)
                     }
                 } catch {
                     print(error.localizedDescription)
                 }
             }
         }
-        self.holdingsNewsArticles.sort { (a, b) -> Bool in
+        self.portfolioHoldingsNewsArticlesList.sort { (a, b) -> Bool in
             a.date < b.date
         }
     }
     
     private func fetchDailyListStocks() {
-        self.todayGainersStocks.removeAll()
-        self.todayLosersStocks.removeAll()
-        self.mostActiveStocks.removeAll()
-        
+        fetchMostActiveStocks()
+        fetchDailyGainers()
+        fetchDailyLosers()
+    }
+    
+    private func fetchMostActiveStocks() {
+        self.dailyMostActiveStocksList.removeAll()
         let mostActiveURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/mostactive?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let mostActiveDataRequest: DataRequest = AF.request(mostActiveURL)
         mostActiveDataRequest.responseJSON { data in
             if let currData = data.data {
-                do {
-                    let activeStocks = try JSONDecoder().decode([StockPageData].self, from: currData)
-                    for stock in activeStocks {
-                        stock.truncateExchangeName()
-                    }
-                    self.mostActiveStocks = activeStocks
-                    return
-                } catch {
-                    print("Error using JSONDecoder to parse list of most active stocks")
-                }
-            }
-        }
-        
-        let gainerListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/gainers?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
-        let gainerDataRequest: DataRequest = AF.request(gainerListURL)
-        gainerDataRequest.responseJSON { data in
-            if let currData = data.data {
-                do {
-                    let gainerStocks = try JSONDecoder().decode([StockPageData].self, from: currData)
-                    for stock in gainerStocks {
-                        stock.truncateExchangeName()
-                    }
-                    self.todayGainersStocks = gainerStocks
-                    return
-                } catch {
-                    print("Error using JSONDecoder to parse list of gainer stocks")
-                }
-            }
-        }
-        
-        let loserListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/losers?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
-        let loserDataRequest: DataRequest = AF.request(loserListURL)
-        loserDataRequest.responseJSON { data in
-            if let currData = data.data {
-                do {
-                    let loserStocks = try JSONDecoder().decode([StockPageData].self, from: currData)
-                    for stock in loserStocks {
-                        stock.truncateExchangeName()
-                    }
-                    self.todayLosersStocks = loserStocks
-                    return
-                } catch {
-                    print("Error using JSONDecoder to parse list of loser stocks")
+                let json = JSON(currData)
+                let jsonToArray = json.arrayValue
+                for point in jsonToArray {
+                    let ticker = point["symbol"].stringValue
+                    let companyName = point["companyName"].stringValue
+                    let dailyChange = point["change"].doubleValue
+                    let percentChange = point["changePercent"].doubleValue
+                    let stockListElement = StockListData(ticker: ticker, companyName: companyName, percentChange: percentChange, dailyChange: dailyChange)
+                    self.dailyMostActiveStocksList.append(stockListElement)
                 }
             }
         }
     }
+    
+    private func fetchDailyGainers() {
+        self.dailyBestPerformingStocksList.removeAll()
+        let gainerListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/gainers?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let gainerDataRequest: DataRequest = AF.request(gainerListURL)
+        gainerDataRequest.responseJSON { data in
+            if let currData = data.data {
+                let json = JSON(currData)
+                let jsonToArray = json.arrayValue
+                for point in jsonToArray {
+                    let ticker = point["symbol"].stringValue
+                    let companyName = point["companyName"].stringValue
+                    let dailyChange = point["change"].doubleValue
+                    let percentChange = point["changePercent"].doubleValue
+                    let stockListElement = StockListData(ticker: ticker, companyName: companyName, percentChange: percentChange, dailyChange: dailyChange)
+                    self.dailyBestPerformingStocksList.append(stockListElement)
+                }
+            }
+        }
+    }
+    
+    private func fetchDailyLosers() {
+        self.dailyWorstPerformingStocksList.removeAll()
+        let loserListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/losers?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let loserDataRequest: DataRequest = AF.request(loserListURL)
+        loserDataRequest.responseJSON { data in
+            if let currData = data.data {
+                let json = JSON(currData)
+                let jsonToArray = json.arrayValue
+                for point in jsonToArray {
+                    let ticker = point["symbol"].stringValue
+                    let companyName = point["companyName"].stringValue
+                    let dailyChange = point["change"].doubleValue
+                    let percentChange = point["changePercent"].doubleValue
+                    let stockListElement = StockListData(ticker: ticker, companyName: companyName, percentChange: percentChange, dailyChange: dailyChange)
+                    self.dailyWorstPerformingStocksList.append(stockListElement)
+                }
+            }
+        }
+    }
+    
+
 }

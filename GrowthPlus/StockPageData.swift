@@ -27,7 +27,7 @@ class StockPageData: ObservableObject, Codable {
 
     var primaryExchange: String
     var marketCap: Int
-    var peRatio: Double? = 0.00
+    var peRatio: Double = 0.00
     var success: Bool? {
         companyName != "NA" && currentPrice != 0.00
     }

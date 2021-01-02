@@ -10,7 +10,9 @@ import SwiftUI
 struct SearchResultView: View {
     let searchResult: SearchResult
     @ObservedObject var StockSearch = FinancialAPIConnection.shared
+    @ObservedObject var colorManager = CustomColors.shared
     @ObservedObject var stockData = StockPageData()
+    
     var body: some View {
         NavigationLink(destination: StockPageView(ticker: searchResult.ticker)) {
             VStack(spacing: 8) {
@@ -19,7 +21,7 @@ struct SearchResultView: View {
                         .font(primaryFont(size: 16))
                         .fontWeight(.semibold)
                         .lineLimit(2)
-                        .foregroundColor(CustomColors.shared.primaryColor)
+                        .foregroundColor(colorManager.primaryColor)
                     Spacer()
                 }
                 HStack(spacing: 15) {
@@ -27,7 +29,7 @@ struct SearchResultView: View {
                         .font(primaryFont(size: 13))
                         .minimumScaleFactor(0.001)
                         .lineLimit(1)
-                        .foregroundColor(CustomColors.shared.primaryColor)
+                        .foregroundColor(colorManager.primaryColor)
                     Spacer()
                 }
             }

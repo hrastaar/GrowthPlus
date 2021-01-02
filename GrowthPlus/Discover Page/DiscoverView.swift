@@ -31,14 +31,21 @@ struct DiscoverView: View {
                                     .fontWeight(.bold)
                                 Spacer()
                             }
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 15) {
-                                    ForEach(financialToolConnection.sectorPerformances.indices, id: \.self) { index in
-                                            SectorView(sector: financialToolConnection.sectorPerformances[index])
-                                                .padding(7.5)
+                            if !financialToolConnection.dailySectorPerformancesList.isEmpty {
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 15) {
+                                        ForEach(financialToolConnection.dailySectorPerformancesList.indices, id: \.self) { index in
+                                                SectorView(sector: financialToolConnection.dailySectorPerformancesList[index])
+                                                    .padding(7.5)
+                                        }
                                     }
-                                }
-                            } // ScrollView
+                                } // ScrollView
+                            } else {
+                                Text("Unable to fetch sector performances from our data provider")
+                                    .font(primaryFont(size: 12))
+                                    .multilineTextAlignment(.center)
+                            }
+                            
                             
                             HStack {
                                 Text("Today's Most Active Stocks")
@@ -48,8 +55,8 @@ struct DiscoverView: View {
                             }
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 15) {
-                                    ForEach(financialToolConnection.mostActiveStocks.indices, id: \.self) { index in
-                                        StockListView(stock: financialToolConnection.mostActiveStocks[index])
+                                    ForEach(financialToolConnection.dailyMostActiveStocksList.indices, id: \.self) { index in
+                                        StockListView(stock: financialToolConnection.dailyMostActiveStocksList[index])
                                             .padding(7.5)
                                     }
                                 }
@@ -61,14 +68,21 @@ struct DiscoverView: View {
                                     .fontWeight(.bold)
                                 Spacer()
                             }
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 15) {
-                                    ForEach(financialToolConnection.todayGainersStocks.indices, id: \.self) { index in
-                                        StockListView(stock: financialToolConnection.todayGainersStocks[index])
-                                            .padding(7.5)
+                            if !financialToolConnection.dailyBestPerformingStocksList.isEmpty {
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 15) {
+                                        ForEach(financialToolConnection.dailyBestPerformingStocksList.indices, id: \.self) { index in
+                                            StockListView(stock: financialToolConnection.dailyBestPerformingStocksList[index])
+                                                .padding(7.5)
+                                        }
                                     }
-                                }
-                            } // ScrollView
+                                } // ScrollView
+                            } else {
+                                Text("Unable to fetch today's best performing stocks from our data provider")
+                                    .font(primaryFont(size: 12))
+                                    .multilineTextAlignment(.center)
+                            }
+                            
                             
                             HStack {
                                 Text("Today's Worst Performing Stocks")
@@ -76,14 +90,21 @@ struct DiscoverView: View {
                                     .fontWeight(.bold)
                                 Spacer()
                             }
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 15) {
-                                    ForEach(financialToolConnection.todayLosersStocks.indices, id: \.self) { index in
-                                        StockListView(stock: financialToolConnection.todayLosersStocks[index])
-                                            .padding(7.5)
+                            if !financialToolConnection.dailyWorstPerformingStocksList.isEmpty {
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 15) {
+                                        ForEach(financialToolConnection.dailyWorstPerformingStocksList.indices, id: \.self) { index in
+                                            StockListView(stock: financialToolConnection.dailyWorstPerformingStocksList[index])
+                                                .padding(7.5)
+                                        }
                                     }
-                                }
-                            } // ScrollView
+                                } // ScrollView
+                            } else {
+                                Text("Unable to fetch today's worst performing stocks from our data provider")
+                                    .font(primaryFont(size: 12))
+                                    .multilineTextAlignment(.center)
+                            }
+                            
                             
                             HStack {
                                 Text("News About Your Stocks")
@@ -93,8 +114,8 @@ struct DiscoverView: View {
                             }
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: 15) {
-                                    ForEach(financialToolConnection.holdingsNewsArticles.indices, id: \.self) { index in
-                                        NewsArticleView(newsArticle: financialToolConnection.holdingsNewsArticles[index])
+                                    ForEach(financialToolConnection.portfolioHoldingsNewsArticlesList.indices, id: \.self) { index in
+                                        NewsArticleView(newsArticle: financialToolConnection.portfolioHoldingsNewsArticlesList[index])
                                     }
                                 }
                             }

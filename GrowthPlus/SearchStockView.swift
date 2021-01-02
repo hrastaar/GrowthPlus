@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct SearchStockView: View {
-    @State var ticker: String = ""
-    @ObservedObject var wallet = Portfolio.shared
     @ObservedObject var StockSearch = FinancialAPIConnection.shared
+    
+    @State var ticker: String = ""
     @State var searchQuery: String = ""
+    
     var body: some View {
         ScrollView {
             VStack {
@@ -31,13 +32,16 @@ struct SearchStockView: View {
                         searchQuery = searchQuery.uppercased()
                         StockSearch.searchTicker(ticker: value, exchange: nil)
                     })
+                
                 Spacer()
+                
                 ForEach(self.StockSearch.searchResults.indices, id: \.self) { index in
                     SearchResultView(searchResult: self.StockSearch.searchResults[index])
                     Divider()
                         .foregroundColor(.white)
                 }
-            }.padding(25)
+            } // end of VStack
+            .padding(25)
 
         }.onTapGesture {
             self.hideKeyboard()

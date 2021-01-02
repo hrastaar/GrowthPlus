@@ -11,16 +11,8 @@ import SwiftUI
 import SwiftyJSON
 
 struct LandingPageView: View {
-    @ObservedObject var wallet: Portfolio
+    @ObservedObject var wallet = Portfolio.shared
     @ObservedObject var customColors = CustomColors.shared
-    @State var firstVisit: Bool = false
-    init() {
-        wallet = Portfolio.shared
-        firstVisit = wallet.firstVisit
-        if firstVisit {
-            print("First visit")
-        }
-    }
 
     var body: some View {
         NavigationView {
@@ -29,15 +21,13 @@ struct LandingPageView: View {
                     HeaderView()
                     InvestmentHeaderView()
                     MenuUtilitiesView()
-                    if wallet.loadedHoldings {
-                        if wallet.portfolioCards.count > 0 && wallet.presentStocks {
-                            PortfolioListView()
-                            Divider()
-                            PerformanceView()
-                            Divider()
-                            SellView()
-                            Spacer()
-                        }
+                    if wallet.loadedHoldings && !wallet.portfolioCards.isEmpty && wallet.presentStocks {
+                        PortfolioListView()
+                        Divider()
+                        PerformanceView()
+                        Divider()
+                        SellView()
+                        Spacer()
                     }
                 }.padding(25)
             }.onTapGesture {

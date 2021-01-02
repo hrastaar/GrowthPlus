@@ -6,12 +6,23 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct SectorPerformance: Decodable {
     let type: String
     let name: String
     let performance: Double
     let lastUpdated: Double
+    
+    var performanceString: String {
+        String(format: "%.2f%%", performance * 100.00)
+    }
+    
+    // Selects green / red depending on sector's performance
+    var backgroundColor: Color {
+        self.performance >= 0 ? Color.green : Color.red
+    }
+    
     var dateString: String {
         let d = NSDate(timeIntervalSince1970: lastUpdated)
         let formatter = DateFormatter()
