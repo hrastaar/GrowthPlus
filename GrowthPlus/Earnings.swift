@@ -14,13 +14,13 @@ struct Earnings: Codable {
     let surprisePercentage: Double
     let reportDate: String
     let fiscalPeriod: String
-    
+
     enum CodingKeys: String, CodingKey {
-        case symbol = "symbol"
-        case actualEPS = "actualEPS"
+        case symbol
+        case actualEPS
         case expectedEPS = "consensusEPS"
         case surprisePercentage = "EPSSurpriseDollarPercent"
         case reportDate = "EPSReportDate"
-        case fiscalPeriod = "fiscalPeriod"
+        case fiscalPeriod
     }
 }

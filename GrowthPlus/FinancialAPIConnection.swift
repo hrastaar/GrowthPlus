@@ -9,31 +9,30 @@ import Alamofire
 import SwiftyJSON
 
 final class FinancialAPIConnection: ObservableObject {
-    
     // Search Page Data Sets
     @Published var searchResults = [SearchResult]() // Search results when user searches a symbol
-    
+
     // Stock Page Data Sets
     @Published var stockNewsArticles = [StockNewsArticle]() // Array of articles associated with a current stock page
     @Published var stockPageData = StockPageData() // Stock data for the StockPageView
     @Published var stockChartPoints = [StockChartPoint]() // Chart points used to draw up daily performance
     @Published var stockEarnings = [Earnings]() // Array of past earnings
-    
+
     // Stock Company Profile Popup Data Sets
     @Published var companyProfile = CompanyProfile() // Stock Company Profile for the popup (if available)
-    
+
     // Discover Page Data Sets
     @Published var dailySectorPerformancesList = [SectorPerformance]() // Array of sector performances
     @Published var dailyMostActiveStocksList = [StockListData]()
     @Published var dailyBestPerformingStocksList = [StockListData]()
     @Published var dailyWorstPerformingStocksList = [StockListData]()
     @Published var portfolioHoldingsNewsArticlesList = [StockNewsArticle]()
-    
+
     static let shared = FinancialAPIConnection() // Singleton element used to control data gathered
-    
+
     // Gather List of Search Results for Ticker
     public func searchTicker(ticker: String, exchange _: String?) {
-        self.searchResults.removeAll()
+        searchResults.removeAll()
         let stockTickerSearchURL = URL(string: "https://cloud.iexapis.com/stable/search/\(ticker)?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let stockTickerSearchRequest: DataRequest = AF.request(stockTickerSearchURL)
         stockTickerSearchRequest.responseJSON { data in
@@ -41,7 +40,7 @@ final class FinancialAPIConnection: ObservableObject {
                 if let responseData = data.data {
                     var searchResults: [SearchResult] = try JSONDecoder().decode([SearchResult].self, from: responseData)
                     searchResults.removeAll(where: { $0.region != "US" })
-                    searchResults.removeAll(where: { $0.companyName.isEmpty || $0.ticker.isEmpty})
+                    searchResults.removeAll(where: { $0.companyName.isEmpty || $0.ticker.isEmpty })
                     self.searchResults = Array(searchResults.prefix(10))
                 }
             } catch {
@@ -49,27 +48,27 @@ final class FinancialAPIConnection: ObservableObject {
             }
         }
     }
-    
+
     public func getDiscoveryPageData() {
-        if self.dailySectorPerformancesList.isEmpty {
-            self.fetchSectorPerformances()
+        if dailySectorPerformancesList.isEmpty {
+            fetchSectorPerformances()
         }
-        self.initializeHoldingsNewsArticles()
-        self.fetchDailyListStocks()
+        initializeHoldingsNewsArticles()
+        fetchDailyListStocks()
     }
-    
-    public func fetchStockPageData(ticker: String, numEarningsReports: Int? = 4) {
-        self.fetchStockData(ticker: ticker)
-        self.fetchCompanyProfile(ticker: ticker)
-        self.fetchNewsArticles(ticker: ticker)
-        self.gatherChartPoints(ticker: ticker)
+
+    public func fetchStockPageData(ticker: String, numEarningsReports _: Int? = 4) {
+        fetchStockData(ticker: ticker)
+        fetchCompanyProfile(ticker: ticker)
+        fetchNewsArticles(ticker: ticker)
+        gatherChartPoints(ticker: ticker)
     }
 
     // PRIVATE FINANCIAL TOOL FUNCTIONALITIES
-    
+
     // Gather Stock Data for Ticker
     private func fetchStockData(ticker: String) {
-        self.stockPageData = StockPageData()
+        stockPageData = StockPageData()
         // build get request
         let fetchStockDataURL = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/quote?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let stockPageRequest: DataRequest = AF.request(fetchStockDataURL)
@@ -78,6 +77,7 @@ final class FinancialAPIConnection: ObservableObject {
                 do {
                     let stockPageData = try JSONDecoder().decode(StockPageData.self, from: currData)
                     stockPageData.truncateExchangeName()
+                    stockPageData.checkIfValid()
                     self.stockPageData = stockPageData
                     return
                 } catch {
@@ -95,7 +95,7 @@ final class FinancialAPIConnection: ObservableObject {
             do {
                 if let articleData = data.data {
                     var articleObjectArray: [StockNewsArticle] = try JSONDecoder().decode([StockNewsArticle].self, from: articleData)
-                    articleObjectArray.removeAll(where: {$0.language != "en"})
+                    articleObjectArray.removeAll(where: { $0.language != "en" })
                     self.stockNewsArticles = articleObjectArray
                 }
             } catch {
@@ -125,7 +125,7 @@ final class FinancialAPIConnection: ObservableObject {
             }
         }
     }
-    
+
     private func fetchEarningsReports(ticker: String, numberOfReports: Int? = 4) {
         stockEarnings.removeAll()
         let earningsURLString: String = "https://cloud.iexapis.com/stable/stock/\(ticker)/earnings/\(numberOfReports!)?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
@@ -145,7 +145,7 @@ final class FinancialAPIConnection: ObservableObject {
             }
         }
     }
-    
+
     private func fetchCompanyProfile(ticker: String) {
         let companyProfileURLString: String = "https://cloud.iexapis.com/stable/stock/\(ticker)/company?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
         let companyProfileURL = URL(string: companyProfileURLString)!
@@ -163,11 +163,11 @@ final class FinancialAPIConnection: ObservableObject {
             }
         }
     }
-    
+
     private func fetchSectorPerformances() {
-        self.dailySectorPerformancesList.removeAll()
+        dailySectorPerformancesList.removeAll()
         let sectorPerformanceURLString: String = "https://cloud.iexapis.com/stable/stock/market/sector-performance?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
-        let sectorPerformanceURL: URL = URL(string: sectorPerformanceURLString)!
+        let sectorPerformanceURL = URL(string: sectorPerformanceURLString)!
         let sectorPerformanceDataRequest: DataRequest = AF.request(sectorPerformanceURL)
         sectorPerformanceDataRequest.responseJSON { data in
             if let performanceData = data.data {
@@ -180,7 +180,7 @@ final class FinancialAPIConnection: ObservableObject {
             }
         }
     }
-    
+
     /// NOT READY FOR PRODUCTION. As of Dec. 30, IEXCloud is in the process of finding a provider for this data set
     private func fetchAnalystRecommendations(ticker: String) {
         let recommendationURLString: String = "https://cloud.iexapis.com/stable/stock/\(ticker)/recommendation-trends?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
@@ -193,10 +193,10 @@ final class FinancialAPIConnection: ObservableObject {
             }
         }
     }
-    
+
     // gather all news articles for stocks in holdings and sort by date
     private func initializeHoldingsNewsArticles() {
-        self.portfolioHoldingsNewsArticlesList.removeAll()
+        portfolioHoldingsNewsArticlesList.removeAll()
         let portfolioRef = Portfolio.shared
         for card in portfolioRef.portfolioCards {
             let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(card.ticker)/news/latest/3?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
@@ -205,7 +205,7 @@ final class FinancialAPIConnection: ObservableObject {
                 do {
                     if let articleData = data.data {
                         var articleObjectArray: [StockNewsArticle] = try JSONDecoder().decode([StockNewsArticle].self, from: articleData)
-                        articleObjectArray.removeAll(where: {$0.language != "en"})
+                        articleObjectArray.removeAll(where: { $0.language != "en" })
                         self.portfolioHoldingsNewsArticlesList.append(contentsOf: articleObjectArray)
                     }
                 } catch {
@@ -213,19 +213,19 @@ final class FinancialAPIConnection: ObservableObject {
                 }
             }
         }
-        self.portfolioHoldingsNewsArticlesList.sort { (a, b) -> Bool in
+        portfolioHoldingsNewsArticlesList.sort { (a, b) -> Bool in
             a.date < b.date
         }
     }
-    
+
     private func fetchDailyListStocks() {
         fetchMostActiveStocks()
         fetchDailyGainers()
         fetchDailyLosers()
     }
-    
+
     private func fetchMostActiveStocks() {
-        self.dailyMostActiveStocksList.removeAll()
+        dailyMostActiveStocksList.removeAll()
         let mostActiveURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/mostactive?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let mostActiveDataRequest: DataRequest = AF.request(mostActiveURL)
         mostActiveDataRequest.responseJSON { data in
@@ -243,9 +243,9 @@ final class FinancialAPIConnection: ObservableObject {
             }
         }
     }
-    
+
     private func fetchDailyGainers() {
-        self.dailyBestPerformingStocksList.removeAll()
+        dailyBestPerformingStocksList.removeAll()
         let gainerListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/gainers?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let gainerDataRequest: DataRequest = AF.request(gainerListURL)
         gainerDataRequest.responseJSON { data in
@@ -263,9 +263,9 @@ final class FinancialAPIConnection: ObservableObject {
             }
         }
     }
-    
+
     private func fetchDailyLosers() {
-        self.dailyWorstPerformingStocksList.removeAll()
+        dailyWorstPerformingStocksList.removeAll()
         let loserListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/losers?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let loserDataRequest: DataRequest = AF.request(loserListURL)
         loserDataRequest.responseJSON { data in
@@ -283,6 +283,4 @@ final class FinancialAPIConnection: ObservableObject {
             }
         }
     }
-    
-
 }

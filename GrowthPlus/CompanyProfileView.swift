@@ -27,10 +27,10 @@ extension StockPageView {
             }
             .padding(.horizontal)
             .padding(.top)
-            
+
             Text(financialConnection.companyProfile.companyName)
                 .font(primaryFont(size: 20))
-            
+
             ScrollView {
                 VStack(spacing: 20) {
                     Section {
@@ -50,7 +50,7 @@ extension StockPageView {
                                     .font(primaryFont(size: 15))
                             }
                         }
-                        
+
                         if let numEmployees = financialConnection.companyProfile.numEmployees {
                             HStack {
                                 Text("No. of Employees")
@@ -67,7 +67,7 @@ extension StockPageView {
                                 .font(primaryFont(size: 12))
                                 .multilineTextAlignment(.leading)
                         }
-                        
+
                     }.padding(.horizontal)
                     Divider()
                         .background(colorManager.primaryColor)
@@ -91,7 +91,7 @@ extension StockPageView {
                             .background(colorManager.primaryColor)
                             .frame(width: UIScreen.main.bounds.width - 75)
                     }
-                    
+
                     // If true, it is guaranteed that none of the address data is nil
                     if financialConnection.companyProfile.addressAvailable() {
                         Section {
@@ -112,13 +112,12 @@ extension StockPageView {
                         }.padding(.bottom)
                     }
                 }
-                
             } /// End of ScrollView
         }.onLongPressGesture {
             self.showCompanyProfilePopoverView = false
         }
-        .frame(width: UIScreen.main.bounds.width - 10, height: UIScreen.main.bounds.height - 75, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        .background(Color.init(white: 0.07).opacity(0.95))
+        .frame(width: UIScreen.main.bounds.width - 10, height: UIScreen.main.bounds.height - 75, alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/)
+        .background(Color(white: 0.07).opacity(0.95))
         .foregroundColor(.white)
         .cornerRadius(12.5)
         .padding()

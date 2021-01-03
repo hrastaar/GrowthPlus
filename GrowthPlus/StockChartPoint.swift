@@ -12,7 +12,7 @@ struct StockChartPoint: Codable {
     let avgPrice: Double
     let highPrice: Double
     let lowPrice: Double
-    
+
     enum CodingKeys: String, CodingKey {
         case timeLabel = "label"
         case avgPrice = "average"

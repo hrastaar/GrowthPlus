@@ -5,30 +5,36 @@
 //  Created by Rastaar Haghi on 12/15/20.
 //
 
+import PopupView
+import SkeletonUI
 import SwiftUI
 import SwiftUICharts
-import SkeletonUI
-import PopupView
+import ActivityIndicatorView
 
 struct StockPageView: View {
     let ticker: String
     @ObservedObject var wallet = Portfolio.shared
     @ObservedObject var financialConnection = FinancialAPIConnection.shared
     @ObservedObject var colorManager = CustomColors.shared
-    
+
     @State var sharesToBuy: String = ""
     @State var showInputTypeAlert: Bool = false
     @State var presentSuccessAlert: Bool = false
     @State var successMessage = ""
     @State var showOrderConfirmationConfetti: Bool = false
     @State var showCompanyProfilePopoverView: Bool = false
-    
+    @State var unableToLoadAlert = false
+    @State var showLoadingIndicator = !FinancialAPIConnection.shared.stockPageData.successfulLoad
     var body: some View {
         ZStack {
             if showCompanyProfilePopoverView {
                 CompanyInfoPopoverView
                     .zIndex(1.0)
             }
+            ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .flickeringDots)
+                 .frame(width: 50.0, height: 50.0)
+                 .foregroundColor(colorManager.primaryColor)
+                 .zIndex(1.0)
             ScrollView {
                 VStack {
                     StockHeaderView
@@ -42,9 +48,21 @@ struct StockPageView: View {
                 } // end of VStack
             }.onAppear {
                 self.financialConnection.fetchStockPageData(ticker: ticker)
+                self.showLoadingIndicator = !self.financialConnection.stockPageData.successfulLoad
+                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                    if !(financialConnection.stockPageData.success ?? false) {
+                        self.unableToLoadAlert = true
+                        showLoadingIndicator = false
+                    }
+                }
+                
             }.onTapGesture {
                 self.hideKeyboard()
-            }
+            } .onDisappear {
+                self.unableToLoadAlert = false
+            } .onChange(of: financialConnection.stockPageData.successfulLoad, perform: { value in
+                self.showLoadingIndicator = !value
+            })
             .padding()
             .zIndex(0.9)
         }
@@ -56,6 +74,10 @@ struct StockPageView: View {
             ShowSalePopupView(popupResult: .inputTypeError, message: "Invalid number of shares to sell. Please check your input.")
                 .opacity(self.showInputTypeAlert ? 1.0 : 0.0)
         }
+        .popup(isPresented: $unableToLoadAlert) {
+            ShowErrorLoadingView()
+                .opacity(self.unableToLoadAlert ? 1.0 : 0.0)
+        }
     }
 
     // Stock Heading: Ticker, Company Name, Price, Daily Change
@@ -65,7 +87,7 @@ struct StockPageView: View {
                 Text(financialConnection.stockPageData.ticker)
                     .font(primaryFont(size: 18))
                     .fontWeight(.medium)
-                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                     .animation(type: .pulse())
 
                 Spacer()
@@ -74,7 +96,7 @@ struct StockPageView: View {
                 Text(financialConnection.stockPageData.companyName)
                     .font(primaryFont(size: 24))
                     .fontWeight(.semibold)
-                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                     .animation(type: .pulse())
 
                 Button(action: {
@@ -82,7 +104,7 @@ struct StockPageView: View {
                 }, label: {
                     Image(systemName: "info")
                         .accentColor(self.colorManager.primaryColor)
-                }).disabled(!(financialConnection.stockPageData.success ?? false))
+                }).disabled(!(financialConnection.stockPageData.successfulLoad))
                 Spacer()
             }
             Divider()
@@ -90,7 +112,7 @@ struct StockPageView: View {
                 Text(String(format: "$%.2f", financialConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 24.0))
                     .fontWeight(.semibold)
-                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                     .animation(type: .pulse())
 
                 Spacer()
@@ -100,13 +122,13 @@ struct StockPageView: View {
                     .font(Font.custom("DIN-D", size: 20.0))
                     .foregroundColor(profitLossColor(inputDouble: financialConnection.stockPageData.dailyChange))
                     .fontWeight(.semibold)
-                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                     .animation(type: .pulse())
                 Spacer()
             }
         }
     }
-    
+
     func ShowSalePopupView(popupResult: SellResponseCode, message: String) -> some View {
         VStack(spacing: 10) {
             Text(popupResult.description)
@@ -142,6 +164,37 @@ struct StockPageView: View {
         .cornerRadius(10.0)
         .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
     }
+    
+    func ShowErrorLoadingView() -> some View {
+        VStack(spacing: 10) {
+            Text("Error Loading Stock Data")
+                .fontWeight(.bold)
+            Text("Unable to load stock data for the ticker: \(ticker) at the moment.")
+                .font(primaryFont(size: 13))
+                .foregroundColor(.white)
+                .lineLimit(3)
+                .minimumScaleFactor(0.001)
+                .frame(minHeight: 60)
+                .multilineTextAlignment(.center)
+                .scaledToFit()
+            Spacer()
+            Button(action: {
+                self.unableToLoadAlert = false
+            }) {
+                Text("Dismiss")
+                    .font(primaryFont(size: 14))
+                    .foregroundColor(.white)
+                    .fontWeight(.bold)
+            }
+        }
+        .padding(EdgeInsets(top: 70, leading: 20, bottom: 40, trailing: 20))
+        .frame(width: 300, height: 300)
+        .foregroundColor(.white)
+        .background(colorManager.primaryColor)
+        .cornerRadius(10.0)
+        .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
+
+    }
 
     // View designated for purchasing shares of stock
     var PurchaseStockView: some View {
@@ -158,7 +211,7 @@ struct StockPageView: View {
                     .multilineTextAlignment(.trailing)
                     .textContentType(.creditCardNumber)
                     .font(Font.custom("DIN-D", size: 16.0))
-                    .disabled(!(financialConnection.stockPageData.success ?? false))
+                    .disabled(!(financialConnection.stockPageData.successfulLoad))
             }
             Divider()
             // Market Price
@@ -170,7 +223,7 @@ struct StockPageView: View {
                 Text(DollarString(value: financialConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 16.0))
                     .fontWeight(.medium)
-                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                     .animation(type: .pulse())
             }
 
@@ -184,7 +237,7 @@ struct StockPageView: View {
                 Text(DollarString(value: Double(Int(sharesToBuy) ?? 0) * financialConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 16.0))
                     .fontWeight(.medium)
-                    .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                     .animation(type: .pulse())
             }
             Button(action: {
@@ -205,7 +258,6 @@ struct StockPageView: View {
                     .font(primaryFont(size: 18))
             }).buttonStyle(PlainButtonStyle())
         }
-        
     }
 
     // Statistical Information View for Current Stock
@@ -224,7 +276,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.open))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -234,7 +286,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.high))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -244,7 +296,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.low))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -254,7 +306,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.yearHigh))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -264,7 +316,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.yearLow))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -281,7 +333,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(String(financialConnection.stockPageData.volume))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -291,7 +343,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(String(financialConnection.stockPageData.avgVolume))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -301,7 +353,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(String(financialConnection.stockPageData.marketCap))
                             .font(Font.custom("DIN-D", size: 12.0))
-                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -309,9 +361,9 @@ struct StockPageView: View {
                         Text("P/E Ratio")
                             .font(primaryFont(size: 14))
                         Spacer()
-                        Text(String(financialConnection.stockPageData.peRatio))
+                        Text(String(financialConnection.stockPageData.peRatio ?? 0.00))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -323,7 +375,7 @@ struct StockPageView: View {
                             .font(primaryFont(size: 14))
                             .minimumScaleFactor(0.001)
                             .lineLimit(1)
-                            .skeleton(with: !(financialConnection.stockPageData.success ?? false))
+                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -365,13 +417,8 @@ struct StockPageView: View {
                 .font(primaryFont(size: 18))
                 .zIndex(0.1)
         }
-        
     }
-    
-    
 }
-
-
 
 extension StockPageView {
     var AnalystRecommendationView: some View {

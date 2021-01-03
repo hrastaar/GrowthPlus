@@ -15,7 +15,7 @@ class StockPageData: ObservableObject, Codable {
     var percentChange: Double
     var dailyChange: Double
     var latestTime: String
-
+    @Published var successfulLoad: Bool = false
     var volume: Int
     var avgVolume: Int
 
@@ -27,11 +27,11 @@ class StockPageData: ObservableObject, Codable {
 
     var primaryExchange: String
     var marketCap: Int
-    var peRatio: Double = 0.00
+    var peRatio: Double? = 0.00
     var success: Bool? {
         companyName != "NA" && currentPrice != 0.00
     }
-    
+
     init(companyName: String, ticker: String, currentPrice: Double, percentChange: Double, dailyChange: Double, volume: Int, avgVolume: Int, latestTime: String, open: Double, low: Double, high: Double, yearLow: Double, yearHigh: Double, primaryExchange: String, marketCap: Int, peRatio: Double) {
         self.companyName = companyName
         self.ticker = ticker
@@ -69,41 +69,45 @@ class StockPageData: ObservableObject, Codable {
         marketCap = 0
         peRatio = 0.00
     }
-    
+
     enum CodingKeys: String, CodingKey {
-        case companyName = "companyName"
+        case companyName
         case ticker = "symbol"
         // Intraday Info
         case currentPrice = "latestPrice"
         case percentChange = "changePercent"
         case dailyChange = "change"
-        case volume = "volume"
+        case volume
         case avgVolume = "avgTotalVolume"
-        case latestTime = "latestTime"
+        case latestTime
         // Record Price Data
-        case open = "open"
-        case low = "low"
-        case high = "high"
+        case open
+        case low
+        case high
         case yearLow = "week52Low"
         case yearHigh = "week52High"
         // Market Cap Data
-        case primaryExchange = "primaryExchange"
-        case marketCap = "marketCap"
-        case peRatio = "peRatio"
+        case primaryExchange
+        case marketCap
+        case peRatio
     }
-    
+
     func truncateExchangeName() {
-        if self.primaryExchange == "NEW YORK STOCK EXCHANGE, INC." {
-            self.primaryExchange = "NYSE"
+        if primaryExchange == "NEW YORK STOCK EXCHANGE, INC." {
+            primaryExchange = "NYSE"
             return
         }
         var shortenedExchange = ""
-        for char in self.primaryExchange {
+        for char in primaryExchange {
             if char == "/" || char == "(" {
                 break
             }
             shortenedExchange.append(char)
         }
-        self.primaryExchange = shortenedExchange
+        primaryExchange = shortenedExchange
+    }
+    
+    func checkIfValid() {
+        self.successfulLoad = companyName != "NA" && currentPrice != 0.00
     }
 }

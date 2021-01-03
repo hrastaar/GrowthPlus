@@ -10,7 +10,7 @@ import SwiftUI
 struct StockListView: View {
     var stock: StockListData
     @ObservedObject var colorManager = CustomColors.shared
-    
+
     var body: some View {
         NavigationLink(destination: StockPageView(ticker: stock.ticker)) {
             VStack {
@@ -32,7 +32,7 @@ struct StockListView: View {
             .background(colorManager.secondaryColor)
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.purple, lineWidth: 5)
+                    .stroke(colorManager.primaryColor, lineWidth: 5)
             )
             .font(Font.custom("DIN-D", size: 18.0))
             .cornerRadius(20)

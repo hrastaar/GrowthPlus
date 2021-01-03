@@ -27,38 +27,41 @@ class CompanyProfile: ObservableObject, Decodable {
     var isValidProfile: Bool {
         !ticker.isEmpty
     }
+
     func addressAvailable() -> Bool {
-        if let _ = self.address,
-           let _ = self.state,
-           let _ = self.city,
-           let _ = self.zip {
+        if let _ = address,
+           let _ = state,
+           let _ = city,
+           let _ = zip
+        {
             return true
         } else {
             return false
         }
     }
+
     var success: Bool? {
         !ticker.isEmpty && !companyName.isEmpty
     }
-    
+
     init() {
-        self.ticker = ""
-        self.companyName = ""
-        self.numEmployees = 0
-        self.exchange = ""
-        self.industry = ""
-        self.website = ""
-        self.description = ""
-        self.CEO = ""
-        self.tags = [String]()
-        self.address = ""
-        self.state = ""
-        self.city = ""
-        self.zip = ""
-        self.country = ""
-        self.phone = ""
+        ticker = ""
+        companyName = ""
+        numEmployees = 0
+        exchange = ""
+        industry = ""
+        website = ""
+        description = ""
+        CEO = ""
+        tags = [String]()
+        address = ""
+        state = ""
+        city = ""
+        zip = ""
+        country = ""
+        phone = ""
     }
-    
+
     init(ticker: String, companyName: String, numEmployees: Int, exchange: String, industry: String, website: String, description: String, CEO: String, tags: [String], address: String, state: String, city: String, zip: String, country: String, phone: String) {
         self.ticker = ticker
         self.companyName = companyName
@@ -76,7 +79,7 @@ class CompanyProfile: ObservableObject, Decodable {
         self.country = country
         self.phone = phone
     }
-    
+
     func truncateExchangeName() {
         if let exchange = self.exchange {
             if exchange == "NEW YORK STOCK EXCHANGE, INC." {
@@ -93,22 +96,22 @@ class CompanyProfile: ObservableObject, Decodable {
             self.exchange = shortenedExchange
         }
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case ticker = "symbol"
-        case companyName = "companyName"
+        case companyName
         case numEmployees = "employees"
-        case exchange = "exchange"
-        case industry = "industry"
-        case website = "website"
-        case description = "description"
-        case CEO = "CEO"
-        case tags = "tags"
-        case address = "address"
-        case state = "state"
-        case city = "city"
-        case zip = "zip"
-        case country = "country"
-        case phone = "phone"
+        case exchange
+        case industry
+        case website
+        case description
+        case CEO
+        case tags
+        case address
+        case state
+        case city
+        case zip
+        case country
+        case phone
     }
 }

@@ -12,7 +12,7 @@ struct SearchResultView: View {
     @ObservedObject var StockSearch = FinancialAPIConnection.shared
     @ObservedObject var colorManager = CustomColors.shared
     @ObservedObject var stockData = StockPageData()
-    
+
     var body: some View {
         NavigationLink(destination: StockPageView(ticker: searchResult.ticker)) {
             VStack(spacing: 8) {

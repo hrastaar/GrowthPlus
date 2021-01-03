@@ -33,6 +33,6 @@ struct SectorView: View {
 
 struct SectorView_Previews: PreviewProvider {
     static var previews: some View {
-        SectorView(sector: SectorPerformance(type: "sector", name: "Communication Services", performance: -0.00475, lastUpdated: 1609275600021))
+        SectorView(sector: SectorPerformance(type: "sector", name: "Communication Services", performance: -0.00475, lastUpdated: 1_609_275_600_021))
     }
 }

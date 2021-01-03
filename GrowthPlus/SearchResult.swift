@@ -12,10 +12,10 @@ struct SearchResult: Codable {
     let ticker: String
     let companyName: String
     let region: String
-    
+
     enum CodingKeys: String, CodingKey {
         case ticker = "symbol"
         case companyName = "securityName"
-        case region = "region"
+        case region
     }
 }

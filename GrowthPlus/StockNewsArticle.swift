@@ -16,14 +16,14 @@ struct StockNewsArticle: Codable {
     let articleURL: String
     let related: String
     let imageURL: String
-    
+
     enum CodingKeys: String, CodingKey {
         case language = "lang"
         case date = "datetime"
-        case headline = "headline"
-        case source = "source"
+        case headline
+        case source
         case articleURL = "url"
-        case related = "related"
+        case related
         case imageURL = "image"
     }
 }

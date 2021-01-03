@@ -9,10 +9,10 @@ import SwiftUI
 
 struct SearchStockView: View {
     @ObservedObject var StockSearch = FinancialAPIConnection.shared
-    
+
     @State var ticker: String = ""
     @State var searchQuery: String = ""
-    
+
     var body: some View {
         ScrollView {
             VStack {
@@ -32,9 +32,9 @@ struct SearchStockView: View {
                         searchQuery = searchQuery.uppercased()
                         StockSearch.searchTicker(ticker: value, exchange: nil)
                     })
-                
+
                 Spacer()
-                
+
                 ForEach(self.StockSearch.searchResults.indices, id: \.self) { index in
                     SearchResultView(searchResult: self.StockSearch.searchResults[index])
                     Divider()

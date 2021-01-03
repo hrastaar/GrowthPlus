@@ -20,10 +20,10 @@ struct DiscoverView: View {
                         LottieView(fileName: "education", backgroundColor: colorScheme == .dark ? Color.black : Color.white)
                             .frame(height: 250)
                             .cornerRadius(12)
-                        
+
                         Text("Welcome to the Discover Page, where you can see how the major sectors, indexes, and industries are currently performing.")
                             .font(primaryFont(size: 12))
-                        
+
                         Section {
                             HStack {
                                 Text("Today's Sector Performances")
@@ -35,8 +35,8 @@ struct DiscoverView: View {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 15) {
                                         ForEach(financialToolConnection.dailySectorPerformancesList.indices, id: \.self) { index in
-                                                SectorView(sector: financialToolConnection.dailySectorPerformancesList[index])
-                                                    .padding(7.5)
+                                            SectorView(sector: financialToolConnection.dailySectorPerformancesList[index])
+                                                .padding(7.5)
                                         }
                                     }
                                 } // ScrollView
@@ -45,8 +45,7 @@ struct DiscoverView: View {
                                     .font(primaryFont(size: 12))
                                     .multilineTextAlignment(.center)
                             }
-                            
-                            
+
                             HStack {
                                 Text("Today's Most Active Stocks")
                                     .font(primaryFont(size: 20))
@@ -61,7 +60,7 @@ struct DiscoverView: View {
                                     }
                                 }
                             } // ScrollView
-                            
+
                             HStack {
                                 Text("Today's Best Performing Stocks")
                                     .font(primaryFont(size: 20))
@@ -82,8 +81,7 @@ struct DiscoverView: View {
                                     .font(primaryFont(size: 12))
                                     .multilineTextAlignment(.center)
                             }
-                            
-                            
+
                             HStack {
                                 Text("Today's Worst Performing Stocks")
                                     .font(primaryFont(size: 20))
@@ -104,8 +102,7 @@ struct DiscoverView: View {
                                     .font(primaryFont(size: 12))
                                     .multilineTextAlignment(.center)
                             }
-                            
-                            
+
                             HStack {
                                 Text("News About Your Stocks")
                                     .font(primaryFont(size: 20))
@@ -124,9 +121,9 @@ struct DiscoverView: View {
                 }.padding()
             }
         }.navigationTitle("Discover")
-        .onAppear {
-            self.financialToolConnection.getDiscoveryPageData()
-        }
+            .onAppear {
+                self.financialToolConnection.getDiscoveryPageData()
+            }
     }
 }
 

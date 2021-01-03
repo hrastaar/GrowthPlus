@@ -22,7 +22,7 @@ struct NewsArticleView: View {
             }
             .frame(height: 60)
             .padding(.horizontal)
-            
+
             Text(newsArticle.headline)
                 .font(primaryFont(size: 13))
                 .fontWeight(.semibold)

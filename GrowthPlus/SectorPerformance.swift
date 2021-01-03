@@ -13,16 +13,16 @@ struct SectorPerformance: Decodable {
     let name: String
     let performance: Double
     let lastUpdated: Double
-    
+
     var performanceString: String {
         String(format: "%.2f%%", performance * 100.00)
     }
-    
+
     // Selects green / red depending on sector's performance
     var backgroundColor: Color {
-        self.performance >= 0 ? Color.green : Color.red
+        performance >= 0 ? Color.green : Color.red
     }
-    
+
     var dateString: String {
         let d = NSDate(timeIntervalSince1970: lastUpdated)
         let formatter = DateFormatter()
@@ -33,10 +33,11 @@ struct SectorPerformance: Decodable {
         print(d.description)
         return formatter.string(from: d as Date)
     }
+
     enum CodingKeys: String, CodingKey {
-        case type = "type"
-        case name = "name"
-        case performance = "performance"
-        case lastUpdated = "lastUpdated"
+        case type
+        case name
+        case performance
+        case lastUpdated
     }
 }

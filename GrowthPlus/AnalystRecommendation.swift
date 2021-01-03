@@ -15,14 +15,14 @@ struct AnalystRecommendation: Decodable {
     let ratingSell: Int
     let ratingNone: Int
     let ratingScaleMark: Double // average of analyst recommendation scores
-    
+
     enum CodingKeys: String, CodingKey {
-        case ratingBuy = "ratingBuy"
-        case ratingOverweight = "ratingOverweight"
-        case ratingHold = "ratingHold"
-        case ratingUnderweight = "ratingUnderweight"
-        case ratingSell = "ratingSell"
-        case ratingNone = "ratingNone"
-        case ratingScaleMark = "ratingScaleMark"
+        case ratingBuy
+        case ratingOverweight
+        case ratingHold
+        case ratingUnderweight
+        case ratingSell
+        case ratingNone
+        case ratingScaleMark
     }
 }

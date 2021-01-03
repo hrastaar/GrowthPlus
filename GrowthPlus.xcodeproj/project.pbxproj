@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		12974A05B533FD4967F14F6F /* Pods_GrowthPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131C2A8E07ABD848E4B014DC /* Pods_GrowthPlus.framework */; };
+		467039301737FAAD5541AE61 /* Pods_GrowthPlus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2B22DB3891AC29A3F2AB88 /* Pods_GrowthPlus.framework */; };
 		7444112A258EF65A00F54290 /* TechnologiesUsedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74441129258EF65A00F54290 /* TechnologiesUsedView.swift */; };
 		74441130258EF83A00F54290 /* IndividualTechnologyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7444112F258EF83A00F54290 /* IndividualTechnologyView.swift */; };
 		74441143258F098500F54290 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74441142258F098500F54290 /* GlobalVariables.swift */; };
@@ -18,6 +18,7 @@
 		745510942594A411008AA796 /* painter.json in Resources */ = {isa = PBXBuildFile; fileRef = 745510932594A411008AA796 /* painter.json */; };
 		745510982595DE74008AA796 /* SwiftUICharts in Frameworks */ = {isa = PBXBuildFile; productRef = 745510972595DE74008AA796 /* SwiftUICharts */; };
 		748390F225A11C2E0000E9DA /* StockListData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748390F125A11C2E0000E9DA /* StockListData.swift */; };
+		748390FF25A133D20000E9DA /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 748390FE25A133D20000E9DA /* ActivityIndicatorView */; };
 		7489C8D5258E102D0085BC69 /* ColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7489C8D4258E102D0085BC69 /* ColorSelectionView.swift */; };
 		7489C8DB258E1F600085BC69 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7489C8DA258E1F600085BC69 /* CustomColors.swift */; };
 		748B49492596DD2C00F10EFA /* StockPageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748B49482596DD2C00F10EFA /* StockPageData.swift */; };
@@ -59,9 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		083293320DF8317C0C005F16 /* Pods-GrowthPlus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrowthPlus.release.xcconfig"; path = "Target Support Files/Pods-GrowthPlus/Pods-GrowthPlus.release.xcconfig"; sourceTree = "<group>"; };
-		131C2A8E07ABD848E4B014DC /* Pods_GrowthPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GrowthPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A39BF1716945DDAF0971713 /* Pods-GrowthPlus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrowthPlus.debug.xcconfig"; path = "Target Support Files/Pods-GrowthPlus/Pods-GrowthPlus.debug.xcconfig"; sourceTree = "<group>"; };
+		17BCEE6F3745DE5D7A0B7DAE /* Pods-GrowthPlus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrowthPlus.debug.xcconfig"; path = "Target Support Files/Pods-GrowthPlus/Pods-GrowthPlus.debug.xcconfig"; sourceTree = "<group>"; };
 		74441129258EF65A00F54290 /* TechnologiesUsedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechnologiesUsedView.swift; sourceTree = "<group>"; };
 		7444112F258EF83A00F54290 /* IndividualTechnologyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualTechnologyView.swift; sourceTree = "<group>"; };
 		74441142258F098500F54290 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
@@ -109,6 +108,8 @@
 		74C16619259C70BE009D7FB6 /* SectorPerformance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorPerformance.swift; sourceTree = "<group>"; };
 		74C16623259C7850009D7FB6 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
 		74C16627259C793E009D7FB6 /* SectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectorView.swift; sourceTree = "<group>"; };
+		8A2B22DB3891AC29A3F2AB88 /* Pods_GrowthPlus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GrowthPlus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BABFE30E409D90651939F41C /* Pods-GrowthPlus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GrowthPlus.release.xcconfig"; path = "Target Support Files/Pods-GrowthPlus/Pods-GrowthPlus.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,21 +117,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				748390FF25A133D20000E9DA /* ActivityIndicatorView in Frameworks */,
 				7492AF06259ECBC10039FCCF /* PopupView in Frameworks */,
 				745510982595DE74008AA796 /* SwiftUICharts in Frameworks */,
 				7496683E259C27A9008A7501 /* SkeletonUI in Frameworks */,
-				12974A05B533FD4967F14F6F /* Pods_GrowthPlus.framework in Frameworks */,
+				467039301737FAAD5541AE61 /* Pods_GrowthPlus.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		01D51DF5C8D68F33F038A170 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8A2B22DB3891AC29A3F2AB88 /* Pods_GrowthPlus.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5061E11EA1F588A41B616D87 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3A39BF1716945DDAF0971713 /* Pods-GrowthPlus.debug.xcconfig */,
-				083293320DF8317C0C005F16 /* Pods-GrowthPlus.release.xcconfig */,
+				17BCEE6F3745DE5D7A0B7DAE /* Pods-GrowthPlus.debug.xcconfig */,
+				BABFE30E409D90651939F41C /* Pods-GrowthPlus.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -190,7 +200,7 @@
 				748E7CE3258A1FAC00477F53 /* GrowthPlus */,
 				748E7CE2258A1FAC00477F53 /* Products */,
 				5061E11EA1F588A41B616D87 /* Pods */,
-				A01F3F1750E6D35697381218 /* Frameworks */,
+				01D51DF5C8D68F33F038A170 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -278,14 +288,6 @@
 			path = "Discover Page";
 			sourceTree = "<group>";
 		};
-		A01F3F1750E6D35697381218 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				131C2A8E07ABD848E4B014DC /* Pods_GrowthPlus.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -293,11 +295,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 748E7CF0258A1FAC00477F53 /* Build configuration list for PBXNativeTarget "GrowthPlus" */;
 			buildPhases = (
-				2ADACD42185DACA6EDED861B /* [CP] Check Pods Manifest.lock */,
+				1958B731C81B9212A61C28BB /* [CP] Check Pods Manifest.lock */,
 				748E7CDD258A1FAC00477F53 /* Sources */,
 				748E7CDE258A1FAC00477F53 /* Frameworks */,
 				748E7CDF258A1FAC00477F53 /* Resources */,
-				8505C518E15A507F88CF1D0D /* [CP] Embed Pods Frameworks */,
+				B100F24C744BD0E1288ADDCA /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -308,6 +310,7 @@
 				745510972595DE74008AA796 /* SwiftUICharts */,
 				7496683D259C27A9008A7501 /* SkeletonUI */,
 				7492AF05259ECBC10039FCCF /* PopupView */,
+				748390FE25A133D20000E9DA /* ActivityIndicatorView */,
 			);
 			productName = GrowthPlus;
 			productReference = 748E7CE1258A1FAC00477F53 /* GrowthPlus.app */;
@@ -342,6 +345,7 @@
 				745510962595DE74008AA796 /* XCRemoteSwiftPackageReference "ChartView" */,
 				7496683C259C27A9008A7501 /* XCRemoteSwiftPackageReference "SkeletonUI" */,
 				7492AF04259ECBC10039FCCF /* XCRemoteSwiftPackageReference "PopupView" */,
+				748390FD25A133D20000E9DA /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 			);
 			productRefGroup = 748E7CE2258A1FAC00477F53 /* Products */;
 			projectDirPath = "";
@@ -368,7 +372,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2ADACD42185DACA6EDED861B /* [CP] Check Pods Manifest.lock */ = {
+		1958B731C81B9212A61C28BB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -390,7 +394,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8505C518E15A507F88CF1D0D /* [CP] Embed Pods Frameworks */ = {
+		B100F24C744BD0E1288ADDCA /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -578,7 +582,7 @@
 		};
 		748E7CF1258A1FAC00477F53 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A39BF1716945DDAF0971713 /* Pods-GrowthPlus.debug.xcconfig */;
+			baseConfigurationReference = 17BCEE6F3745DE5D7A0B7DAE /* Pods-GrowthPlus.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -603,7 +607,7 @@
 		};
 		748E7CF2258A1FAC00477F53 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 083293320DF8317C0C005F16 /* Pods-GrowthPlus.release.xcconfig */;
+			baseConfigurationReference = BABFE30E409D90651939F41C /* Pods-GrowthPlus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -666,6 +670,14 @@
 				minimumVersion = 1.5.4;
 			};
 		};
+		748390FD25A133D20000E9DA /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.6;
+			};
+		};
 		7492AF04259ECBC10039FCCF /* XCRemoteSwiftPackageReference "PopupView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/exyte/PopupView";
@@ -697,6 +709,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 745510962595DE74008AA796 /* XCRemoteSwiftPackageReference "ChartView" */;
 			productName = SwiftUICharts;
+		};
+		748390FE25A133D20000E9DA /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 748390FD25A133D20000E9DA /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
 		};
 		7492AF05259ECBC10039FCCF /* PopupView */ = {
 			isa = XCSwiftPackageProductDependency;

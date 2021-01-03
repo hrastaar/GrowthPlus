@@ -5,8 +5,8 @@
 //  Created by Rastaar Haghi on 12/13/20.
 //
 
-import SwiftUI
 import PopupView
+import SwiftUI
 
 struct SellView: View {
     @ObservedObject var wallet: Portfolio
@@ -19,7 +19,7 @@ struct SellView: View {
     @State var showInvalidSharesNumberAlert = false
     @State var showSuccess = false
     @State var successMessage = ""
-    
+
     var body: some View {
         // Sell Section
         VStack {
@@ -89,18 +89,18 @@ struct SellView: View {
             ShowSalePopupView(popupResult: .invalidNumberOfShares, message: "You can sell at most \(wallet.selectedCard.shares) shares of \(wallet.selectedCard.ticker)")
                 .opacity(showInvalidSharesNumberAlert ? 1.0 : 0.0)
         }
-        
+
         .popup(isPresented: $showSuccess) {
             ShowSalePopupView(popupResult: .success, message: successMessage)
                 .opacity(showSuccess ? 1.0 : 0.0)
         }
-        
+
         .popup(isPresented: $showInputTypeAlert) {
             ShowSalePopupView(popupResult: .inputTypeError, message: "Invalid number of shares to sell. Please check your input.")
                 .opacity(showInputTypeAlert ? 1.0 : 0.0)
         }
     }
-    
+
     func ShowSalePopupView(popupResult: SellResponseCode, message: String) -> some View {
         VStack(spacing: 10) {
             Text(popupResult.description)
@@ -149,7 +149,7 @@ enum SellResponseCode: CustomStringConvertible {
     case success
     case invalidNumberOfShares
     case inputTypeError
-    
+
     var description: String {
         switch self {
         case .success:
