@@ -11,7 +11,7 @@ import SwiftUI
 struct NewsArticleView: View {
     let newsArticle: StockNewsArticle
     @State var showArticle: Bool = false
-    @ObservedObject var colorPalette = CustomColors.shared
+    @ObservedObject var colorManager = CustomColors.shared
 
     var body: some View {
         VStack(alignment: .center) {
@@ -30,8 +30,8 @@ struct NewsArticleView: View {
                 .padding(.horizontal)
                 .frame(height: 100)
         }
-        .background(colorPalette.primaryColor)
-        .foregroundColor(UIColor(colorPalette.primaryColor).isLight()! && colorPalette.primaryColor != Color(UIColor(hex: "#1ce4ac")) ? Color.black : Color.white)
+        .background(colorManager.primaryColor)
+        .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
         .cornerRadius(15)
         .frame(width: 300, height: 175)
         .onTapGesture {

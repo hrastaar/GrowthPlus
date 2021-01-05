@@ -21,7 +21,7 @@ struct LandingPageView: View {
                     HeaderView()
                     InvestmentHeaderView()
                     MenuUtilitiesView()
-                    if wallet.loadedHoldings && !wallet.portfolioCards.isEmpty && wallet.presentStocks {
+                    if !wallet.portfolioCards.isEmpty {
                         PortfolioListView()
                         Divider()
                         PerformanceView()

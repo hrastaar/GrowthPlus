@@ -42,7 +42,7 @@
 		748E7D15258A1FFD00477F53 /* SearchStockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D0F258A1FFC00477F53 /* SearchStockView.swift */; };
 		748E7D16258A1FFD00477F53 /* StockPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D10258A1FFC00477F53 /* StockPageView.swift */; };
 		748E7D17258A1FFD00477F53 /* StockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D11258A1FFD00477F53 /* StockView.swift */; };
-		748E7D18258A1FFD00477F53 /* Stock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D12258A1FFD00477F53 /* Stock.swift */; };
+		748E7D18258A1FFD00477F53 /* StockCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D12258A1FFD00477F53 /* StockCardView.swift */; };
 		748E7D19258A1FFD00477F53 /* SearchResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D13258A1FFD00477F53 /* SearchResultView.swift */; };
 		748E7D1A258A1FFD00477F53 /* SellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D14258A1FFD00477F53 /* SellView.swift */; };
 		748E7D2A258A212100477F53 /* LandingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 748E7D29258A212100477F53 /* LandingPageView.swift */; };
@@ -95,7 +95,7 @@
 		748E7D0F258A1FFC00477F53 /* SearchStockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchStockView.swift; sourceTree = "<group>"; };
 		748E7D10258A1FFC00477F53 /* StockPageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockPageView.swift; sourceTree = "<group>"; };
 		748E7D11258A1FFD00477F53 /* StockView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockView.swift; sourceTree = "<group>"; };
-		748E7D12258A1FFD00477F53 /* Stock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stock.swift; sourceTree = "<group>"; };
+		748E7D12258A1FFD00477F53 /* StockCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StockCardView.swift; sourceTree = "<group>"; };
 		748E7D13258A1FFD00477F53 /* SearchResultView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchResultView.swift; sourceTree = "<group>"; };
 		748E7D14258A1FFD00477F53 /* SellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellView.swift; sourceTree = "<group>"; };
 		748E7D29258A212100477F53 /* LandingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPageView.swift; sourceTree = "<group>"; };
@@ -253,7 +253,7 @@
 				748E7D05258A1FF000477F53 /* Portfolio.swift */,
 				748E7D0B258A1FF600477F53 /* FinancialAPIConnection.swift */,
 				748E7D0A258A1FF600477F53 /* RealmObjects.swift */,
-				748E7D12258A1FFD00477F53 /* Stock.swift */,
+				748E7D12258A1FFD00477F53 /* StockCardView.swift */,
 				7489C8DA258E1F600085BC69 /* CustomColors.swift */,
 				74441142258F098500F54290 /* GlobalVariables.swift */,
 				74441145258F09B600F54290 /* TechnologyData.swift */,
@@ -437,7 +437,7 @@
 				748E7CFE258A1FE100477F53 /* HeaderView.swift in Sources */,
 				748E7D08258A1FF000477F53 /* PortfolioListView.swift in Sources */,
 				748E7CE5258A1FAC00477F53 /* GrowthPlusApp.swift in Sources */,
-				748E7D18258A1FFD00477F53 /* Stock.swift in Sources */,
+				748E7D18258A1FFD00477F53 /* StockCardView.swift in Sources */,
 				748E7D0D258A1FF600477F53 /* FinancialAPIConnection.swift in Sources */,
 				748E7D1A258A1FFD00477F53 /* SellView.swift in Sources */,
 				748E7D19258A1FFD00477F53 /* SearchResultView.swift in Sources */,

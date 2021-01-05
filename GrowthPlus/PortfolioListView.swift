@@ -31,6 +31,7 @@ struct PortfolioListView: View {
                                     wallet.portfolioCards[index].isSelected = false
                                 }
                                 wallet.portfolioCards[index].isSelected = true
+                                wallet.selectedCard = wallet.portfolioCards[index]
                             }
                             .frame(width: 100, height: 170)
                             .padding(5)

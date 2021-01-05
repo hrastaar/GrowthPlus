@@ -9,41 +9,44 @@ import SwiftUI
 
 struct PerformanceView: View {
     @ObservedObject var wallet = Portfolio.shared
+    @ObservedObject var colorManager = CustomColors.shared
     @State private var incomePercentage: Int = 0
 
     var body: some View {
-        VStack(spacing: 15) {
-            PerformanceHeaderView
-            HorizontalProgressView(percentage: $incomePercentage)
-                .padding(.bottom, 15)
-            HStack {
-                VStack {
-                    PriceView
+        if wallet.selectedCard != nil {
+            VStack(spacing: 15) {
+                PerformanceHeaderView
+                HorizontalProgressView(percentage: $incomePercentage)
+                    .padding(.bottom, 15)
+                HStack {
+                    VStack {
+                        PriceView
+                        Spacer()
+                        DailyPerformanceView
+                    }
                     Spacer()
-                    DailyPerformanceView
-                }
-                Spacer()
-                VStack {
-                    CostView
-                    Spacer()
-                    TotalPerformanceView
+                    VStack {
+                        CostView
+                        Spacer()
+                        TotalPerformanceView
+                    }
                 }
             }
-        }
-        .onAppear {
-            update()
-        }
-        .onChange(of: wallet.selectedCard) { _ in
-            update()
-        }
-        .onChange(of: wallet.portfolioCards) { _ in
-            update()
+            .onAppear {
+                update()
+            }
+            .onChange(of: wallet.selectedCard) { _ in
+                update()
+            }
+            .onChange(of: wallet.portfolioCards) { _ in
+                update()
+            }
         }
     }
 
     var PerformanceHeaderView: some View {
         VStack {
-            Text(wallet.selectedCard.companyName)
+            Text(wallet.selectedCard!.companyName)
                 .font(primaryFont(size: 20))
                 .fontWeight(.bold)
                 .minimumScaleFactor(0.001)
@@ -55,10 +58,10 @@ struct PerformanceView: View {
                     .font(primaryFont(size: 16))
                     .fontWeight(.bold)
                 Spacer()
-                Text(DollarString(value: wallet.selectedCard.calculateEquity()))
+                Text(DollarString(value: wallet.selectedCard!.calculateEquity()))
                     .font(Font.custom("DIN-D", size: 20.0))
                     .fontWeight(.semibold)
-                    .foregroundColor(CustomColors.shared.primaryColor)
+                    .foregroundColor(colorManager.primaryColor)
                     .padding(.trailing)
                     .fixedSize()
             }
@@ -73,7 +76,7 @@ struct PerformanceView: View {
                     .lineLimit(1)
                     .font(primaryFont(size: 16))
                     .foregroundColor(Color(.systemGray3))
-                Text(DollarString(value: wallet.selectedCard.currentPrice))
+                Text(DollarString(value: wallet.selectedCard!.currentPrice))
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.bold)
             }
@@ -86,7 +89,7 @@ struct PerformanceView: View {
                 Text("Avg Cost")
                     .font(primaryFont(size: 16))
                     .foregroundColor(Color(.systemGray3))
-                Text(DollarString(value: wallet.selectedCard.avgCost))
+                Text(DollarString(value: wallet.selectedCard!.avgCost))
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.bold)
             }
@@ -99,10 +102,10 @@ struct PerformanceView: View {
                 Text("Today's Return")
                     .font(primaryFont(size: 16))
                     .foregroundColor(Color(.systemGray3))
-                Text(DollarString(value: wallet.selectedCard.dailyChange * Double(wallet.selectedCard.shares)))
+                Text(DollarString(value: wallet.selectedCard!.dailyChange * Double(wallet.selectedCard!.shares)))
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.bold)
-                Text(String(format: "(\(wallet.selectedCard.dailySign)%.2f%%)", abs(wallet.selectedCard.percentChange * 100)))
+                Text(String(format: "(\(wallet.selectedCard!.dailySign)%.2f%%)", abs(wallet.selectedCard!.percentChange * 100)))
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.bold)
             }
@@ -115,10 +118,10 @@ struct PerformanceView: View {
                 Text("Total Return")
                     .font(primaryFont(size: 16))
                     .foregroundColor(Color(.systemGray3))
-                Text(DollarString(value: wallet.selectedCard.calculateNetProfit()))
+                Text(DollarString(value: wallet.selectedCard!.calculateNetProfit()))
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.bold)
-                Text(String(format: "(\(wallet.selectedCard.totalSign)%.2f%%)", abs(wallet.selectedCard.calculateNetProfit() * 100) / wallet.selectedCard.calculateTotalCost()))
+                Text(String(format: "(\(wallet.selectedCard!.totalSign)%.2f%%)", abs(wallet.selectedCard!.calculateNetProfit() * 100) / wallet.selectedCard!.calculateTotalCost()))
                     .font(Font.custom("DIN-D", size: 18.0))
                     .fontWeight(.bold)
             }
@@ -127,7 +130,9 @@ struct PerformanceView: View {
 
     private func update() {
         withAnimation(.spring(response: 2)) {
-            incomePercentage = Int((wallet.selectedCard.calculateEquity() / wallet.totalStockValue) * 100)
+            if wallet.portfolioCards.count > 0 {
+                incomePercentage = Int((wallet.selectedCard!.calculateEquity() / wallet.totalStockValue) * 100)
+            }
         }
     }
 }

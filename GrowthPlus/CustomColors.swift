@@ -11,8 +11,8 @@ import SwiftUI
 
 class CustomColors: ObservableObject {
     static let shared = CustomColors()
-    var primaryColor: Color
-    var secondaryColor: Color
+    @Published var primaryColor: Color
+    @Published var secondaryColor: Color
     var realmColorPalette: RealmColorPalette?
     init() {
         let realm = try! Realm()

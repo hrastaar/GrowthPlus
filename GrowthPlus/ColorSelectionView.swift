@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ColorSelectionView: View {
+    @ObservedObject var colorManager = CustomColors.shared
     @State private var selectedPrimaryColor: Color = CustomColors.shared.primaryColor
     @State private var selectedSecondaryColor: Color = CustomColors.shared.secondaryColor
     @State private var presentSavedColorAlert: Bool = false
@@ -59,12 +60,12 @@ struct ColorSelectionView: View {
                     .frame(minWidth: 300)
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
                     .cornerRadius(5)
-                    .foregroundColor(.white)
+                    .foregroundColor(colorManager.getSecondaryBackgroundTextColor())
             }).alert(isPresented: $presentSavedColorAlert, content: {
                 Alert(title:
                     Text("Saved your Color Preferences!")
                         .font(Font.custom("DIN-D", size: 24.0)),
-                    message: Text("Your custom color palette selection has been saved. To update in-app colors, please close GrowthPlus and relaunch"),
+                    message: Text("Your custom color palette selection has been saved."),
                     dismissButton:
                     .default(
                         Text("Dismiss")
@@ -86,12 +87,12 @@ struct ColorSelectionView: View {
                     .frame(minWidth: 300)
                     .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
                     .cornerRadius(5)
-                    .foregroundColor(.white)
+                    .foregroundColor(colorManager.getSecondaryBackgroundTextColor())
             }).alert(isPresented: $presentResetToDefaultAlert, content: {
                 Alert(title:
                     Text("Color Palette has been reset to default")
                         .font(Font.custom("DIN-D", size: 24.0)),
-                    message: Text("Your custom color palette selection has been saved. To update in-app colors, please close GrowthPlus and relaunch"),
+                    message: Text("Your custom color palette selection has been saved."),
                     dismissButton:
                     .default(
                         Text("Dismiss")

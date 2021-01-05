@@ -132,12 +132,12 @@ struct StockPageView: View {
     func ShowSalePopupView(popupResult: SellResponseCode, message: String) -> some View {
         VStack(spacing: 10) {
             Text(popupResult.description)
-                .foregroundColor(.white)
+                .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
                 .fontWeight(.bold)
             Spacer()
             Text(message)
                 .font(primaryFont(size: 13))
-                .foregroundColor(.white)
+                .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
                 .lineLimit(3)
                 .minimumScaleFactor(0.001)
                 .frame(minHeight: 60)
@@ -151,16 +151,16 @@ struct StockPageView: View {
             }) {
                 Text("Dismiss")
                     .font(primaryFont(size: 14))
-                    .foregroundColor(.white)
+                    .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
                     .fontWeight(.bold)
             }
             .frame(width: 100, height: 40)
-            .background(CustomColors.shared.secondaryColor)
+            .background(colorManager.secondaryColor)
             .cornerRadius(10)
         }
         .padding(EdgeInsets(top: 70, leading: 20, bottom: 40, trailing: 20))
         .frame(width: 300, height: 300)
-        .background(CustomColors.shared.primaryColor)
+        .background(colorManager.primaryColor)
         .cornerRadius(10.0)
         .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
     }
@@ -171,7 +171,7 @@ struct StockPageView: View {
                 .fontWeight(.bold)
             Text("Unable to load stock data for the ticker: \(ticker) at the moment.")
                 .font(primaryFont(size: 13))
-                .foregroundColor(.white)
+                .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
                 .lineLimit(3)
                 .minimumScaleFactor(0.001)
                 .frame(minHeight: 60)
@@ -183,13 +183,13 @@ struct StockPageView: View {
             }) {
                 Text("Dismiss")
                     .font(primaryFont(size: 14))
-                    .foregroundColor(.white)
+                    .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
                     .fontWeight(.bold)
             }
         }
         .padding(EdgeInsets(top: 70, leading: 20, bottom: 40, trailing: 20))
         .frame(width: 300, height: 300)
-        .foregroundColor(.white)
+        .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
         .background(colorManager.primaryColor)
         .cornerRadius(10.0)
         .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)

@@ -10,6 +10,8 @@ import SwiftUI
 
 struct SettingsView: View {
     @ObservedObject var portfolio = Portfolio.shared
+    @ObservedObject var colorManager = CustomColors.shared
+
     // whether or not to show the Safari ViewController
     @State var showSafari: Bool = false
     @State var showColorView: Bool = false
@@ -40,9 +42,9 @@ struct SettingsView: View {
                     .lineLimit(1)
                     .padding()
                     .frame(minWidth: 300)
-                    .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(colorManager.secondaryColor))
                     .cornerRadius(5)
-                    .foregroundColor(.white)
+                    .foregroundColor(colorManager.getSecondaryBackgroundTextColor())
             })
                 .frame(width: 300)
                 .sheet(isPresented: $showColorView) {
@@ -57,9 +59,9 @@ struct SettingsView: View {
                     .lineLimit(1)
                     .padding()
                     .frame(minWidth: 300)
-                    .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(colorManager.secondaryColor))
                     .cornerRadius(5)
-                    .foregroundColor(.white)
+                    .foregroundColor(colorManager.getSecondaryBackgroundTextColor())
             })
                 .frame(width: 300)
                 .sheet(isPresented: $showTechnologiesView) {
@@ -68,7 +70,7 @@ struct SettingsView: View {
 
             Button(action: {
                 let resetResult = self.portfolio.resetPortfolio()
-                CustomColors.shared.resetColors()
+                colorManager.resetColors()
                 if resetResult == true {
                     self.showResetAccountAlert = true
                 }
@@ -79,9 +81,9 @@ struct SettingsView: View {
                     .lineLimit(1)
                     .padding()
                     .frame(minWidth: 300)
-                    .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.primaryColor))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(colorManager.primaryColor))
                     .cornerRadius(5)
-                    .foregroundColor(.white)
+                    .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
             }).frame(width: 300)
                 .alert(isPresented: $showResetAccountAlert, content: {
                     Alert(title:
