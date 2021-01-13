@@ -14,7 +14,7 @@ final class FinancialAPIConnection: ObservableObject {
 
     // Stock Page Data Sets
     @Published var stockNewsArticles = [StockNewsArticle]() // Array of articles associated with a current stock page
-    @Published var stockPageData = StockPageData() // Stock data for the StockPageView
+    @Published var stockPageData = StockDetailData() // Stock data for the StockPageView
     @Published var stockChartPoints = [StockChartPoint]() // Chart points used to draw up daily performance
     @Published var stockEarnings = [Earnings]() // Array of past earnings
 
@@ -57,9 +57,9 @@ final class FinancialAPIConnection: ObservableObject {
         fetchDailyListStocks()
     }
 
-    public func fetchStockPageData(ticker: String, numEarningsReports _: Int? = 4) {
-        fetchStockData(ticker: ticker)
-        fetchCompanyProfile(ticker: ticker)
+    public func getCompleteStockData(ticker: String, numEarningsReports _: Int? = 4) {
+        getStockQuoteData(ticker: ticker)
+        getCompanyProfileData(ticker: ticker)
         fetchNewsArticles(ticker: ticker)
         gatherChartPoints(ticker: ticker)
     }
@@ -67,17 +67,16 @@ final class FinancialAPIConnection: ObservableObject {
     // PRIVATE FINANCIAL TOOL FUNCTIONALITIES
 
     // Gather Stock Data for Ticker
-    private func fetchStockData(ticker: String) {
-        stockPageData = StockPageData()
+    private func getStockQuoteData(ticker: String) {
+        stockPageData = StockDetailData()
         // build get request
         let fetchStockDataURL = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/quote?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
         let stockPageRequest: DataRequest = AF.request(fetchStockDataURL)
         stockPageRequest.responseJSON { data in
             if let currData = data.data {
+                print(JSON(currData))
                 do {
-                    let stockPageData = try JSONDecoder().decode(StockPageData.self, from: currData)
-                    stockPageData.truncateExchangeName()
-                    stockPageData.checkIfValid()
+                    let stockPageData = try JSONDecoder().decode(StockDetailData.self, from: currData)
                     self.stockPageData = stockPageData
                     return
                 } catch {
@@ -146,7 +145,7 @@ final class FinancialAPIConnection: ObservableObject {
         }
     }
 
-    private func fetchCompanyProfile(ticker: String) {
+    private func getCompanyProfileData(ticker: String) {
         let companyProfileURLString: String = "https://cloud.iexapis.com/stable/stock/\(ticker)/company?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
         let companyProfileURL = URL(string: companyProfileURLString)!
         let companyProfileDataRequest: DataRequest = AF.request(companyProfileURL)
@@ -155,7 +154,6 @@ final class FinancialAPIConnection: ObservableObject {
                 do {
                     let companyProfile = try JSONDecoder().decode(CompanyProfile.self, from: profileData)
                     companyProfile.truncateExchangeName()
-                    print(companyProfile)
                     self.companyProfile = companyProfile
                 } catch {
                     print("Error with JSONDecoder")
@@ -197,7 +195,7 @@ final class FinancialAPIConnection: ObservableObject {
     // gather all news articles for stocks in holdings and sort by date
     private func initializeHoldingsNewsArticles() {
         portfolioHoldingsNewsArticlesList.removeAll()
-        let portfolioRef = Portfolio.shared
+        let portfolioRef = PortfolioManager.shared
         for card in portfolioRef.portfolioCards {
             let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(card.ticker)/news/latest/3?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
             let articleAPIRequest: DataRequest = AF.request(url)

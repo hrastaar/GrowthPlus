@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct MenuUtilitiesView: View {
-    @ObservedObject var colorManager = CustomColors.shared
+    @ObservedObject var colorManager = AppColorManager.shared
 
     var body: some View {
         HStack {
@@ -18,12 +18,11 @@ struct MenuUtilitiesView: View {
                     Image(systemName: "gear")
                         .resizable()
                         .frame(width: 20, height: 20)
-                        .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
                         .padding(10)
                         .background(colorManager.primaryColor)
                         .cornerRadius(10)
                 }
-            ).accentColor(colorManager.primaryColor)
+            )
             Spacer()
             NavigationLink(
                 destination: DiscoverView(),
@@ -31,12 +30,11 @@ struct MenuUtilitiesView: View {
                     Image(systemName: "book")
                         .resizable()
                         .frame(width: 20, height: 20)
-                        .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
                         .padding(10)
                         .background(colorManager.primaryColor)
                         .cornerRadius(10)
                 }
-            ).accentColor(colorManager.primaryColor)
+            )
             Spacer()
             NavigationLink(
                 destination: SearchStockView(),
@@ -44,13 +42,12 @@ struct MenuUtilitiesView: View {
                     Image(systemName: "plus")
                         .resizable()
                         .frame(width: 20, height: 20)
-                        .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
                         .padding(10)
                         .background(colorManager.primaryColor)
                         .cornerRadius(10)
                 }
             )
-        }
+        }.foregroundColor(colorManager.getPrimaryBackgroundTextColor())
     }
 }
 

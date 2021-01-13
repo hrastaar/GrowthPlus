@@ -1,5 +1,5 @@
 //
-//  StockView.swift
+//  StockCardView.swift
 //  GrowthPlus
 //
 //  Created by Rastaar Haghi on 12/12/20.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct StockView: View {
+struct StockCardView: View {
     @ObservedObject var card: StockDataModel
     var body: some View {
         VStack {
@@ -41,8 +41,8 @@ struct StockView: View {
     }
 }
 
-//struct StockView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StockView(card: Stock(companyName: "Apple Inc.", ticker: "AAPL", avgCost: 132.00, shares: 10, currentPrice: 131.44, percentChange: 0.002, dailyChange: 0.10, volume: 1_000_000_000, avgVolume: 1_000_000_000, imageName: "stock"))
-//    }
-//}
+struct StockView_Previews: PreviewProvider {
+    static var previews: some View {
+        StockCardView(card: StockDataModel(companyName: "Apple Inc.", ticker: "AAPL", avgCost: 132.00, shares: 10, currentPrice: 131.44, percentChange: 0.002, dailyChange: 0.10, volume: 1_000_000_000, avgVolume: 1_000_000_000, imageName: "stock"))
+    }
+}

@@ -11,7 +11,7 @@ import SwiftUI
 struct NewsArticleView: View {
     let newsArticle: StockNewsArticle
     @State var showArticle: Bool = false
-    @ObservedObject var colorManager = CustomColors.shared
+    @ObservedObject var colorManager = AppColorManager.shared
 
     var body: some View {
         VStack(alignment: .center) {

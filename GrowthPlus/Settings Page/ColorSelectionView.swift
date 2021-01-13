@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct ColorSelectionView: View {
-    @ObservedObject var colorManager = CustomColors.shared
-    @State private var selectedPrimaryColor: Color = CustomColors.shared.primaryColor
-    @State private var selectedSecondaryColor: Color = CustomColors.shared.secondaryColor
+    @ObservedObject var colorManager = AppColorManager.shared
+    @State private var selectedPrimaryColor: Color = AppColorManager.shared.primaryColor
+    @State private var selectedSecondaryColor: Color = AppColorManager.shared.secondaryColor
     @State private var presentSavedColorAlert: Bool = false
     @State private var presentResetToDefaultAlert: Bool = false
     var body: some View {
@@ -22,7 +22,7 @@ struct ColorSelectionView: View {
                     .lineLimit(1)
                 Spacer()
             }
-            LottieView(fileName: "painter", backgroundColor: selectedPrimaryColor)
+            LottieView(fileName: "painter", backgroundColor: colorManager.primaryColor)
                 .frame(width: UIScreen.main.bounds.width - 25)
                 .cornerRadius(10)
             HStack {
@@ -48,8 +48,8 @@ struct ColorSelectionView: View {
 
             Button(action: {
                 print("Save Selection")
-                CustomColors.shared.updatePrimaryColor(color: UIColor(selectedPrimaryColor))
-                CustomColors.shared.updateSecondaryColor(color: UIColor(selectedSecondaryColor))
+                colorManager.updatePrimaryColor(color: UIColor(selectedPrimaryColor))
+                colorManager.updateSecondaryColor(color: UIColor(selectedSecondaryColor))
                 self.presentSavedColorAlert = true
             }, label: {
                 Text("Save Color Palette")
@@ -58,7 +58,7 @@ struct ColorSelectionView: View {
                     .lineLimit(1)
                     .padding()
                     .frame(minWidth: 300)
-                    .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(colorManager.secondaryColor))
                     .cornerRadius(5)
                     .foregroundColor(colorManager.getSecondaryBackgroundTextColor())
             }).alert(isPresented: $presentSavedColorAlert, content: {
@@ -76,7 +76,7 @@ struct ColorSelectionView: View {
             Spacer()
 
             Button(action: {
-                CustomColors.shared.resetColors()
+                self.colorManager.resetColors()
                 self.presentResetToDefaultAlert = true
             }, label: {
                 Text("Reset to Default")
@@ -85,7 +85,7 @@ struct ColorSelectionView: View {
                     .lineLimit(1)
                     .padding()
                     .frame(minWidth: 300)
-                    .background(RoundedRectangle(cornerRadius: 10).fill(CustomColors.shared.secondaryColor))
+                    .background(RoundedRectangle(cornerRadius: 10).fill(colorManager.secondaryColor))
                     .cornerRadius(5)
                     .foregroundColor(colorManager.getSecondaryBackgroundTextColor())
             }).alert(isPresented: $presentResetToDefaultAlert, content: {

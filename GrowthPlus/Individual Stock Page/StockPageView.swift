@@ -5,17 +5,17 @@
 //  Created by Rastaar Haghi on 12/15/20.
 //
 
+import ActivityIndicatorView
 import PopupView
 import SkeletonUI
 import SwiftUI
 import SwiftUICharts
-import ActivityIndicatorView
 
 struct StockPageView: View {
     let ticker: String
-    @ObservedObject var wallet = Portfolio.shared
+    @ObservedObject var wallet = PortfolioManager.shared
     @ObservedObject var financialConnection = FinancialAPIConnection.shared
-    @ObservedObject var colorManager = CustomColors.shared
+    @ObservedObject var colorManager = AppColorManager.shared
 
     @State var sharesToBuy: String = ""
     @State var showInputTypeAlert: Bool = false
@@ -25,6 +25,7 @@ struct StockPageView: View {
     @State var showCompanyProfilePopoverView: Bool = false
     @State var unableToLoadAlert = false
     @State var showLoadingIndicator = !FinancialAPIConnection.shared.stockPageData.successfulLoad
+    
     var body: some View {
         ZStack {
             if showCompanyProfilePopoverView {
@@ -32,10 +33,10 @@ struct StockPageView: View {
                     .zIndex(1.0)
             }
             ActivityIndicatorView(isVisible: $showLoadingIndicator, type: .flickeringDots)
-                 .frame(width: 50.0, height: 50.0)
-                 .foregroundColor(colorManager.primaryColor)
-                 .zIndex(1.0)
-            ScrollView {
+                .frame(width: 50.0, height: 50.0)
+                .foregroundColor(colorManager.primaryColor)
+                .zIndex(1.0)
+            ScrollView(.vertical, showsIndicators: false) {
                 VStack {
                     StockHeaderView
                     IntradayChartView
@@ -47,24 +48,24 @@ struct StockPageView: View {
                     NewsSectionView
                 } // end of VStack
             }.onAppear {
-                self.financialConnection.fetchStockPageData(ticker: ticker)
+                self.financialConnection.getCompleteStockData(ticker: ticker)
                 self.showLoadingIndicator = !self.financialConnection.stockPageData.successfulLoad
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-                    if !(financialConnection.stockPageData.success ?? false) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 7.5) {
+                    if !financialConnection.stockPageData.successfulLoad {
                         self.unableToLoadAlert = true
                         showLoadingIndicator = false
                     }
                 }
-                
+
             }.onTapGesture {
                 self.hideKeyboard()
-            } .onDisappear {
+            }.onDisappear {
                 self.unableToLoadAlert = false
-            } .onChange(of: financialConnection.stockPageData.successfulLoad, perform: { value in
+            }.onChange(of: financialConnection.stockPageData.successfulLoad, perform: { value in
                 self.showLoadingIndicator = !value
             })
-            .padding()
-            .zIndex(0.9)
+                .padding()
+                .zIndex(0.9)
         }
         .popup(isPresented: $presentSuccessAlert) {
             ShowSalePopupView(popupResult: .success, message: self.successMessage)
@@ -87,7 +88,7 @@ struct StockPageView: View {
                 Text(financialConnection.stockPageData.ticker)
                     .font(primaryFont(size: 18))
                     .fontWeight(.medium)
-                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                    .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                     .animation(type: .pulse())
 
                 Spacer()
@@ -96,7 +97,7 @@ struct StockPageView: View {
                 Text(financialConnection.stockPageData.companyName)
                     .font(primaryFont(size: 24))
                     .fontWeight(.semibold)
-                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                    .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                     .animation(type: .pulse())
 
                 Button(action: {
@@ -104,7 +105,7 @@ struct StockPageView: View {
                 }, label: {
                     Image(systemName: "info")
                         .accentColor(self.colorManager.primaryColor)
-                }).disabled(!(financialConnection.stockPageData.successfulLoad))
+                }).disabled(!financialConnection.stockPageData.successfulLoad)
                 Spacer()
             }
             Divider()
@@ -112,7 +113,7 @@ struct StockPageView: View {
                 Text(String(format: "$%.2f", financialConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 24.0))
                     .fontWeight(.semibold)
-                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                    .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                     .animation(type: .pulse())
 
                 Spacer()
@@ -122,7 +123,7 @@ struct StockPageView: View {
                     .font(Font.custom("DIN-D", size: 20.0))
                     .foregroundColor(profitLossColor(inputDouble: financialConnection.stockPageData.dailyChange))
                     .fontWeight(.semibold)
-                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                    .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                     .animation(type: .pulse())
                 Spacer()
             }
@@ -164,14 +165,13 @@ struct StockPageView: View {
         .cornerRadius(10.0)
         .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
     }
-    
+
     func ShowErrorLoadingView() -> some View {
         VStack(spacing: 10) {
             Text("Error Loading Stock Data")
                 .fontWeight(.bold)
             Text("Unable to load stock data for the ticker: \(ticker) at the moment.")
                 .font(primaryFont(size: 13))
-                .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
                 .lineLimit(3)
                 .minimumScaleFactor(0.001)
                 .frame(minHeight: 60)
@@ -183,7 +183,6 @@ struct StockPageView: View {
             }) {
                 Text("Dismiss")
                     .font(primaryFont(size: 14))
-                    .foregroundColor(colorManager.getPrimaryBackgroundTextColor())
                     .fontWeight(.bold)
             }
         }
@@ -193,7 +192,6 @@ struct StockPageView: View {
         .background(colorManager.primaryColor)
         .cornerRadius(10.0)
         .shadow(color: Color(.sRGBLinear, white: 0, opacity: 0.13), radius: 10.0)
-
     }
 
     // View designated for purchasing shares of stock
@@ -211,7 +209,7 @@ struct StockPageView: View {
                     .multilineTextAlignment(.trailing)
                     .textContentType(.creditCardNumber)
                     .font(Font.custom("DIN-D", size: 16.0))
-                    .disabled(!(financialConnection.stockPageData.successfulLoad))
+                    .disabled(!financialConnection.stockPageData.successfulLoad)
             }
             Divider()
             // Market Price
@@ -223,7 +221,7 @@ struct StockPageView: View {
                 Text(DollarString(value: financialConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 16.0))
                     .fontWeight(.medium)
-                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                    .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                     .animation(type: .pulse())
             }
 
@@ -237,7 +235,7 @@ struct StockPageView: View {
                 Text(DollarString(value: Double(Int(sharesToBuy) ?? 0) * financialConnection.stockPageData.currentPrice))
                     .font(Font.custom("DIN-D", size: 16.0))
                     .fontWeight(.medium)
-                    .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                    .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                     .animation(type: .pulse())
             }
             Button(action: {
@@ -276,7 +274,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.open))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                            .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -284,9 +282,9 @@ struct StockPageView: View {
                         Text("High")
                             .font(primaryFont(size: 14))
                         Spacer()
-                        Text(DollarString(value: financialConnection.stockPageData.high))
+                        Text(DollarString(value: financialConnection.stockPageData.high ?? 0.00))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                            .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -294,9 +292,9 @@ struct StockPageView: View {
                         Text("Low")
                             .font(primaryFont(size: 14))
                         Spacer()
-                        Text(DollarString(value: financialConnection.stockPageData.low))
+                        Text(DollarString(value: financialConnection.stockPageData.low ?? 0.00))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                            .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -306,7 +304,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.yearHigh))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                            .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -316,7 +314,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(DollarString(value: financialConnection.stockPageData.yearLow))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                            .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -333,7 +331,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(String(financialConnection.stockPageData.volume))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                            .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -343,7 +341,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(String(financialConnection.stockPageData.avgVolume))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                            .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -353,7 +351,7 @@ struct StockPageView: View {
                         Spacer()
                         Text(String(financialConnection.stockPageData.marketCap))
                             .font(Font.custom("DIN-D", size: 12.0))
-                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                            .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -361,9 +359,9 @@ struct StockPageView: View {
                         Text("P/E Ratio")
                             .font(primaryFont(size: 14))
                         Spacer()
-                        Text(String(financialConnection.stockPageData.peRatio ?? 0.00))
+                        Text(String(financialConnection.stockPageData.peRatio))
                             .font(Font.custom("DIN-D", size: 14.0))
-                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                            .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                             .animation(type: .pulse())
                     }
                     Divider()
@@ -375,7 +373,7 @@ struct StockPageView: View {
                             .font(primaryFont(size: 14))
                             .minimumScaleFactor(0.001)
                             .lineLimit(1)
-                            .skeleton(with: !(financialConnection.stockPageData.successfulLoad))
+                            .skeleton(with: !financialConnection.stockPageData.successfulLoad)
                             .animation(type: .pulse())
                     }
                     Divider()

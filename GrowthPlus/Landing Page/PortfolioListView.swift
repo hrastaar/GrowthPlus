@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PortfolioListView: View {
-    @ObservedObject var wallet = Portfolio.shared
+    @ObservedObject var wallet = PortfolioManager.shared
     @State var showOrderView: Bool = false
     var HeaderView: some View {
         HStack {
@@ -25,7 +25,7 @@ struct PortfolioListView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(spacing: 15) {
                     ForEach(wallet.portfolioCards.indices, id: \.self) { index in
-                        StockView(card: wallet.portfolioCards[index])
+                        StockCardView(card: wallet.portfolioCards[index])
                             .onTapGesture {
                                 wallet.portfolioCards.indices.forEach { index in
                                     wallet.portfolioCards[index].isSelected = false
@@ -36,8 +36,8 @@ struct PortfolioListView: View {
                             .frame(width: 100, height: 170)
                             .padding(5)
                     }
-                }
-            }
+                } /// end of HStack
+            } /// end of ScrollView
         }
     }
 }

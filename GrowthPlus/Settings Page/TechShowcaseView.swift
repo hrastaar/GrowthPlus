@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct TechnologiesUsedView: View {
+struct TechShowcaseView: View {
     var body: some View {
         ZStack {
             Color(white: 0.96)
@@ -44,6 +44,6 @@ struct TechnologiesUsedView: View {
 
 struct TechnologiesUsedView_Previews: PreviewProvider {
     static var previews: some View {
-        TechnologiesUsedView()
+        TechShowcaseView()
     }
 }

@@ -11,8 +11,7 @@ import SwiftUI
 import SwiftyJSON
 
 struct LandingPageView: View {
-    @ObservedObject var wallet = Portfolio.shared
-    @ObservedObject var customColors = CustomColors.shared
+    @ObservedObject var wallet = PortfolioManager.shared
 
     var body: some View {
         NavigationView {
@@ -24,7 +23,7 @@ struct LandingPageView: View {
                     if !wallet.portfolioCards.isEmpty {
                         PortfolioListView()
                         Divider()
-                        PerformanceView()
+                        StockPerformanceView()
                         Divider()
                         SellView()
                         Spacer()
@@ -38,7 +37,7 @@ struct LandingPageView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-    @ObservedObject var wallet = Portfolio.shared
+    @ObservedObject var wallet = PortfolioManager.shared
     static var previews: some View {
         LandingPageView()
     }

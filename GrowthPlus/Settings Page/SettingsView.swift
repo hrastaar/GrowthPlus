@@ -9,16 +9,15 @@ import SafariServices
 import SwiftUI
 
 struct SettingsView: View {
-    @ObservedObject var portfolio = Portfolio.shared
-    @ObservedObject var colorManager = CustomColors.shared
+    @ObservedObject var portfolio = PortfolioManager.shared
+    @ObservedObject var colorManager = AppColorManager.shared
 
     // whether or not to show the Safari ViewController
     @State var showSafari: Bool = false
     @State var showColorView: Bool = false
     @State var showResetAccountAlert: Bool = false
     @State var showTechnologiesView: Bool = false
-    // initial URL string
-    @State var urlString: String = "https://www.linkedin.com/in/rastaarhaghi"
+
     var body: some View {
         VStack {
             HStack {
@@ -65,7 +64,7 @@ struct SettingsView: View {
             })
                 .frame(width: 300)
                 .sheet(isPresented: $showTechnologiesView) {
-                    TechnologiesUsedView()
+                    TechShowcaseView()
                 }
 
             Button(action: {

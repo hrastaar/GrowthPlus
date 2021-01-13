@@ -9,7 +9,7 @@ import SwiftUI
 
 struct StockListView: View {
     var stock: StockListData
-    @ObservedObject var colorManager = CustomColors.shared
+    @ObservedObject var colorManager = AppColorManager.shared
 
     var body: some View {
         NavigationLink(destination: StockPageView(ticker: stock.ticker)) {

@@ -10,8 +10,8 @@ import SwiftUI
 struct SearchResultView: View {
     let searchResult: SearchResult
     @ObservedObject var StockSearch = FinancialAPIConnection.shared
-    @ObservedObject var colorManager = CustomColors.shared
-    @ObservedObject var stockData = StockPageData()
+    @ObservedObject var colorManager = AppColorManager.shared
+    @ObservedObject var stockData = StockDetailData()
 
     var body: some View {
         NavigationLink(destination: StockPageView(ticker: searchResult.ticker)) {

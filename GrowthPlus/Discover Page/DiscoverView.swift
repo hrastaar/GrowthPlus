@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DiscoverView: View {
     @ObservedObject var financialToolConnection = FinancialAPIConnection.shared
-    @ObservedObject var colorManager = CustomColors.shared
+    @ObservedObject var colorManager = AppColorManager.shared
     @Environment(\.colorScheme) var colorScheme
 
     var body: some View {

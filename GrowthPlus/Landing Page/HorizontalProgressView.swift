@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HorizontalProgressView: View {
-    @ObservedObject var colorManager = CustomColors.shared
+    @ObservedObject var colorManager = AppColorManager.shared
     @Binding var percentage: Int
     var body: some View {
         GeometryReader { proxy in

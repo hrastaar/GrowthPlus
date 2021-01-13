@@ -10,7 +10,7 @@ import SwiftUI
 struct IndividualTechnologyView: View {
     let technology: TechnologyData
 
-    @ObservedObject var customColor = CustomColors.shared
+    @ObservedObject var customColor = AppColorManager.shared
 
     var body: some View {
         VStack {

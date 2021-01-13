@@ -1,5 +1,5 @@
 //
-//  Portfolio.swift
+//  PortfolioManager.swift
 //  GrowthPlus
 //
 //  Created by Rastaar Haghi on 12/13/20.
@@ -10,7 +10,7 @@ import RealmSwift
 import SwiftUI
 import SwiftyJSON
 
-final class Portfolio: ObservableObject {
+final class PortfolioManager: ObservableObject {
     // Data for portfolio stocks
     @Published var portfolioCards: [StockDataModel] = []
     // Calculated Balances
@@ -23,8 +23,8 @@ final class Portfolio: ObservableObject {
 
     @Published var selectedCard: StockDataModel?
 
-    static var shared = Portfolio()
-    
+    static var shared = PortfolioManager()
+
     let realm: Realm
 
     init() {
@@ -94,10 +94,10 @@ final class Portfolio: ObservableObject {
     }
 
     func sellShare(ticker: String, shares: Int, salePrice: Double, avgPrice: Double) {
-        
         if let currentHolding = portfolio?.holdings.first(where: { $0.ticker == ticker }),
            let portfolioCard = portfolioCards.first(where: { $0.ticker == ticker }),
-           let idx = portfolioCards.firstIndex(where: {$0.ticker == ticker }){
+           let idx = portfolioCards.firstIndex(where: { $0.ticker == ticker })
+        {
             if currentHolding.shares < shares {
                 print("Error occurred. portfolio holding shares was less than what is sold")
                 return
@@ -112,8 +112,8 @@ final class Portfolio: ObservableObject {
                 portfolioCard.shares -= shares
                 if currentHolding.shares == 0 {
                     realm.delete(currentHolding)
-                    if(portfolioCards.count > 1) {
-                        if(idx == 0) {
+                    if portfolioCards.count > 1 {
+                        if idx == 0 {
                             portfolioCards[idx + 1].isSelected = true
                             selectedCard = portfolioCards[idx + 1]
                         } else {
@@ -121,7 +121,7 @@ final class Portfolio: ObservableObject {
                             selectedCard = portfolioCards[0]
                         }
                     }
-                    portfolioCards.remove(at: idx);
+                    portfolioCards.remove(at: idx)
                     if portfolioCards.isEmpty {
                         self.selectedCard = nil
                     }
@@ -133,8 +133,9 @@ final class Portfolio: ObservableObject {
     }
 
     func buyShare(ticker: String, shares: Int, salePrice: Double) {
-        if let currentHolding = portfolio!.holdings.first(where: {$0.ticker == ticker}),
-           let portfolioCard = portfolioCards.first(where: {$0.ticker == ticker}) {
+        if let currentHolding = portfolio!.holdings.first(where: { $0.ticker == ticker }),
+           let portfolioCard = portfolioCards.first(where: { $0.ticker == ticker })
+        {
             try! realm.write {
                 currentHolding.avgCost = (portfolioCard.calculateEquity() + (salePrice * Double(shares))) / Double(portfolioCard.shares + shares)
                 currentHolding.shares = portfolioCard.shares + shares
@@ -154,7 +155,7 @@ final class Portfolio: ObservableObject {
                 portfolio!.holdings.append(realmStockData)
                 self.appendStockData(holding: realmStockData)
             }
-            self.selectedCard = self.portfolioCards.first(where: { $0.isSelected })
+            selectedCard = portfolioCards.first(where: { $0.isSelected })
             calculateUnrealizedGains()
         }
     }
@@ -170,7 +171,7 @@ final class Portfolio: ObservableObject {
                 success = true
             }
         }
-        self.selectedCard = self.portfolioCards.first(where: { $0.isSelected })
+        selectedCard = portfolioCards.first(where: { $0.isSelected })
         return success
     }
 }

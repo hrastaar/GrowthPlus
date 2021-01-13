@@ -9,8 +9,8 @@ import PopupView
 import SwiftUI
 
 struct SellView: View {
-    @ObservedObject var wallet = Portfolio.shared
-    @ObservedObject var colorManager = CustomColors.shared
+    @ObservedObject var wallet = PortfolioManager.shared
+    @ObservedObject var colorManager = AppColorManager.shared
 
     @State var sharesToSell = ""
     @State var showInputTypeAlert = false

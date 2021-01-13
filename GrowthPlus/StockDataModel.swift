@@ -8,12 +8,12 @@
 import SwiftUI
 
 class StockDataModel: ObservableObject, Equatable {
-    @ObservedObject var colorManager = CustomColors.shared
+    @ObservedObject var colorManager = AppColorManager.shared
 
     static func == (lhs: StockDataModel, rhs: StockDataModel) -> Bool {
         return lhs.ticker == rhs.ticker
     }
-    
+
     required init(companyName: String, ticker: String, avgCost: Double, shares: Int, currentPrice: Double, percentChange: Double, dailyChange: Double, volume: Int, avgVolume: Int, imageName: String) {
         self.companyName = companyName
         self.ticker = ticker
@@ -26,6 +26,7 @@ class StockDataModel: ObservableObject, Equatable {
         self.avgVolume = avgVolume
         self.imageName = imageName
     }
+
     // info to gather from Realm
     let companyName: String
     let ticker: String

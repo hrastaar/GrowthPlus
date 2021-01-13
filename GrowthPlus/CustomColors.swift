@@ -1,5 +1,5 @@
 //
-//  CustomColors.swift
+//  AppColorManager.swift
 //  GrowthPlus
 //
 //  Created by Rastaar Haghi on 12/19/20.
@@ -9,8 +9,8 @@ import Hex
 import RealmSwift
 import SwiftUI
 
-class CustomColors: ObservableObject {
-    static let shared = CustomColors()
+class AppColorManager: ObservableObject {
+    static let shared = AppColorManager() // Used as a singleton throughout app lifecycle
     @Published var primaryColor: Color
     @Published var secondaryColor: Color
     var realmColorPalette: RealmColorPalette?

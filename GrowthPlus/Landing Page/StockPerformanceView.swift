@@ -1,5 +1,5 @@
 //
-//  PerformanceView.swift
+//  StockPerformanceView.swift
 //  GrowthPlus
 //
 //  Created by Rastaar Haghi on 12/12/20.
@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct PerformanceView: View {
-    @ObservedObject var wallet = Portfolio.shared
-    @ObservedObject var colorManager = CustomColors.shared
+struct StockPerformanceView: View {
+    @ObservedObject var wallet = PortfolioManager.shared
+    @ObservedObject var colorManager = AppColorManager.shared
     @State private var incomePercentage: Int = 0
 
     var body: some View {
@@ -140,7 +140,7 @@ struct PerformanceView: View {
 #if DEBUG
     struct PerformanceView_Previews: PreviewProvider {
         static var previews: some View {
-            PerformanceView()
+            StockPerformanceView()
                 .fixedSize(horizontal: false, vertical: /*@START_MENU_TOKEN@*/true/*@END_MENU_TOKEN@*/)
                 .padding()
         }
