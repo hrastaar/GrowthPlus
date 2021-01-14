@@ -24,7 +24,7 @@ struct StockListView: View {
                 Spacer()
                 Text(stock.companyName)
                     .minimumScaleFactor(0.001)
-                    .font(primaryFont(size: 10))
+                    .font(.custom("DIN-D", size: 12))
             }
             .padding(.vertical, 10)
             .frame(width: 180, height: 100)

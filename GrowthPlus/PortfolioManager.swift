@@ -74,7 +74,6 @@ final class PortfolioManager: ObservableObject {
                         stock?.isSelected = true
                     }
                     self.portfolioCards.append(stock!)
-                    print("added stock with ticker: \(stock!.ticker). Size is now: \(self.portfolioCards.count)")
                     self.selectedCard = self.portfolioCards.first(where: { $0.isSelected })
                     self.totalStockValue += stock!.calculateEquity()
                     self.calculateUnrealizedGains()

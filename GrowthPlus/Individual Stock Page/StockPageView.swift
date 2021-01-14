@@ -25,7 +25,7 @@ struct StockPageView: View {
     @State var showCompanyProfilePopoverView: Bool = false
     @State var unableToLoadAlert = false
     @State var showLoadingIndicator = !FinancialAPIConnection.shared.stockPageData.successfulLoad
-    
+
     var body: some View {
         ZStack {
             if showCompanyProfilePopoverView {

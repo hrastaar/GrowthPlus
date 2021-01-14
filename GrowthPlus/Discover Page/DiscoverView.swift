@@ -34,6 +34,8 @@ struct DiscoverView: View {
                             if !financialToolConnection.dailySectorPerformancesList.isEmpty {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 15) {
+                                        CryptoCardView()
+
                                         ForEach(financialToolConnection.dailySectorPerformancesList.indices, id: \.self) { index in
                                             SectorView(sector: financialToolConnection.dailySectorPerformancesList[index])
                                                 .padding(7.5)

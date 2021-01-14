@@ -5,6 +5,7 @@
 //  Created by Rastaar Haghi on 12/14/20.
 //
 
+import SwiftUI
 import Alamofire
 import SwiftyJSON
 
@@ -29,17 +30,19 @@ final class FinancialAPIConnection: ObservableObject {
     @Published var portfolioHoldingsNewsArticlesList = [StockNewsArticle]()
 
     @Published var cryptoData: CryptocurrencyData?
-    
+    private var CRYPTO_API_CALLS_REMAINING = 5
+    private let IEX_CLOUD_API_KEY = "pk_c154ec9b3d75402bb77e126b940ed4ca"
     static let shared = FinancialAPIConnection() // Singleton element used to control data gathered
 
     init() {
-        //self.streamCryptoTicker(ticker: "")
+        print("init called")
+        streamCryptoTicker(ticker: "btcusdt")
     }
-    
+
     // Gather List of Search Results for Ticker
     public func searchTicker(ticker: String, exchange _: String?) {
         searchResults.removeAll()
-        let stockTickerSearchURL = URL(string: "https://cloud.iexapis.com/stable/search/\(ticker)?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let stockTickerSearchURL = URL(string: "https://cloud.iexapis.com/stable/search/\(ticker)?token=\(IEX_CLOUD_API_KEY)")!
         let stockTickerSearchRequest: DataRequest = AF.request(stockTickerSearchURL)
         stockTickerSearchRequest.responseJSON { data in
             do {
@@ -54,38 +57,41 @@ final class FinancialAPIConnection: ObservableObject {
             }
         }
     }
-    
-    public func streamCryptoTicker(ticker: String) {
-        let urlString = "https://cloud-sse.iexapis.com/stable/cryptoQuotes?symbols=btcusdt&token=pk_c154ec9b3d75402bb77e126b940ed4ca"
+
+    private func streamCryptoTicker(ticker: String) {
+        let urlString = "https://cloud-sse.iexapis.com/stable/cryptoQuotes?symbols=\(ticker)&token=\(IEX_CLOUD_API_KEY)"
         AF.streamRequest(urlString).responseStream { stream in
             switch stream.event {
             case let .stream(result):
                 switch result {
                 case let .success(data):
+                    self.CRYPTO_API_CALLS_REMAINING -= 1
+                    if self.CRYPTO_API_CALLS_REMAINING <= 0 {
+                        print("Ran out of API calls for crypto streaming.")
+                        return
+                    }
                     do {
                         let dataStreamString = Array(String(data: data, encoding: .utf8) ?? "")
                         var apiDataString = ""
                         for i in 6 ..< dataStreamString.count - 2 {
                             apiDataString.append(dataStreamString[i])
                         }
-                        //print(stringBuilder)
+                        // print(stringBuilder)
                         let cryptoJSON = try JSON(data: apiDataString.data(using: .utf8) ?? Data())
                         if let arrayOfData = cryptoJSON.array,
-                           let currentCryptoData = arrayOfData.first {
-                                print("first element: ", currentCryptoData)
-                                if let title = currentCryptoData["symbol"].string,
-                                   let price = currentCryptoData["latestPrice"].string {
-                                    self.cryptoData = CryptocurrencyData(ticker: title, price: price)
-                                    print("SUCCESSFULLY SET MEMBER TO:", self.cryptoData)
-                                }
+                           let currentCryptoData = arrayOfData.first
+                        {
+                            if let title = currentCryptoData["symbol"].string,
+                               let price = currentCryptoData["latestPrice"].string,
+                               let date = currentCryptoData["latestUpdate"].int
+                            {
+                                self.cryptoData = CryptocurrencyData(ticker: title, price: price, date: date)
+                            }
                         }
-                        
-                        print(data)
                     } catch {
                         print("failed to parse data as json")
                         print(error.localizedDescription)
                     }
-
                 }
             case let .complete(completion):
                 print(completion)
@@ -114,7 +120,7 @@ final class FinancialAPIConnection: ObservableObject {
     private func getStockQuoteData(ticker: String) {
         stockPageData = StockDetailData()
         // build get request
-        let fetchStockDataURL = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/quote?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let fetchStockDataURL = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/quote?token=\(IEX_CLOUD_API_KEY)")!
         let stockPageRequest: DataRequest = AF.request(fetchStockDataURL)
         stockPageRequest.responseJSON { data in
             if let currData = data.data {
@@ -132,7 +138,7 @@ final class FinancialAPIConnection: ObservableObject {
 
     private func fetchNewsArticles(ticker: String) {
         stockNewsArticles.removeAll()
-        let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/news?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(ticker)/news?token=\(IEX_CLOUD_API_KEY)")!
         let articleAPIRequest: DataRequest = AF.request(url)
         articleAPIRequest.responseJSON { data in
             do {
@@ -149,7 +155,7 @@ final class FinancialAPIConnection: ObservableObject {
 
     private func gatherChartPoints(ticker: String) {
         stockChartPoints.removeAll()
-        let url = URL(string: "https://cloud.iexapis.com/stable//stock/\(ticker)/intraday-prices?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let url = URL(string: "https://cloud.iexapis.com/stable//stock/\(ticker)/intraday-prices?token=\(IEX_CLOUD_API_KEY)")!
         let chartDataRequest: DataRequest = AF.request(url)
         chartDataRequest.responseJSON { data in
             if let chartData = data.data {
@@ -171,7 +177,7 @@ final class FinancialAPIConnection: ObservableObject {
 
     private func fetchEarningsReports(ticker: String, numberOfReports: Int? = 4) {
         stockEarnings.removeAll()
-        let earningsURLString: String = "https://cloud.iexapis.com/stable/stock/\(ticker)/earnings/\(numberOfReports!)?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
+        let earningsURLString: String = "https://cloud.iexapis.com/stable/stock/\(ticker)/earnings/\(numberOfReports!)?token=\(IEX_CLOUD_API_KEY)"
         let url = URL(string: earningsURLString)!
         let earningsDataRequest: DataRequest = AF.request(url)
         earningsDataRequest.responseJSON { data in
@@ -190,7 +196,7 @@ final class FinancialAPIConnection: ObservableObject {
     }
 
     private func getCompanyProfileData(ticker: String) {
-        let companyProfileURLString: String = "https://cloud.iexapis.com/stable/stock/\(ticker)/company?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
+        let companyProfileURLString: String = "https://cloud.iexapis.com/stable/stock/\(ticker)/company?token=\(IEX_CLOUD_API_KEY)"
         let companyProfileURL = URL(string: companyProfileURLString)!
         let companyProfileDataRequest: DataRequest = AF.request(companyProfileURL)
         companyProfileDataRequest.responseJSON { data in
@@ -208,7 +214,7 @@ final class FinancialAPIConnection: ObservableObject {
 
     private func fetchSectorPerformances() {
         dailySectorPerformancesList.removeAll()
-        let sectorPerformanceURLString: String = "https://cloud.iexapis.com/stable/stock/market/sector-performance?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
+        let sectorPerformanceURLString: String = "https://cloud.iexapis.com/stable/stock/market/sector-performance?token=\(IEX_CLOUD_API_KEY)"
         let sectorPerformanceURL = URL(string: sectorPerformanceURLString)!
         let sectorPerformanceDataRequest: DataRequest = AF.request(sectorPerformanceURL)
         sectorPerformanceDataRequest.responseJSON { data in
@@ -225,7 +231,7 @@ final class FinancialAPIConnection: ObservableObject {
 
     /// NOT READY FOR PRODUCTION. As of Dec. 30, IEXCloud is in the process of finding a provider for this data set
     private func fetchAnalystRecommendations(ticker: String) {
-        let recommendationURLString: String = "https://cloud.iexapis.com/stable/stock/\(ticker)/recommendation-trends?token=pk_c154ec9b3d75402bb77e126b940ed4ca"
+        let recommendationURLString: String = "https://cloud.iexapis.com/stable/stock/\(ticker)/recommendation-trends?token=\(IEX_CLOUD_API_KEY)"
         let recommendationURL = URL(string: recommendationURLString)!
         let recommendationDataRequest: DataRequest = AF.request(recommendationURL)
         recommendationDataRequest.responseJSON { data in
@@ -241,7 +247,7 @@ final class FinancialAPIConnection: ObservableObject {
         portfolioHoldingsNewsArticlesList.removeAll()
         let portfolioRef = PortfolioManager.shared
         for card in portfolioRef.portfolioCards {
-            let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(card.ticker)/news/latest/3?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+            let url = URL(string: "https://cloud.iexapis.com/stable/stock/\(card.ticker)/news/latest/3?token=\(IEX_CLOUD_API_KEY)")!
             let articleAPIRequest: DataRequest = AF.request(url)
             articleAPIRequest.responseJSON { data in
                 do {
@@ -268,7 +274,7 @@ final class FinancialAPIConnection: ObservableObject {
 
     private func fetchMostActiveStocks() {
         dailyMostActiveStocksList.removeAll()
-        let mostActiveURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/mostactive?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let mostActiveURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/mostactive?token=\(IEX_CLOUD_API_KEY)")!
         let mostActiveDataRequest: DataRequest = AF.request(mostActiveURL)
         mostActiveDataRequest.responseJSON { data in
             if let currData = data.data {
@@ -288,7 +294,7 @@ final class FinancialAPIConnection: ObservableObject {
 
     private func fetchDailyGainers() {
         dailyBestPerformingStocksList.removeAll()
-        let gainerListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/gainers?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let gainerListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/gainers?token=\(IEX_CLOUD_API_KEY)")!
         let gainerDataRequest: DataRequest = AF.request(gainerListURL)
         gainerDataRequest.responseJSON { data in
             if let currData = data.data {
@@ -308,7 +314,7 @@ final class FinancialAPIConnection: ObservableObject {
 
     private func fetchDailyLosers() {
         dailyWorstPerformingStocksList.removeAll()
-        let loserListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/losers?token=pk_c154ec9b3d75402bb77e126b940ed4ca")!
+        let loserListURL = URL(string: "https://cloud.iexapis.com/stable/stock/market/list/losers?token=\(IEX_CLOUD_API_KEY)")!
         let loserDataRequest: DataRequest = AF.request(loserListURL)
         loserDataRequest.responseJSON { data in
             if let currData = data.data {

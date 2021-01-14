@@ -11,18 +11,18 @@ import SwiftUI
 
 class AppColorManager: ObservableObject {
     static let shared = AppColorManager() // Used as a singleton throughout app lifecycle
+
     @Published var primaryColor: Color
     @Published var secondaryColor: Color
+
     var realmColorPalette: RealmColorPalette?
     init() {
         let realm = try! Realm()
         let realmColorArray: [RealmColorPalette] = Array(realm.objects(RealmColorPalette.self))
-        if realmColorArray.count > 0 {
-            print("loaded saved colors. Hex: \(realmColorArray[0].primaryColor), \(realmColorArray[0].secondaryColor)")
+        if !realmColorArray.isEmpty {
             realmColorPalette = realmColorArray[0]
             primaryColor = Color(UIColor(hex: realmColorArray[0].primaryColor))
             secondaryColor = Color(UIColor(hex: realmColorArray[0].secondaryColor))
-            print("initialized with custom colors!")
         } else {
             // set to defaults
             primaryColor = Color(UIColor(hex: "#1ce4ac"))
@@ -30,7 +30,6 @@ class AppColorManager: ObservableObject {
             realmColorPalette = RealmColorPalette()
             realmColorPalette?.primaryColor = UIColor(primaryColor).htmlRGBColor
             realmColorPalette?.secondaryColor = UIColor(secondaryColor).htmlRGBColor
-            print("\(UIColor(primaryColor).htmlRGBColor), \(UIColor(secondaryColor).htmlRGBColor)")
             try! realm.write {
                 realm.add(realmColorPalette!)
                 print("saved initial color palette")

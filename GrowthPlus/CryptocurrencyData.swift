@@ -7,17 +7,20 @@
 
 import Foundation
 
-struct CryptocurrencyData: Decodable {
+class CryptocurrencyData: ObservableObject {
     var ticker: String
     var price: String
-    
-    init(ticker: String, price: String) {
+    var date: String
+
+    init(ticker: String, price: String, date: Int) {
         self.ticker = ticker
-        self.price = price
-    }
-    
-    enum CodingKeys: String, CodingKey {
-        case ticker = "symbol"
-        case price = "lastestPrice"
+        let priceDouble = Double(price) ?? 0
+        self.price = String(format: "$%.2f", priceDouble)
+        let timeInterval = TimeInterval(date) / 1000
+        let formatter = DateFormatter()
+        formatter.timeZone = TimeZone(abbreviation: "EST")
+        formatter.dateFormat = "HH:mm:ss"
+        let date = Date(timeIntervalSince1970: timeInterval)
+        self.date = "Last Updated: " + formatter.string(from: date) + " EST"
     }
 }
