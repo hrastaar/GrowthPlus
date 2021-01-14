@@ -12,6 +12,8 @@
 		7407E73625A452FE00503D94 /* financial_lottie.json in Resources */ = {isa = PBXBuildFile; fileRef = 7407E73525A452FE00503D94 /* financial_lottie.json */; };
 		7407E73925A4531200503D94 /* painter.json in Resources */ = {isa = PBXBuildFile; fileRef = 7407E73825A4531200503D94 /* painter.json */; };
 		7407E73C25A4531E00503D94 /* technology.json in Resources */ = {isa = PBXBuildFile; fileRef = 7407E73B25A4531E00503D94 /* technology.json */; };
+		741A1ACE25AFEFD8004CDA17 /* IndividualCryptoPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741A1ACD25AFEFD8004CDA17 /* IndividualCryptoPage.swift */; };
+		741A1AD125AFF0BA004CDA17 /* CryptocurrencyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 741A1AD025AFF0BA004CDA17 /* CryptocurrencyData.swift */; };
 		7444112A258EF65A00F54290 /* TechShowcaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74441129258EF65A00F54290 /* TechShowcaseView.swift */; };
 		74441130258EF83A00F54290 /* IndividualTechnologyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7444112F258EF83A00F54290 /* IndividualTechnologyView.swift */; };
 		74441143258F098500F54290 /* GlobalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74441142258F098500F54290 /* GlobalVariables.swift */; };
@@ -68,6 +70,8 @@
 		7407E73525A452FE00503D94 /* financial_lottie.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = financial_lottie.json; sourceTree = "<group>"; };
 		7407E73825A4531200503D94 /* painter.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = painter.json; sourceTree = "<group>"; };
 		7407E73B25A4531E00503D94 /* technology.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = technology.json; sourceTree = "<group>"; };
+		741A1ACD25AFEFD8004CDA17 /* IndividualCryptoPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualCryptoPage.swift; sourceTree = "<group>"; };
+		741A1AD025AFF0BA004CDA17 /* CryptocurrencyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptocurrencyData.swift; sourceTree = "<group>"; };
 		74441129258EF65A00F54290 /* TechShowcaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TechShowcaseView.swift; sourceTree = "<group>"; };
 		7444112F258EF83A00F54290 /* IndividualTechnologyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualTechnologyView.swift; sourceTree = "<group>"; };
 		74441142258F098500F54290 /* GlobalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVariables.swift; sourceTree = "<group>"; };
@@ -203,6 +207,14 @@
 			path = "Settings Page";
 			sourceTree = "<group>";
 		};
+		741A1ACC25AFEFAB004CDA17 /* Individual Crypto Page */ = {
+			isa = PBXGroup;
+			children = (
+				741A1ACD25AFEFD8004CDA17 /* IndividualCryptoPage.swift */,
+			);
+			path = "Individual Crypto Page";
+			sourceTree = "<group>";
+		};
 		748E7CD8258A1FAC00477F53 = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +258,7 @@
 		748E7D28258A20FC00477F53 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				741A1ACC25AFEFAB004CDA17 /* Individual Crypto Page */,
 				7407E73F25A453A300503D94 /* Landing Page */,
 				74C16622259C7841009D7FB6 /* Discover Page */,
 				7407E73E25A4539000503D94 /* Search Page */,
@@ -275,6 +288,7 @@
 				74C16616259C6DBF009D7FB6 /* AnalystRecommendation.swift */,
 				74C16619259C70BE009D7FB6 /* SectorPerformance.swift */,
 				748390F125A11C2E0000E9DA /* StockListData.swift */,
+				741A1AD025AFF0BA004CDA17 /* CryptocurrencyData.swift */,
 			);
 			name = "Structs + Classes";
 			sourceTree = "<group>";
@@ -432,6 +446,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				741A1AD125AFF0BA004CDA17 /* CryptocurrencyData.swift in Sources */,
 				748B49552596DDAE00F10EFA /* Earnings.swift in Sources */,
 				7455106A25941B4B008AA796 /* MenuUtilitiesView.swift in Sources */,
 				748B49492596DD2C00F10EFA /* StockDetailData.swift in Sources */,
@@ -444,6 +459,7 @@
 				74938F65258DFB17004385ED /* SettingsView.swift in Sources */,
 				7492AF1D25A029110039FCCF /* CompanyProfileView.swift in Sources */,
 				748B49862598454400F10EFA /* CompanyProfile.swift in Sources */,
+				741A1ACE25AFEFD8004CDA17 /* IndividualCryptoPage.swift in Sources */,
 				748E7D0C258A1FF600477F53 /* RealmObjects.swift in Sources */,
 				748E7D07258A1FF000477F53 /* PortfolioManager.swift in Sources */,
 				74C16628259C793E009D7FB6 /* SectorView.swift in Sources */,

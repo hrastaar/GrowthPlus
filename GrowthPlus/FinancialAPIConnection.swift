@@ -28,8 +28,14 @@ final class FinancialAPIConnection: ObservableObject {
     @Published var dailyWorstPerformingStocksList = [StockListData]()
     @Published var portfolioHoldingsNewsArticlesList = [StockNewsArticle]()
 
+    @Published var cryptoData: CryptocurrencyData?
+    
     static let shared = FinancialAPIConnection() // Singleton element used to control data gathered
 
+    init() {
+        //self.streamCryptoTicker(ticker: "")
+    }
+    
     // Gather List of Search Results for Ticker
     public func searchTicker(ticker: String, exchange _: String?) {
         searchResults.removeAll()
@@ -45,6 +51,44 @@ final class FinancialAPIConnection: ObservableObject {
                 }
             } catch {
                 print(error.localizedDescription)
+            }
+        }
+    }
+    
+    public func streamCryptoTicker(ticker: String) {
+        let urlString = "https://cloud-sse.iexapis.com/stable/cryptoQuotes?symbols=btcusdt&token=pk_c154ec9b3d75402bb77e126b940ed4ca"
+        AF.streamRequest(urlString).responseStream { stream in
+            switch stream.event {
+            case let .stream(result):
+                switch result {
+                case let .success(data):
+                    do {
+                        let dataStreamString = Array(String(data: data, encoding: .utf8) ?? "")
+                        var apiDataString = ""
+                        for i in 6 ..< dataStreamString.count - 2 {
+                            apiDataString.append(dataStreamString[i])
+                        }
+                        //print(stringBuilder)
+                        let cryptoJSON = try JSON(data: apiDataString.data(using: .utf8) ?? Data())
+                        if let arrayOfData = cryptoJSON.array,
+                           let currentCryptoData = arrayOfData.first {
+                                print("first element: ", currentCryptoData)
+                                if let title = currentCryptoData["symbol"].string,
+                                   let price = currentCryptoData["latestPrice"].string {
+                                    self.cryptoData = CryptocurrencyData(ticker: title, price: price)
+                                    print("SUCCESSFULLY SET MEMBER TO:", self.cryptoData)
+                                }
+                        }
+                        
+                        print(data)
+                    } catch {
+                        print("failed to parse data as json")
+                        print(error.localizedDescription)
+                    }
+
+                }
+            case let .complete(completion):
+                print(completion)
             }
         }
     }
