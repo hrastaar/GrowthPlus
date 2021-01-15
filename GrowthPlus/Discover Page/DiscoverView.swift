@@ -34,7 +34,9 @@ struct DiscoverView: View {
                             if !financialToolConnection.dailySectorPerformancesList.isEmpty {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 15) {
-                                        CryptoCardView()
+                                        ForEach(financialToolConnection.cryptocurrencyDictionary.sorted(by: { $0.0 < $1.0 }), id: \.key) { key, value in
+                                            CryptoCardView(cryptoData: value)
+                                        }
 
                                         ForEach(financialToolConnection.dailySectorPerformancesList.indices, id: \.self) { index in
                                             SectorView(sector: financialToolConnection.dailySectorPerformancesList[index])
@@ -42,10 +44,6 @@ struct DiscoverView: View {
                                         }
                                     }
                                 } // ScrollView
-                            } else {
-                                Text("Unable to fetch sector performances from our data provider")
-                                    .font(primaryFont(size: 12))
-                                    .multilineTextAlignment(.center)
                             }
 
                             HStack {

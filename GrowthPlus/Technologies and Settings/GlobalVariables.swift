@@ -15,3 +15,9 @@ let technologies: [TechnologyData] = [
     .init(technologyName: "Lottie", imageName: "lottie", description: "The beautiful animation views shown throughout the app are powered by Lottie"),
     .init(technologyName: "IEX Cloud Platform", imageName: "iexcloud", description: "Live stock data is provided by IEXCloud, a financial tools API"),
 ]
+
+let cryptoSymbols : [String: String] = [
+    "BTCUSDT": "Bitcoin",
+    "ETHUSD": "Ethereum",
+    "XRPUSD": "Ripple"
+]

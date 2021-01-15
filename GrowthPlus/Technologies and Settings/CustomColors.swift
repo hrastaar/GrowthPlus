@@ -5,9 +5,9 @@
 //  Created by Rastaar Haghi on 12/19/20.
 //
 
+import SwiftUI
 import Hex
 import RealmSwift
-import SwiftUI
 
 class AppColorManager: ObservableObject {
     static let shared = AppColorManager() // Used as a singleton throughout app lifecycle

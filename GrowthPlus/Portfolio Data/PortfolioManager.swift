@@ -5,9 +5,9 @@
 //  Created by Rastaar Haghi on 12/13/20.
 //
 
+import SwiftUI
 import Alamofire
 import RealmSwift
-import SwiftUI
 import SwiftyJSON
 
 final class PortfolioManager: ObservableObject {

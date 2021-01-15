@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SearchResultView: View {
     let searchResult: SearchResult
+    
     @ObservedObject var StockSearch = FinancialAPIConnection.shared
     @ObservedObject var colorManager = AppColorManager.shared
     @ObservedObject var stockData = StockDetailData()

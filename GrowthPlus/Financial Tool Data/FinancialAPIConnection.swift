@@ -29,15 +29,9 @@ final class FinancialAPIConnection: ObservableObject {
     @Published var dailyWorstPerformingStocksList = [StockListData]()
     @Published var portfolioHoldingsNewsArticlesList = [StockNewsArticle]()
 
-    @Published var cryptoData: CryptocurrencyData?
-    private var CRYPTO_API_CALLS_REMAINING = 5
+    @Published var cryptocurrencyDictionary = [String: CryptocurrencyData]()
     private let IEX_CLOUD_API_KEY = "pk_c154ec9b3d75402bb77e126b940ed4ca"
     static let shared = FinancialAPIConnection() // Singleton element used to control data gathered
-
-    init() {
-        print("init called")
-        streamCryptoTicker(ticker: "btcusdt")
-    }
 
     // Gather List of Search Results for Ticker
     public func searchTicker(ticker: String, exchange _: String?) {
@@ -58,51 +52,12 @@ final class FinancialAPIConnection: ObservableObject {
         }
     }
 
-    private func streamCryptoTicker(ticker: String) {
-        let urlString = "https://cloud-sse.iexapis.com/stable/cryptoQuotes?symbols=\(ticker)&token=\(IEX_CLOUD_API_KEY)"
-        AF.streamRequest(urlString).responseStream { stream in
-            switch stream.event {
-            case let .stream(result):
-                switch result {
-                case let .success(data):
-                    self.CRYPTO_API_CALLS_REMAINING -= 1
-                    if self.CRYPTO_API_CALLS_REMAINING <= 0 {
-                        print("Ran out of API calls for crypto streaming.")
-                        return
-                    }
-                    do {
-                        let dataStreamString = Array(String(data: data, encoding: .utf8) ?? "")
-                        var apiDataString = ""
-                        for i in 6 ..< dataStreamString.count - 2 {
-                            apiDataString.append(dataStreamString[i])
-                        }
-                        // print(stringBuilder)
-                        let cryptoJSON = try JSON(data: apiDataString.data(using: .utf8) ?? Data())
-                        if let arrayOfData = cryptoJSON.array,
-                           let currentCryptoData = arrayOfData.first
-                        {
-                            if let title = currentCryptoData["symbol"].string,
-                               let price = currentCryptoData["latestPrice"].string,
-                               let date = currentCryptoData["latestUpdate"].int
-                            {
-                                self.cryptoData = CryptocurrencyData(ticker: title, price: price, date: date)
-                            }
-                        }
-                    } catch {
-                        print("failed to parse data as json")
-                        print(error.localizedDescription)
-                    }
-                }
-            case let .complete(completion):
-                print(completion)
-            }
-        }
-    }
-
-    public func getDiscoveryPageData() {
+    public func getDiscoveryPageData(streamCredits: Int = 3) {
         if dailySectorPerformancesList.isEmpty {
             fetchSectorPerformances()
         }
+        streamCryptoTicker(ticker: "btcusdt", streamCredits: streamCredits)
+        streamCryptoTicker(ticker: "ethusd", streamCredits: streamCredits)
         initializeHoldingsNewsArticles()
         fetchDailyListStocks()
     }
@@ -115,7 +70,52 @@ final class FinancialAPIConnection: ObservableObject {
     }
 
     // PRIVATE FINANCIAL TOOL FUNCTIONALITIES
-
+    
+    // Create an open stream that fetches cryptocurrency values
+    private func streamCryptoTicker(ticker: String, streamCredits: Int = 3) {
+        var credits = streamCredits
+        let urlString = "https://cloud-sse.iexapis.com/stable/cryptoQuotes?symbols=\(ticker)&token=\(IEX_CLOUD_API_KEY)"
+        AF.streamRequest(urlString).responseStream { stream in
+            switch stream.event {
+            case let .stream(result):
+                switch result {
+                case let .success(data):
+                    credits -= 1
+                    print("decremented api calls available for cryptocurrencies to ", credits)
+                    if credits <= 0 {
+                        print("Ran out of API calls for crypto streaming.")
+                        stream.cancel()
+                    }
+                    do {
+                        let dataStreamString = Array(String(data: data, encoding: .utf8) ?? "")
+                        var apiDataString = ""
+                        for i in 6 ..< dataStreamString.count - 2 {
+                            apiDataString.append(dataStreamString[i])
+                        }
+                        // print(stringBuilder)
+                        let cryptoJSON = try JSON(data: apiDataString.data(using: .utf8) ?? Data())
+                        if let arrayOfData = cryptoJSON.array,
+                           let currentCryptoData = arrayOfData.first
+                        {
+                            print(currentCryptoData)
+                            if let title = currentCryptoData["symbol"].string,
+                               let price = currentCryptoData["latestPrice"].string,
+                               let date = currentCryptoData["latestUpdate"].int
+                            {
+                                self.cryptocurrencyDictionary[ticker] = CryptocurrencyData(ticker: title, price: price, date: date)
+                            }
+                        }
+                    } catch {
+                        print("failed to parse data as json")
+                        print(error.localizedDescription)
+                    }
+                }
+            case let .complete(completion):
+                print(completion)
+            }
+        }
+    }
+    
     // Gather Stock Data for Ticker
     private func getStockQuoteData(ticker: String) {
         stockPageData = StockDetailData()

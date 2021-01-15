@@ -13,7 +13,7 @@ class CryptocurrencyData: ObservableObject {
     var date: String
 
     init(ticker: String, price: String, date: Int) {
-        self.ticker = ticker
+        self.ticker = cryptoSymbols[ticker] ?? ticker
         let priceDouble = Double(price) ?? 0
         self.price = String(format: "$%.2f", priceDouble)
         let timeInterval = TimeInterval(date) / 1000

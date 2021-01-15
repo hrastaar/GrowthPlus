@@ -10,6 +10,20 @@ import SwiftUI
 class StockDataModel: ObservableObject, Equatable {
     @ObservedObject var colorManager = AppColorManager.shared
 
+    // info to gather from Realm
+    let companyName: String
+    let ticker: String
+    @Published var avgCost: Double
+    @Published var shares: Int
+    // info to gather from API
+    @Published var currentPrice: Double
+    @Published var percentChange: Double
+    @Published var dailyChange: Double
+
+    @Published var volume: Int
+    @Published var avgVolume: Int
+
+    
     static func == (lhs: StockDataModel, rhs: StockDataModel) -> Bool {
         return lhs.ticker == rhs.ticker
     }
@@ -26,20 +40,7 @@ class StockDataModel: ObservableObject, Equatable {
         self.avgVolume = avgVolume
         self.imageName = imageName
     }
-
-    // info to gather from Realm
-    let companyName: String
-    let ticker: String
-    @Published var avgCost: Double
-    @Published var shares: Int
-    // info to gather from API
-    @Published var currentPrice: Double
-    @Published var percentChange: Double
-    @Published var dailyChange: Double
-
-    @Published var volume: Int
-    @Published var avgVolume: Int
-
+    
     // Calculations from data observed
     func calculateEquity() -> Double {
         return Double(shares) * currentPrice
